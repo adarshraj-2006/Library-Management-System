@@ -108,3 +108,65 @@ body {
 .dropdown-menu p:hover {
   color: #8b5e3c;
 }
+/* ================= RESPONSIVE ================= */
+
+/* Large Tablets */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+
+  .navbar {
+    height: auto;
+    padding: 10px 0;
+  }
+
+  .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .signin {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+
+  .logo {
+    font-size: 14px;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+  }
+
+  .signin {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+}

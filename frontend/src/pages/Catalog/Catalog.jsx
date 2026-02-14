@@ -1,8 +1,12 @@
+import { useState } from "react";
 import "./Catalog.css";
 import BookCard from "../../components/Bookcard/Bookcard";
+import { Search } from "lucide-react";
 
 
 function Catalog() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const books = [
     { id: 1, image: "/assets/books/book1.jpg", title: "The Count of Monte Cristo", author: "Robin Buss", available: true },
     { id: 2, image: "/assets/books/book2.jpg", title: "Vagabond (VIZBIG Edition), Vol. 1", author: "Takehiko Inoue", available: true },
@@ -37,14 +41,36 @@ function Catalog() {
     { id: 31, image: "/assets/books/book31.jpg", title: "The Iliad & the Odyssey", author: "Homer", available: true }
   ];
 
+  const filteredBooks = books.filter(book =>
+    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="catalog">
-      <h2 className="catalog-title">Library Collection</h2>
+      <div className="catalog-header">
+        <h2 className="catalog-title">Explore Our Collection</h2>
+        <div className="search-bar">
+          <Search size={20} className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search by title or author..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
 
       <div className="catalog-grid">
-        {books.map((book) => (
-          <BookCard key={book.id} {...book} />
-        ))}
+        {filteredBooks.length > 0 ? (
+          filteredBooks.map((book) => (
+            <BookCard key={book.id} {...book} />
+          ))
+        ) : (
+          <div className="no-results">
+            <p>No books found matching your search.</p>
+          </div>
+        )}
       </div>
     </div>
   );

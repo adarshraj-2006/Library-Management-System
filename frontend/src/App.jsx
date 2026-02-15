@@ -1,5 +1,4 @@
-
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { useState } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Home from './pages/Home/Home'
@@ -8,6 +7,8 @@ import './App.css'
 import Mybooks from "./pages/Mybooks/Mybooks"
 import Contact from "./pages/Contact/Contact";
 import About from "./pages/About/About";
+import NotFound from "./pages/NotFound/NotFound";
+import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,20 +17,18 @@ function App() {
     <>
       <BrowserRouter>
         <Navbar />
-        <Routes>
-
-          <Route path="/Home" element={<Home />} />
-          <Route path="/Catalog" element={<Catalog />} />
-          <Route path="/mybooks" element={<Mybooks />} />
-          <Route path="/Contact" element={<Contact />} />
-          <Route path="/About" element={<About />} />
-        </Routes>
-
-
-
-
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Navigate to="/Home" replace />} />
+            <Route path="/Home" element={<Home />} />
+            <Route path="/Catalog" element={<Catalog />} />
+            <Route path="/mybooks" element={<Mybooks />} />
+            <Route path="/Contact" element={<Contact />} />
+            <Route path="/About" element={<About />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
       </BrowserRouter>
-
     </>
   )
 }

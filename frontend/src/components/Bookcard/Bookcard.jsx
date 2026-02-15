@@ -1,30 +1,45 @@
 import "./BookCard.css";
-import { BookOpen, Info } from "lucide-react";
+import { Star } from "lucide-react";
 
-function BookCard({ image, title, author, available }) {
+function BookCard({ image, title, author, price, originalPrice, discount, rating }) {
+  // Generate stars based on rating
+  const renderStars = (rating) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <Star
+        key={i}
+        size={14}
+        className={i < rating ? "star-filled" : "star-empty"}
+      />
+    ));
+  };
+
   return (
-    <div className="book-card">
-      <div className="book-status-badge">
-        <span className={`status-dot ${available ? "available" : "unavailable"}`}></span>
-        {available ? "Available" : "Checked Out"}
-      </div>
+    <div className="book-card-container">
+      <div className="book-card">
+        {discount && (
+          <div className="discount-badge">
+            {discount}%
+          </div>
+        )}
 
-      <div className="book-image">
-        <img src={image} alt={title} />
-        <div className="book-overlay">
-          <button className="overlay-btn icon-btn"><Info size={18} /></button>
+        <div className="book-image-container">
+          <img src={image} alt={title} className="book-image-main" />
         </div>
       </div>
 
-      <div className="book-info">
-        <h3 title={title}>{title}</h3>
-        <p className="author">by {author}</p>
+      <div className="book-details">
+        <h3 className="book-title-main" title={title}>{title}</h3>
+        <p className="book-author-main">{author}</p>
 
-        <div className="book-actions">
-          <button className={`borrow-btn ${!available ? "disabled" : ""}`} disabled={!available}>
-            <BookOpen size={16} />
-            <span>{available ? "Borrow" : "Reserved"}</span>
-          </button>
+        <div className="book-rating">
+          {renderStars(rating)}
+        </div>
+
+        <div className="book-pricing">
+          <span className="current-price">₹{price}</span>
+          {originalPrice && (
+            <span className="original-price">₹{originalPrice}</span>
+          )}
         </div>
       </div>
     </div>

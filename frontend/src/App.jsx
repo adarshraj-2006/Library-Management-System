@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import { useState } from 'react'
 import Navbar from './components/Navbar/Navbar'
 import Home from './pages/Home/Home'
 import Catalog from './pages/Catalog/Catalog'
@@ -11,8 +10,6 @@ import NotFound from "./pages/NotFound/NotFound";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <BrowserRouter>

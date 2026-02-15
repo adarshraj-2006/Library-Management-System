@@ -1,12 +1,7 @@
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
 import "./Navbar.css";
-import Catalog from "../../pages/Catalog/Catalog";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-
   return (
     <nav className="navbar">
       <div className="container">
@@ -16,7 +11,7 @@ export default function Navbar() {
         </div>
 
         <div className="nav-links">
-          
+
           <Link to='/Home'>Home</Link>
           <Link to='/Catalog'>Catalog</Link>
           <Link to='/mybooks'>My books</Link>

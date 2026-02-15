@@ -3,10 +3,12 @@ import "./Catalog.css";
 import BookCard from "../../components/Bookcard/Bookcard";
 import { Search } from "lucide-react";
 import NotFound from "../NotFound/NotFound";
+import BookDetails from "../../components/Bookdetails/Bookdetails";
 
 
 function Catalog() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedBook, setSelectedBook] = useState(null);
 
   const books = [
     { id: 1, image: "/assets/books/book1.jpg", title: "The Count of Monte Cristo", author: "Robin Buss", available: true, price: 425, originalPrice: 599, discount: 29, rating: 5 },
@@ -65,12 +67,21 @@ function Catalog() {
       <div className="catalog-grid">
         {filteredBooks.length > 0 ? (
           filteredBooks.map((book) => (
-            <BookCard key={book.id} {...book} />
+            <div key={book.id} onClick={() => setSelectedBook(book)}>
+              <BookCard {...book} />
+            </div>
           ))
         ) : (
           <NotFound />
         )}
       </div>
+
+      {selectedBook && (
+        <BookDetails
+          book={selectedBook}
+          onBack={() => setSelectedBook(null)}
+        />
+      )}
     </div>
   );
 }

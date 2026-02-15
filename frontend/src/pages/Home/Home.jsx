@@ -14,14 +14,9 @@ function Home() {
           </div>
         </div>
 
-        <div className="hero-right">
-          <div className="book-animation">
-            <div className="book-stack">
-              <div className="book"></div>
-              <div className="book"></div>
-              <div className="book"></div>
-            </div>
-            <div className="open-book"></div>
+        <div className="hero-right animate-fade-in">
+          <div className="hero-image-container">
+            <img src="/assets/main1.png" alt="Library Illustration" className="hero-main-img animate-float" />
           </div>
         </div>
       </div>

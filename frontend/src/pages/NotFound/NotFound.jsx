@@ -1,5 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import './NotFound.css';
 
 const NotFound = () => {
@@ -65,16 +65,21 @@ const NotFound = () => {
                     <div className="text_4043">4</div>
                 </div>
             </div>
+            <div className="recovery_actions">
+                <Link to="/Home" className="home_btn">Back to Home</Link>
+            </div>
         </StyledWrapper>
     );
 }
 
 const StyledWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  min-height: 80vh;
+  padding: 40px 0;
 `;
 
 export default NotFound;

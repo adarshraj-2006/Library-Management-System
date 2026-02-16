@@ -19,7 +19,7 @@ export default function Navbar() {
           <Link to='/About'>About</Link>
         </div>
 
-        <button className="signin">Sign in</button>
+        <Link to='/Login' className="signin">Sign in</Link>
       </div>
     </nav>
   );

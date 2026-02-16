@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, ArrowLeft, ShoppingCart, Heart, BookOpen } from 'lucide-react';
 import './Bookdetails.css';
 
 const BookDetails = ({ book, onBack }) => {
+    const navigate = useNavigate();
     useEffect(() => {
         // Prevent scrolling on the body when the modal is open
         document.body.style.overflow = 'hidden';
@@ -106,7 +108,11 @@ const BookDetails = ({ book, onBack }) => {
                         </div>
 
                         <div className="details-actions">
-                            <button className="add-to-cart-btn" disabled={!available}>
+                            <button
+                                className="add-to-cart-btn"
+                                disabled={!available}
+                                onClick={() => navigate('/borrow')}
+                            >
                                 <ShoppingCart size={20} />
                                 <span>{available ? 'Borrow Now' : 'Out of Stock'}</span>
                             </button>

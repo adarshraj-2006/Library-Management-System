@@ -1,9 +1,24 @@
 .home {
   width: 100%;
   min-height: 100vh;
-  background-color: #fcfaf7;
-  /* Warm background */
+  background-color: var(--bg-color);
   padding-top: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background floating elements for "live" feel */
+.home::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .hero {
@@ -13,6 +28,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 80px 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-left {
@@ -20,21 +37,33 @@
 }
 
 .hero-left h1 {
-  font-size: 56px;
+  font-size: 64px;
   line-height: 1.1;
-  color: #3e3a36;
+  color: var(--secondary-color);
   margin-bottom: 24px;
 }
 
 .hero-left h1 span {
-  color: #8b5e3c;
+  color: var(--primary-color);
+  position: relative;
+}
+
+.hero-left h1 span::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: var(--accent-soft);
+  z-index: -1;
 }
 
 .hero-left p {
-  font-size: 18px;
-  color: #5c5046;
+  font-size: 20px;
+  color: var(--text-secondary);
   margin-bottom: 32px;
-  max-width: 500px;
+  max-width: 520px;
   line-height: 1.6;
 }
 
@@ -44,34 +73,36 @@
 }
 
 .primary-btn {
-  padding: 14px 28px;
-  background: #8b5e3c;
-  color: white;
-  border-radius: 8px;
+  padding: 16px 32px;
+  background: var(--primary-color);
+  color: var(--text-light);
+  border-radius: 12px;
   text-decoration: none;
   font-weight: 600;
-  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-normal);
 }
 
 .primary-btn:hover {
-  background: #6e472d;
-  transform: translateY(-2px);
+  background: var(--primary-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
 
 .secondary-btn {
-  padding: 14px 28px;
-  background: transparent;
-  color: #8b5e3c;
-  border: 2px solid #8b5e3c;
-  border-radius: 8px;
+  padding: 16px 32px;
+  background: var(--card-bg);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 12px;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all var(--transition-normal);
 }
 
 .secondary-btn:hover {
-  background: rgba(139, 94, 60, 0.05);
-  transform: translateY(-2px);
+  background: var(--accent-soft);
+  transform: translateY(-3px);
 }
 
 .hero-right {
@@ -81,130 +112,114 @@
   position: relative;
 }
 
-/* Book Animation */
+/* Immersive Book Stack Animation */
 .book-animation {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.book-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 1;
-}
-
-.book {
-  width: 120px;
-  height: 20px;
-  background: #8b5e3c;
-  border-radius: 4px;
-  opacity: 0.8;
-}
-
-.book:nth-child(2) {
-  width: 140px;
-}
-
-.book:nth-child(3) {
-  width: 130px;
-}
-
-.open-book {
-  width: 180px;
-  height: 120px;
-  background: #fff;
-  border: 2px solid #e6ddd2;
-  border-radius: 8px;
+.floating-books {
   position: absolute;
-  top: 40px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-.hero-image-container {
   width: 100%;
-  max-width: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
+}
+
+.book-icon {
+  position: absolute;
+  color: var(--primary-color);
+  opacity: 0.2;
+  font-size: 24px;
+  animation: floatAround 10s linear infinite;
+}
+
+@keyframes floatAround {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.2;
+  }
+
+  80% {
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: translate(100px, -100px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 .hero-main-img {
   width: 100%;
   height: auto;
-  border-radius: 20px;
-  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
-}
-
-.animate-fade-in {
-  animation: fadeIn 1.2s ease-out forwards;
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  border-radius: 30px;
+  filter: drop-shadow(0 30px 60px rgba(0, 102, 204, 0.2));
+  border: 4px solid var(--card-bg);
+  position: relative;
+  z-index: 2;
 }
 
 .features-section {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 40px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-  padding: 0 24px 80px;
+  padding: 0 24px 100px;
+  position: relative;
+  z-index: 1;
 }
 
 .feature-card {
-  padding: 32px;
-  background: white;
-  border-radius: 16px;
-  border: 1px solid #e6ddd2;
+  padding: 40px 32px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  border: 1px solid var(--border-color);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
 }
 
 .feature-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-10px);
+  border-color: var(--accent-color);
+}
+
+.feature-card .icon-box {
+  width: 70px;
+  height: 70px;
+  background: var(--accent-soft);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  font-size: 28px;
+  color: var(--primary-color);
+  transition: transform 0.5s ease;
+}
+
+.feature-card:hover .icon-box {
+  transform: rotateY(180deg);
 }
 
 .feature-card h3 {
-  color: #3e3a36;
-  margin-bottom: 12px;
-  font-size: 20px;
+  color: var(--secondary-color);
+  margin-bottom: 16px;
+  font-size: 24px;
 }
 
 .feature-card p {
-  color: #6b7280;
-  line-height: 1.5;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 @media (max-width: 900px) {
@@ -212,6 +227,10 @@
     flex-direction: column;
     text-align: center;
     padding-top: 40px;
+  }
+
+  .hero-left h1 {
+    font-size: 48px;
   }
 
   .hero-left p {
@@ -224,15 +243,10 @@
 
   .hero-right {
     margin-top: 60px;
+    width: 100%;
   }
 
   .features-section {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero-left h1 {
-    font-size: 40px;
   }
 }

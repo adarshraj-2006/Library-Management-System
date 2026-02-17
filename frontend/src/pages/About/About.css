@@ -1,47 +1,52 @@
 .about-container {
-    padding: 100px 24px 60px;
-    max-width: 1100px;
+    padding: 120px 24px 80px;
+    max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
 }
 
 .about-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
+    animation: fadeIn 0.8s ease-out;
 }
 
 .about-header h1 {
-    font-size: 36px;
-    color: #3e3a36;
-    margin-bottom: 16px;
-    font-family: 'Poppins', sans-serif;
+    font-size: 48px;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
 }
 
 .about-header p {
-    color: #6b7280;
-    font-size: 18px;
-    max-width: 700px;
+    color: var(--text-secondary);
+    font-size: 20px;
+    max-width: 750px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .about-section {
-    background: #f4efe8;
-    padding: 48px;
-    border-radius: 20px;
-    margin-bottom: 48px;
-    border: 1px solid #e6ddd2;
+    background: var(--card-bg);
+    padding: 60px;
+    border-radius: 32px;
+    margin-bottom: 60px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 1s ease-out;
 }
 
 .about-section h2 {
-    font-size: 28px;
-    color: #3e3a36;
-    margin-bottom: 20px;
+    font-size: 32px;
+    color: var(--secondary-color);
+    margin-bottom: 24px;
+    font-family: 'Outfit', sans-serif;
 }
 
 .about-section p {
-    color: #5c5046;
-    font-size: 17px;
+    color: var(--text-secondary);
+    font-size: 18px;
     line-height: 1.8;
 }
 
@@ -52,27 +57,31 @@
 }
 
 .about-card {
-    padding: 32px;
-    background: white;
-    border: 1px solid #e6ddd2;
-    border-radius: 16px;
-    transition: all 0.3s ease;
+    padding: 40px 32px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
 }
 
 .about-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent-color);
 }
 
 .about-card h3 {
-    color: #8b5e3c;
-    margin-bottom: 12px;
-    font-size: 20px;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 .about-card p {
-    color: #6b7280;
-    line-height: 1.6;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 16px;
 }
 
 @media (max-width: 900px) {
@@ -83,6 +92,10 @@
 
 @media (max-width: 600px) {
     .about-section {
-        padding: 32px;
+        padding: 40px 24px;
+    }
+
+    .about-header h1 {
+        font-size: 36px;
     }
 }

@@ -1,38 +1,58 @@
 import { Link } from "react-router-dom";
+import { Book, Library, Globe, ArrowRight, Bookmark } from "lucide-react";
 import "./Home.css";
 
 function Home() {
   return (
     <div className="home">
       <div className="hero">
-        <div className="hero-left">
+        <div className="hero-left animate-fade-in">
           <h1>Welcome to Your <br /><span>Digital Sanctuary</span></h1>
-          <p>Explore thousands of books, manage your collection, and dive into new worlds with our state-of-the-art Library Management System.</p>
+          <p>
+            Explore a vast universe of knowledge. Manage your personal collection,
+            discover new bestsellers, and immerse yourself in stories that change lives.
+          </p>
           <div className="hero-btns">
-            <Link to="/Catalog" className="primary-btn">Explore Catalog</Link>
+            <Link to="/Catalog" className="primary-btn">
+              Explore Catalog <ArrowRight size={20} style={{ marginLeft: '8px', verticalAlign: 'middle' }} />
+            </Link>
             <Link to="/Contact" className="secondary-btn">Contact Us</Link>
           </div>
         </div>
 
-        <div className="hero-right animate-fade-in">
-          <div className="hero-image-container">
-            <img src="/assets/main1.png" alt="Library Illustration" className="hero-main-img animate-float" />
+        <div className="hero-right animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <div className="book-animation">
+            <div className="floating-books">
+              <Bookmark className="book-icon" style={{ top: '10%', left: '10%', animationDelay: '0s' }} />
+              <Book className="book-icon" style={{ top: '50%', left: '80%', animationDelay: '2s' }} />
+              <Library className="book-icon" style={{ top: '80%', left: '20%', animationDelay: '4s' }} />
+            </div>
+            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=1000" alt="Library" className="hero-main-img animate-float" />
           </div>
         </div>
       </div>
 
       <div className="features-section">
-        <div className="feature-card">
+        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div className="icon-box">
+            <Bookmark />
+          </div>
           <h3>Easy Borrowing</h3>
-          <p>Borrow books with just a click and manage your due dates effortlessly.</p>
+          <p>Borrow books with just a click and manage your due dates effortlessly with automated reminders.</p>
         </div>
-        <div className="feature-card">
+        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.6s' }}>
+          <div className="icon-box">
+            <Library />
+          </div>
           <h3>Wide Collection</h3>
-          <p>From classics to modern bestsellers, find everything you need.</p>
+          <p>From timeless classics to modern bestsellers, our curated collection spans every genre imaginable.</p>
         </div>
-        <div className="feature-card">
-          <h3>Digital Access</h3>
-          <p>Access your favorite titles anytime, anywhere from any device.</p>
+        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.8s' }}>
+          <div className="icon-box">
+            <Globe />
+          </div>
+          <h3>Global Access</h3>
+          <p>Access your favorite titles anytime, anywhere. Your library follows you on every digital device.</p>
         </div>
       </div>
     </div>
@@ -40,3 +60,4 @@ function Home() {
 }
 
 export default Home;
+

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Book, Library, Globe, ArrowRight, Bookmark } from "lucide-react";
 import "./Home.css";
-import HeroDashboard from "../../components/HeroDashboard/HeroDashboard";
+import BicycleScene from "../../components/ThreeScene/BicycleScene";
 
 function Home() {
   return (
@@ -22,14 +22,7 @@ function Home() {
         </div>
 
         <div className="hero-right animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <div className="book-animation">
-            <div className="floating-books">
-              <Bookmark className="book-icon" style={{ top: '10%', left: '10%', animationDelay: '0s' }} />
-              <Book className="book-icon" style={{ top: '50%', left: '80%', animationDelay: '2s' }} />
-              <Library className="book-icon" style={{ top: '80%', left: '20%', animationDelay: '4s' }} />
-            </div>
-            <HeroDashboard />
-          </div>
+          <BicycleScene />
         </div>
       </div>
 

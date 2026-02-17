@@ -27,25 +27,22 @@
   /* Increased from 1100px */
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  /* Stack vertically */
+  flex-direction: row;
+  /* Text Left, Animation Right */
   align-items: center;
-  /* Center horizontally */
-  justify-content: center;
-  padding: 120px 24px 80px;
-  /* Added top padding */
+  justify-content: space-between;
+  padding: 60px 24px;
   position: relative;
   z-index: 1;
-  text-align: center;
+  text-align: left;
 }
 
 .hero-left {
-  width: 100%;
-  max-width: 800px;
-  /* Limit width for readability */
-  padding-right: 0;
-  margin-bottom: 60px;
-  /* Space between text and dashboard */
+  flex: 1;
+  padding-left: 0;
+  padding-right: 40px;
+  /* Space from animation */
+  margin-bottom: 0;
 }
 
 .hero-left h1 {
@@ -72,19 +69,19 @@
 }
 
 .hero-left p {
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-secondary);
-  margin: 0 auto 32px;
-  /* Center paragraph */
-  max-width: 600px;
+  margin: 0 0 32px 0;
+  /* Reset margins */
+  max-width: 520px;
   line-height: 1.6;
 }
 
 .hero-btns {
   display: flex;
   gap: 16px;
-  justify-content: center;
-  /* Center buttons */
+  justify-content: flex-start;
+  /* Align buttons left */
 }
 
 .primary-btn {
@@ -121,7 +118,8 @@
 }
 
 .hero-right {
-  width: 100%;
+  flex: 1;
+  /* Balanced width */
   display: flex;
   justify-content: center;
   position: relative;

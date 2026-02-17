@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound/NotFound";
 import Borrowpage from "./pages/Borrowpage/Borrowpage";
 import Login from "./pages/Login/Login";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ErrorBoundary>
+        <Footer />
       </BrowserRouter>
     </>
   )

@@ -21,9 +21,10 @@ function Home() {
           </div>
         </div>
 
-        <div className="hero-right animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <BicycleScene />
-        </div>
+      </div>
+
+      <div className="bicycle-animation-full">
+        <BicycleScene />
       </div>
 
       <div className="features-section">

@@ -23,26 +23,26 @@
 
 .hero {
   width: 100%;
-  max-width: 1400px;
-  /* Increased from 1100px */
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  flex-direction: row;
-  /* Text Left, Animation Right */
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 60px 24px;
+  justify-content: center;
+  padding: 60px 24px 20px 24px;
   position: relative;
   z-index: 1;
-  text-align: left;
+  text-align: center;
 }
 
 .hero-left {
   flex: 1;
-  padding-left: 0;
-  padding-right: 40px;
-  /* Space from animation */
-  margin-bottom: 0;
+  padding: 0;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-left h1 {
@@ -72,16 +72,21 @@
   font-size: 18px;
   color: var(--text-secondary);
   margin: 0 0 32px 0;
-  /* Reset margins */
-  max-width: 520px;
+  max-width: 650px;
   line-height: 1.6;
 }
 
 .hero-btns {
   display: flex;
   gap: 16px;
-  justify-content: flex-start;
-  /* Align buttons left */
+  justify-content: center;
+}
+
+.bicycle-animation-full {
+  width: 100%;
+  margin: -40px 0 60px 0;
+  position: relative;
+  z-index: 2;
 }
 
 .primary-btn {
@@ -131,7 +136,7 @@
   width: 100%;
   max-width: 100%;
   height: auto;
-  min-height: 400px;
+  min-height: 550px;
   /* Adjusted for vertical layout */
   display: flex;
   align-items: center;

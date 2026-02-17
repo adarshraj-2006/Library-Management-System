@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Book, Library, Globe, ArrowRight, Bookmark } from "lucide-react";
 import "./Home.css";
+import HeroDashboard from "../../components/HeroDashboard/HeroDashboard";
 
 function Home() {
   return (
@@ -27,7 +28,7 @@ function Home() {
               <Book className="book-icon" style={{ top: '50%', left: '80%', animationDelay: '2s' }} />
               <Library className="book-icon" style={{ top: '80%', left: '20%', animationDelay: '4s' }} />
             </div>
-            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&q=80&w=1000" alt="Library" className="hero-main-img animate-float" />
+            <HeroDashboard />
           </div>
         </div>
       </div>

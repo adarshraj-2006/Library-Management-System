@@ -3,7 +3,6 @@ import { Book, Library, Globe, ArrowRight, Bookmark } from "lucide-react";
 import "./Home.css";
 import HeroDashboard from "../../components/HeroDashboard/HeroDashboard";
 
-
 function Home() {
   return (
     <div className="home">
@@ -25,8 +24,6 @@ function Home() {
           <HeroDashboard />
         </div>
       </div>
-
-
 
       <div className="features-section">
         <div className="feature-card animate-fade-in" style={{ animationDelay: '0.4s' }}>
@@ -51,9 +48,45 @@ function Home() {
           <p>Access your favorite titles anytime, anywhere. Your library follows you on every digital device.</p>
         </div>
       </div>
+
+      <div className="new-arrivals">
+        <div className="section-header">
+          <h2>New Arrivals</h2>
+          <Link to="/Catalog" className="view-all">View All <ArrowRight size={16} /></Link>
+        </div>
+        <div className="arrivals-grid">
+          <div className="arrival-card animate-fade-in" style={{ animationDelay: '1s' }}>
+            <img src="/assets/books/book12.jpg" alt="Book" />
+            <div className="arrival-info">
+              <h4>Berserk Deluxe</h4>
+              <p>Kentaro Miura</p>
+            </div>
+          </div>
+          <div className="arrival-card animate-fade-in" style={{ animationDelay: '1.2s' }}>
+            <img src="/assets/books/book7.jpg" alt="Book" />
+            <div className="arrival-info">
+              <h4>Jujutsu Kaisen</h4>
+              <p>Gege Akutami</p>
+            </div>
+          </div>
+          <div className="arrival-card animate-fade-in" style={{ animationDelay: '1.4s' }}>
+            <img src="/assets/books/book19.jpg" alt="Book" />
+            <div className="arrival-info">
+              <h4>Kagurabachi</h4>
+              <p>Takeru Hokazono</p>
+            </div>
+          </div>
+          <div className="arrival-card animate-fade-in" style={{ animationDelay: '1.6s' }}>
+            <img src="/assets/books/book3.jpg" alt="Book" />
+            <div className="arrival-info">
+              <h4>Vagabond</h4>
+              <p>Takehiko Inoue</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default Home;
-

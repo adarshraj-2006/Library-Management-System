@@ -25,7 +25,7 @@ function Mybooks() {
     },
     {
       id: 3,
-      title:"Manipal Manual of Surgery",
+      title: "Manipal Manual of Surgery",
       author: "K. R. Shenoy",
       status: "Due Soon",
       dueText: "Due in 4 days",
@@ -61,7 +61,7 @@ function Mybooks() {
       {/* Books Grid */}
       <div className="books-grid">
         {books.map((book) => (
-          <div className="book-card" key={book.id}>
+          <div className="mybook-card" key={book.id}>
             <div className="book-image">
               <img src={book.image} alt={book.title} />
               <span className={`badge ${book.status.replace(" ", "").toLowerCase()}`}>

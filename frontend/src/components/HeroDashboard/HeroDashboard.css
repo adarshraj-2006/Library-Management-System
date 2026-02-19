@@ -455,16 +455,58 @@
     .hero-dashboard-wrapper {
         width: 100%;
         max-width: 500px;
-        height: 350px;
+        height: 380px;
     }
 }
 
 @media (max-width: 600px) {
+    .hero-dashboard-wrapper {
+        height: 420px;
+        width: 100%;
+        animation: none;
+    }
+
     .dashboard-glass-card {
         transform: none !important;
+        border-radius: 24px;
+    }
+
+    .glass-sidebar {
+        width: 50px;
+    }
+
+    .nav-items {
+        gap: 12px;
     }
 
     .card-1 {
         display: none;
+    }
+
+    .stats-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .stat-pill {
+        padding: 8px 12px;
+    }
+
+    .books-mini-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 400px) {
+    .glass-sidebar {
+        display: none;
+    }
+
+    .glass-header {
+        padding: 0 16px;
+    }
+
+    .dashboard-scrollable {
+        padding: 16px;
     }
 }

@@ -124,3 +124,22 @@
   text-decoration: line-through;
   opacity: 0.6;
 }
+
+@media (max-width: 600px) {
+  .book-card-container {
+    max-width: 100%;
+    padding: 8px;
+  }
+
+  .book-title-main {
+    font-size: 14px;
+  }
+
+  .book-author-main {
+    font-size: 12px;
+  }
+
+  .current-price {
+    font-size: 14px;
+  }
+}

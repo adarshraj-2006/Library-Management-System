@@ -14,7 +14,7 @@ const Footer = () => {
                 <div className="footer-section brand-section">
                     <div className="footer-logo">
                         <BookOpen size={28} className="footer-icon-main" />
-                        <h2>LMS<span className="dot">.</span>Library</h2>
+                        <h2>Lumina<span className="dot">.</span></h2>
                     </div>
                     <p className="footer-text">
                         A sanctuary for knowledge seekers. Manage your books, discover new worlds,
@@ -66,7 +66,7 @@ const Footer = () => {
                         </li>
                         <li>
                             <Mail size={18} className="contact-icon" />
-                            <span>support@lmslibrary.com</span>
+                            <span>support@lumina.com</span>
                         </li>
                         <li>
                             <Clock size={18} className="contact-icon" />
@@ -79,7 +79,7 @@ const Footer = () => {
             {/* --- Bottom Footer --- */}
             <div className="footer-bottom">
                 <div className="footer-bottom-content">
-                    <p>&copy; {currentYear} LMS Library. All rights reserved.</p>
+                    <p>&copy; {currentYear} Lumina Library. All rights reserved.</p>
                     <div className="footer-legal">
                         <a href="#">Privacy Policy</a>
                         <a href="#">Terms of Service</a>

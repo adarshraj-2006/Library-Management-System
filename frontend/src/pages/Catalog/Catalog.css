@@ -80,28 +80,37 @@
 
 /* Tablet */
 @media (max-width: 992px) {
-  .catalog-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .search-bar {
-    max-width: 100%;
+  .catalog {
+    margin-top: 100px;
   }
 }
 
 /* Mobile */
-@media (max-width: 576px) {
-  .catalog {
-    margin: 90px auto 50px;
+@media (max-width: 768px) {
+  .catalog-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 32px;
   }
 
   .catalog-title {
-    font-size: 28px;
+    font-size: 32px;
   }
 
+  .search-bar {
+    max-width: 100%;
+    padding: 10px 18px;
+  }
+}
+
+@media (max-width: 500px) {
   .catalog-grid {
     grid-template-columns: 1fr;
-    justify-items: center;
+    gap: 20px;
+  }
+
+  .catalog {
+    padding: 0 16px;
   }
 }

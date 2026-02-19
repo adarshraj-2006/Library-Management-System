@@ -301,10 +301,53 @@
 
     .book-details-container {
         padding: 30px;
+        border-radius: 24px;
     }
 
     .details-title {
         font-size: 30px;
+    }
+}
+
+@media (max-width: 600px) {
+    .book-details-container {
+        padding: 24px 16px;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+
+    .book-details-overlay {
+        padding: 0;
+    }
+
+    .details-image-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+    }
+
+    .details-pricing {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .details-availability {
+        margin-left: 0;
+    }
+
+    .details-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .details-actions {
+        flex-direction: column;
+    }
+
+    .add-to-cart-btn,
+    .wishlist-btn {
+        width: 100%;
+        padding: 16px;
     }
 }
 

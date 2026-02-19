@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Contact.css';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
 
 const Contact = () => {
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsSubmitted(true);
+        // Reset after 5 seconds
+        setTimeout(() => setIsSubmitted(false), 5000);
+    };
+
     return (
         <div className="contact-container">
             <div className="contact-header">
@@ -47,32 +56,41 @@ const Contact = () => {
                 </div>
 
                 <div className="contact-form-container">
-                    <form className="contact-form">
-                        <div className="form-group">
-                            <label htmlFor="name">Full Name</label>
-                            <input type="text" id="name" placeholder="John Doe" required />
+                    {isSubmitted ? (
+                        <div className="success-message animate-fade-in">
+                            <CheckCircle size={60} color="#10b981" />
+                            <h2>Message Sent!</h2>
+                            <p>Thank you for reaching out. Our team will get back to you shortly.</p>
+                            <button className="secondary-btn" onClick={() => setIsSubmitted(false)}>Send another message</button>
                         </div>
+                    ) : (
+                        <form className="contact-form" onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="name">Full Name</label>
+                                <input type="text" id="name" placeholder="John Doe" required />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email Address</label>
-                            <input type="email" id="email" placeholder="john@example.com" required />
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email Address</label>
+                                <input type="email" id="email" placeholder="john@example.com" required />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="subject">Subject</label>
-                            <input type="text" id="subject" placeholder="How can we help?" required />
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="subject">Subject</label>
+                                <input type="text" id="subject" placeholder="How can we help?" required />
+                            </div>
 
-                        <div className="form-group">
-                            <label htmlFor="message">Message</label>
-                            <textarea id="message" rows="5" placeholder="Your message here..." required></textarea>
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="message">Message</label>
+                                <textarea id="message" rows="5" placeholder="Your message here..." required></textarea>
+                            </div>
 
-                        <button type="submit" className="submit-btn">
-                            <span>Send Message</span>
-                            <Send size={18} />
-                        </button>
-                    </form>
+                            <button type="submit" className="submit-btn">
+                                <span>Send Message</span>
+                                <Send size={18} />
+                            </button>
+                        </form>
+                    )}
                 </div>
             </div>
         </div>

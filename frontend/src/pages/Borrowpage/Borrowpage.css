@@ -255,20 +255,55 @@
     margin: 16px 0;
 }
 
-@media (max-width: 600px) {
-    .input-row {
-        grid-template-columns: 1fr;
+@media (max-width: 768px) {
+    .borrow-page-wrapper {
+        padding-top: 90px;
     }
 
     .progress-stepper {
-        gap: 5px;
+        margin-bottom: 30px;
+    }
+
+    .step-number {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .step-line {
+        top: 19px;
+    }
+
+    .form-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .step-header h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+    .input-row {
+        grid-template-columns: 1fr;
+        gap: 0;
     }
 
     .step-label {
         display: none;
     }
 
-    .form-card {
-        padding: 30px 20px;
+    .btn-row {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .back-btn,
+    .next-btn,
+    .confirm-btn {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
     }
 }

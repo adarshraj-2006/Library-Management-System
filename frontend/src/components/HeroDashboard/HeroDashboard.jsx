@@ -1,85 +1,114 @@
 
 import React from 'react';
 import './HeroDashboard.css';
-import { Search, Book, Bookmark, MoreHorizontal } from 'lucide-react';
+import { Search, Book, Bookmark, TrendingUp, Users, Clock, ArrowRight, Star } from 'lucide-react';
 
 const HeroDashboard = () => {
     const bookData = [
         {
             id: 1,
-            title: "Harry Potter",
-            author: "J.K. Rowling",
-            color: "color-1",
-            cover: "https://images.unsplash.com/photo-1626618012641-bf8ca5e3fa85?auto=format&fit=crop&q=80&w=400",
-            active: false
+            title: "The Midnight Library",
+            author: "Matt Haig",
+            cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
+            category: "Fiction",
+            rating: 4.8
         },
         {
             id: 2,
-            title: "Ramayan",
-            author: "Valmiki",
-            color: "color-2",
-            cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=400",
-            active: true
-        },
-        {
-            id: 3,
-            title: "Atomic Habits",
-            author: "James Clear",
-            color: "color-3",
-            cover: "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&q=80&w=400",
-            active: false
+            title: "Dune",
+            author: "Frank Herbert",
+            cover: "https://images.unsplash.com/photo-1593344484962-796055d4a3a4?auto=format&fit=crop&q=80&w=400",
+            category: "Sci-Fi",
+            rating: 4.9
         }
     ];
 
+    const stats = [
+        { label: "Borrowed", value: "24", icon: <Book size={14} />, color: "#3b82f6" },
+        { label: "Active", value: "12", icon: <Clock size={14} />, color: "#10b981" },
+        { label: "Waitlist", value: "05", icon: <TrendingUp size={14} />, color: "#f59e0b" }
+    ];
+
     return (
-        <div className="hero-dashboard-container animate-float">
-            <div className="dashboard-frame">
-                {/* Fake Sidebar */}
-                <div className="dashboard-sidebar">
-                    <div className="sidebar-dot red"></div>
-                    <div className="sidebar-dot yellow"></div>
-                    <div className="sidebar-dot green"></div>
-                    <div className="sidebar-item active">
-                        <Book size={20} />
+        <div className="hero-dashboard-wrapper">
+            <div className="dashboard-glass-card">
+                {/* Dashboard Sidebar */}
+                <div className="glass-sidebar">
+                    <div className="status-dots">
+                        <span className="dot red"></span>
+                        <span className="dot yellow"></span>
+                        <span className="dot green"></span>
                     </div>
-                    <div className="sidebar-item">
-                        <Bookmark size={20} />
+                    <div className="nav-items">
+                        <div className="nav-item active"><Book size={18} /></div>
+                        <div className="nav-item"><Bookmark size={18} /></div>
+                        <div className="nav-item"><Users size={18} /></div>
                     </div>
                 </div>
 
-                {/* Dashboard Content */}
-                <div className="dashboard-content">
-                    {/* Fake Header */}
-                    <div className="dashboard-header">
-                        <div className="fake-search-bar">
-                            <Search size={16} className="search-icon" />
-                            <span>Search for books...</span>
+                {/* Dashboard Main Content */}
+                <div className="glass-main">
+                    <header className="glass-header">
+                        <div className="glass-search">
+                            <Search size={14} className="search-icon" />
+                            <input type="text" placeholder="Quick find..." readOnly />
                         </div>
-                        <div className="user-avatar" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100)', backgroundSize: 'cover' }}></div>
-                    </div>
+                        <div className="header-actions">
+                            <div className="pulse-indicator"></div>
+                            <div className="avatar">A</div>
+                        </div>
+                    </header>
 
-                    {/* Book Cards Grid */}
-                    <div className="dashboard-grid">
-                        {bookData.map((book) => (
-                            <div key={book.id} className={`dashboard-card ${book.active ? 'active-card' : ''}`}>
-                                <div className="card-img-container">
-                                    <img src={book.cover} alt={book.title} className="card-img" />
+                    <div className="dashboard-scrollable">
+                        <section className="stats-row">
+                            {stats.map((stat, i) => (
+                                <div key={i} className="stat-pill" style={{ '--accent': stat.color }}>
+                                    <span className="pill-icon">{stat.icon}</span>
+                                    <div className="pill-info">
+                                        <span className="pill-val">{stat.value}</span>
+                                        <span className="pill-lbl">{stat.label}</span>
+                                    </div>
                                 </div>
-                                <div className="card-text">{book.title}</div>
-                                <div style={{ fontSize: '10px', color: '#64748b' }}>{book.author}</div>
-                                <button className="card-btn">Borrow</button>
+                            ))}
+                        </section>
+
+                        <section className="featured-section">
+                            <div className="section-head">
+                                <h4>Recommended</h4>
+                                <ArrowRight size={14} />
                             </div>
-                        ))}
+                            <div className="books-mini-grid">
+                                {bookData.map((book) => (
+                                    <div key={book.id} className="mini-book-card">
+                                        <div className="book-thumb">
+                                            <img src={book.cover} alt={book.title} />
+                                            <div className="rating-tag">
+                                                <Star size={10} fill="#f59e0b" stroke="none" />
+                                                {book.rating}
+                                            </div>
+                                        </div>
+                                        <div className="book-meta">
+                                            <h5>{book.title}</h5>
+                                            <p>{book.author}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
 
-            {/* Decorative Background Elements */}
-            <div className="floating-badge badge-1">
-                <span>📚 New Arrivals</span>
-            </div>
-            <div className="floating-badge badge-2">
-                <span>✨ Best Sellers</span>
+            {/* Decorative elements */}
+            <div className="glass-blob blob-1"></div>
+            <div className="glass-blob blob-2"></div>
+
+            <div className="floating-stat-card card-1">
+                <div className="activity-pulse"></div>
+                <div className="stat-content">
+                    <span className="stat-title">New Entry</span>
+                    <span className="stat-desc">"Sapiens" returned</span>
+                </div>
             </div>
         </div>
     );

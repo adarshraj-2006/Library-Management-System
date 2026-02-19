@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Book, Library, Globe, ArrowRight, Bookmark } from "lucide-react";
 import "./Home.css";
-import BicycleScene from "../../components/ThreeScene/BicycleScene";
+import HeroDashboard from "../../components/HeroDashboard/HeroDashboard";
+
 
 function Home() {
   return (
@@ -20,12 +21,12 @@ function Home() {
             <Link to="/Contact" className="secondary-btn">Contact Us</Link>
           </div>
         </div>
-
+        <div className="hero-right animate-fade-in-right">
+          <HeroDashboard />
+        </div>
       </div>
 
-      <div className="bicycle-animation-full">
-        <BicycleScene />
-      </div>
+
 
       <div className="features-section">
         <div className="feature-card animate-fade-in" style={{ animationDelay: '0.4s' }}>

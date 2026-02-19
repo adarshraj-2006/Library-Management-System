@@ -1,7 +1,7 @@
 .home {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
   padding-top: 60px;
   position: relative;
   overflow: hidden;
@@ -23,26 +23,24 @@
 
 .hero {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: 60px 24px 20px 24px;
+  justify-content: space-between;
+  padding: 80px 40px;
   position: relative;
   z-index: 1;
-  text-align: center;
+  gap: 40px;
 }
 
 .hero-left {
-  flex: 1;
-  padding: 0;
-  margin: 0 auto;
-  text-align: center;
+  flex: 1.2;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .hero-left h1 {
@@ -79,15 +77,10 @@
 .hero-btns {
   display: flex;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
-.bicycle-animation-full {
-  width: 100%;
-  margin: -40px 0 60px 0;
-  position: relative;
-  z-index: 2;
-}
+
 
 .primary-btn {
   padding: 16px 32px;
@@ -124,10 +117,26 @@
 
 .hero-right {
   flex: 1;
-  /* Balanced width */
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   position: relative;
+  perspective: 1000px;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 1s ease-out forwards;
 }
 
 /* Immersive Book Stack Animation */
@@ -250,6 +259,12 @@
     padding-top: 40px;
   }
 
+  .hero-left {
+    text-align: center;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
   .hero-left h1 {
     font-size: 48px;
   }
@@ -263,7 +278,7 @@
   }
 
   .hero-right {
-    margin-top: 60px;
+    justify-content: center;
     width: 100%;
   }
 

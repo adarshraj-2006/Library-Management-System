@@ -1,4 +1,4 @@
-import "./BookCard.css";
+import "./Bookcard.css";
 import { Star } from "lucide-react";
 
 function BookCard({ image, title, author, price, originalPrice, discount, rating }) {

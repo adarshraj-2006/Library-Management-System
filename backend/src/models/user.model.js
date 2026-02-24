@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema(
         // ── Account Status ──────────────────────────────────────────
         isVerified: {
             type: Boolean,
-            default: false,
+            default: true,
         },
         isBlocked: {
             type: Boolean,

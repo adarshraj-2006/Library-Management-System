@@ -107,9 +107,6 @@ export const login = asyncHandler(async (req, res) => {
         return errorResponse(res, "Invalid email or password.", 401);
     }
 
-    if (!user.isVerified) {
-        return errorResponse(res, "Please verify your email before logging in.", 403);
-    }
 
     if (user.isBlocked) {
         return errorResponse(res, "Your account has been blocked. Contact support.", 403);

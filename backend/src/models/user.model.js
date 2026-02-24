@@ -78,11 +78,6 @@ const userSchema = new mongoose.Schema(
             default: null,
         },
 
-        // ── Auth Tokens ─────────────────────────────────────────────
-        refreshToken: {
-            type: String,
-            default: null,
-        },
     },
     {
         timestamps: true, // createdAt, updatedAt

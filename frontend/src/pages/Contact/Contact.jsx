@@ -1,15 +1,36 @@
 import React, { useState } from 'react';
 import './Contact.css';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, Loader2 } from 'lucide-react';
+import API from '../../services/api';
+import toast from 'react-hot-toast';
 
 const Contact = () => {
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsSubmitted(true);
-        // Reset after 5 seconds
-        setTimeout(() => setIsSubmitted(false), 5000);
+        setLoading(true);
+        try {
+            await API.post('/contacts', formData);
+            setIsSubmitted(true);
+            toast.success('Message sent! We will reach out soon.');
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to send message');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -67,27 +88,59 @@ const Contact = () => {
                         <form className="contact-form" onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="name">Full Name</label>
-                                <input type="text" id="name" placeholder="John Doe" required />
+                                <input
+                                    type="text"
+                                    id="name"
+                                    placeholder="John Doe"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="email">Email Address</label>
-                                <input type="email" id="email" placeholder="john@example.com" required />
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="john@example.com"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="subject">Subject</label>
-                                <input type="text" id="subject" placeholder="How can we help?" required />
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    placeholder="How can we help?"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="message">Message</label>
-                                <textarea id="message" rows="5" placeholder="Your message here..." required></textarea>
+                                <textarea
+                                    id="message"
+                                    rows="5"
+                                    placeholder="Your message here..."
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    required
+                                ></textarea>
                             </div>
 
-                            <button type="submit" className="submit-btn">
-                                <span>Send Message</span>
-                                <Send size={18} />
+                            <button type="submit" className="submit-btn" disabled={loading}>
+                                {loading ? <Loader2 className="animate-spin" /> : (
+                                    <>
+                                        <span>Send Message</span>
+                                        <Send size={18} />
+                                    </>
+                                )}
                             </button>
                         </form>
                     )}

@@ -1,230 +1,119 @@
-import React, { useState } from "react";
-import "./Mybooks.css";
-import { Calendar, MapPin, Clock, RefreshCw, ArrowLeft, BookOpen, Info, ShieldCheck, AlertCircle } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import './Mybooks.css';
+import { Book, Clock, AlertCircle, CheckCircle, Info, Calendar, ChevronRight } from 'lucide-react';
+import API from '../../services/api';
+import toast from 'react-hot-toast';
 
-function Mybooks() {
-  const [selectedBook, setSelectedBook] = useState(null);
+const Mybooks = () => {
+  const [issues, setIssues] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const books = [
-    {
-      id: 1,
-      title: "The Count of Monte Cristo",
-      author: "Robin Buss",
-      status: "Overdue",
-      dueText: "Overdue by 2 days",
-      dueDate: "2024-05-15",
-      borrowedDate: "2024-05-01",
-      locker: "B-12",
-      progress: 100,
-      image: "/assets/books/book1.jpg",
-      fine: "₹40.00",
-      renewals: "0/2",
-      category: "Classic Literature",
-      isbn: "978-0140449266"
-    },
-    {
-      id: 2,
-      title: "Batman: Dark Victory",
-      author: "Tim Sale",
-      status: "On Time",
-      dueText: "Due in 12 days",
-      dueDate: "2024-06-01",
-      borrowedDate: "2024-05-18",
-      locker: "A-04",
-      progress: 35,
-      image: "/assets/books/book21.jpg",
-      fine: "₹0.00",
-      renewals: "1/2",
-      category: "Graphic Novel",
-      isbn: "978-1401244019"
-    },
-    {
-      id: 3,
-      title: "Manipal Manual of Surgery",
-      author: "K. R. Shenoy",
-      status: "Due Soon",
-      dueText: "Due in 4 days",
-      dueDate: "2024-05-23",
-      borrowedDate: "2024-05-09",
-      locker: "C-22",
-      progress: 80,
-      image: "/assets/books/book18.jpg",
-      fine: "₹0.00",
-      renewals: "0/2",
-      category: "Medical Science",
-      isbn: "978-9352709083"
-    },
-    {
-      id: 4,
-      title: "Vagabond, Vol. 1",
-      author: "Takehiko Inoue",
-      status: "On Time",
-      dueText: "Due in 18 days",
-      dueDate: "2024-06-07",
-      borrowedDate: "2024-05-24",
-      locker: "D-05",
-      progress: 15,
-      image: "/assets/books/book2.jpg",
-      fine: "₹0.00",
-      renewals: "2/2",
-      category: "Manga",
-      isbn: "978-1421520544"
+  useEffect(() => {
+    const fetchMyBooks = async () => {
+      try {
+        const res = await API.get('/issues/my');
+        setIssues(res.data.data.issues);
+      } catch (err) {
+        toast.error('Failed to load your books');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMyBooks();
+  }, []);
+
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case 'issued': return 'status-issued';
+      case 'overdue': return 'status-overdue';
+      case 'returned': return 'status-returned';
+      default: return '';
     }
-  ];
+  };
 
-  const closeModal = () => setSelectedBook(null);
+  if (loading) return <div className="loading-state">Loading your library...</div>;
 
   return (
-    <div className="mybooks">
-      <div className="header">
-        <h1>My Bookshelf</h1>
-        <p>Manage your active loans, track renewals, and view reading history.</p>
-      </div>
-
-      {/* Stats */}
-      <div className="stats">
-        <div className="card">
-          <h4>Currently Borrowed</h4>
-          <h2>04 / 06</h2>
+    <div className="mybooks-page">
+      <div className="page-header">
+        <div>
+          <h1>My Reading Journey</h1>
+          <p>Track your currently borrowed and past books</p>
         </div>
-        <div className="card">
-          <h4>Pending Reservations</h4>
-          <h2>02</h2>
-        </div>
-        <div className="card highlight">
-          <h4>Books Due Soon</h4>
-          <h2>02</h2>
-        </div>
-      </div>
-
-      {/* Books Grid */}
-      <div className="books-grid">
-        {books.map((book) => (
-          <div className="mybook-card" key={book.id} onClick={() => setSelectedBook(book)}>
-            <div className="book-image">
-              <img src={book.image} alt={book.title} />
-              <span className={`badge ${book.status.replace(" ", "").toLowerCase()}`}>
-                {book.status}
-              </span>
-            </div>
-
-            <div className="card-content">
-              <h3>{book.title}</h3>
-              <p className="author">{book.author}</p>
-
-              <div className="book-info">
-                <div className="info-row">
-                  <Calendar size={14} />
-                  <span>{book.dueText}</span>
-                </div>
-                <div className="info-row">
-                  <MapPin size={14} />
-                  <span>Locker: {book.locker}</span>
-                </div>
-              </div>
-
-              <div className="progress-container">
-                <div className="progress-header">
-                  <span>Reading Progress</span>
-                  <span>{book.progress}%</span>
-                </div>
-                <div className="progress">
-                  <div
-                    className="progress-bar"
-                    style={{ width: `${book.progress}%` }}
-                  ></div>
-                </div>
-              </div>
-            </div>
+        <div className="summary-badges">
+          <div className="summary-item">
+            <span className="count">{issues.filter(i => i.status === 'issued').length}</span>
+            <span className="label">Active</span>
           </div>
-        ))}
-      </div>
-
-      {/* Loan Details Modal */}
-      {selectedBook && (
-        <div className="loan-overlay" onClick={closeModal}>
-          <div className="loan-modal animate-slide-up" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={closeModal}>×</button>
-
-            <div className="loan-content">
-              <div className="loan-left">
-                <img src={selectedBook.image} alt={selectedBook.title} />
-                <div className={`loan-status-tag ${selectedBook.status.replace(" ", "").toLowerCase()}`}>
-                  {selectedBook.status}
-                </div>
-              </div>
-
-              <div className="loan-right">
-                <div className="loan-header">
-                  <h2>{selectedBook.title}</h2>
-                  <p className="modal-author">by {selectedBook.author}</p>
-                </div>
-
-                <div className="loan-info-grid">
-                  <div className="loan-info-item">
-                    <Calendar className="icon" size={18} />
-                    <div>
-                      <p className="label">Borrowed On</p>
-                      <p className="value">{selectedBook.borrowedDate}</p>
-                    </div>
-                  </div>
-                  <div className="loan-info-item">
-                    <Clock className="icon" size={18} />
-                    <div>
-                      <p className="label">Due Date</p>
-                      <p className="value">{selectedBook.dueDate}</p>
-                    </div>
-                  </div>
-                  <div className="loan-info-item">
-                    <MapPin className="icon" size={18} />
-                    <div>
-                      <p className="label">Pickup Locker</p>
-                      <p className="value">{selectedBook.locker}</p>
-                    </div>
-                  </div>
-                  <div className="loan-info-item">
-                    <RefreshCw className="icon" size={18} />
-                    <div>
-                      <p className="label">Renewals Used</p>
-                      <p className="value">{selectedBook.renewals}</p>
-                    </div>
-                  </div>
-                  <div className="loan-info-item">
-                    <AlertCircle className="icon" size={18} />
-                    <div>
-                      <p className="label">Accrued Fine</p>
-                      <p className="value fine">{selectedBook.fine}</p>
-                    </div>
-                  </div>
-                  <div className="loan-info-item">
-                    <Info className="icon" size={18} />
-                    <div>
-                      <p className="label">ISBN</p>
-                      <p className="value">{selectedBook.isbn}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="loan-reading-section">
-                  <div className="reading-header">
-                    <h3>Reading Progress</h3>
-                    <span>{selectedBook.progress}% Complete</span>
-                  </div>
-                  <div className="large-progress">
-                    <div className="large-progress-bar" style={{ width: `${selectedBook.progress}%` }}></div>
-                  </div>
-                </div>
-
-                <div className="loan-actions">
-                  <button className="action-btn renew">Renew Borrowing</button>
-                  <button className="action-btn return">Return Book</button>
-                </div>
-              </div>
-            </div>
+          <div className="summary-item">
+            <span className="count overdue">{issues.filter(i => i.status === 'overdue' || (i.status === 'issued' && i.isCurrentlyOverdue)).length}</span>
+            <span className="label">Overdue</span>
           </div>
         </div>
-      )}
+      </div>
+
+      <div className="books-horizontal-list">
+        {issues.length === 0 ? (
+          <div className="empty-state">
+            <Book size={48} />
+            <h3>Your shelf is empty</h3>
+            <p>Browse the catalog to borrow your first book!</p>
+          </div>
+        ) : (
+          issues.map((issue) => (
+            <div key={issue._id} className="horizontal-book-card">
+              <div className="book-cover-mini">
+                {issue.book.coverImage ? (
+                  <img src={issue.book.coverImage} alt={issue.book.title} />
+                ) : (
+                  <div className="cover-placeholder"><Book size={32} /></div>
+                )}
+              </div>
+
+              <div className="book-info-main">
+                <div className="title-row">
+                  <h3>{issue.book.title}</h3>
+                  <span className={`status-badge ${getStatusStyle(issue.status)}`}>
+                    {issue.status.toUpperCase()}
+                  </span>
+                </div>
+                <p className="author-text">by {issue.book.author}</p>
+
+                <div className="date-details">
+                  <div className="detail-item">
+                    <Calendar size={14} />
+                    <span>Issued: {new Date(issue.issueDate).toLocaleDateString()}</span>
+                  </div>
+                  <div className="detail-item">
+                    <Clock size={14} />
+                    <span>Due: {new Date(issue.dueDate).toLocaleDateString()}</span>
+                  </div>
+                  {issue.returnDate && (
+                    <div className="detail-item success">
+                      <CheckCircle size={14} />
+                      <span>Returned: {new Date(issue.returnDate).toLocaleDateString()}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="fine-section">
+                {issue.fine > 0 && (
+                  <div className="fine-amount">
+                    <AlertCircle size={16} />
+                    <span>Fine: ₹{issue.fine}</span>
+                  </div>
+                )}
+                <button className="details-btn">
+                  View Details <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
-}
+};
+
 export default Mybooks;

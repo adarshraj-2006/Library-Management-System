@@ -9,6 +9,7 @@ import connectDB from "./src/config/db.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import bookRoutes from "./src/routes/book.routes.js";
 import issueRoutes from "./src/routes/issue.routes.js";
+import contactRoutes from "./src/routes/contact.routes.js";
 
 dotenv.config();
 
@@ -72,6 +73,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/issues", issueRoutes);
+app.use("/api/contacts", contactRoutes);
 
 // ── 404 Fallback ──────────────────────────────────────────────────────────────
 app.use((req, res) => {

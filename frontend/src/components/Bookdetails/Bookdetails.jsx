@@ -111,7 +111,7 @@ const BookDetails = ({ book, onBack }) => {
                             <button
                                 className="add-to-cart-btn"
                                 disabled={!available}
-                                onClick={() => navigate('/borrow')}
+                                onClick={() => navigate('/borrow', { state: { book } })}
                             >
                                 <ShoppingCart size={20} />
                                 <span>{available ? 'Borrow Now' : 'Out of Stock'}</span>

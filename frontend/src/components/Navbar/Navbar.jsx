@@ -45,14 +45,9 @@ export default function Navbar() {
         <div className={`nav-links ${isOpen ? 'open' : ''}`}>
           <Link to='/Home' className={location.pathname === '/Home' ? 'active' : ''}>Home</Link>
           <Link to='/Catalog' className={location.pathname === '/Catalog' ? 'active' : ''}>Catalog</Link>
-          {user && <Link to='/dashboard' className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>}
           <Link to='/About' className={location.pathname === '/About' ? 'active' : ''}>About</Link>
           <Link to='/Contact' className={location.pathname === '/Contact' ? 'active' : ''}>Contact</Link>
-          {!user ? (
-            <Link to='/Login' className="signin mobile-only">Sign in</Link>
-          ) : (
-            <Link to='/dashboard' className="mobile-only">Profile</Link>
-          )}
+          <Link to='/Login' className="signin mobile-only">{user ? 'Profile' : 'Sign in'}</Link>
         </div>
 
         <div className="nav-actions">

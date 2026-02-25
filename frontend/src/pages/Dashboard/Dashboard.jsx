@@ -16,7 +16,10 @@ import {
     CreditCard,
     Mail,
     Phone,
-    Menu
+    Menu,
+    Calendar,
+    Award,
+    BookMarked
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -47,51 +50,60 @@ const Dashboard = () => {
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
+    const switchTab = (tab) => {
+        setActiveTab(tab);
+        setSidebarOpen(false);
+    };
+
     if (!user) return <div className="loading-screen">Loading...</div>;
 
+    const memberDate = user.createdAt
+        ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+        : 'Jan 2024';
+
     return (
-        <div className={`dashboard-container ${sidebarOpen ? 'mobile-sidebar-open' : ''}`}>
+        <div className="dashboard-container">
             {/* Sidebar Overlay */}
             {sidebarOpen && <div className="dashboard-overlay" onClick={toggleSidebar}></div>}
 
             {/* Sidebar */}
             <aside className={`dashboard-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-logo">
-                    <BookOpen className="logo-icon" />
-                    <span>LMS Pro</span>
+                    <BookMarked className="logo-icon" />
+                    <span>Lumina</span>
                 </div>
                 <nav className="sidebar-nav">
                     <button
                         className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('overview')}
+                        onClick={() => switchTab('overview')}
                     >
                         <LayoutDashboard size={20} />
                         <span>Overview</span>
                     </button>
                     <button
                         className={`nav-item ${activeTab === 'my-books' ? 'active' : ''}`}
-                        onClick={() => navigate('/mybooks')}
+                        onClick={() => { setSidebarOpen(false); navigate('/mybooks'); }}
                     >
                         <BookOpen size={20} />
                         <span>My Books</span>
                     </button>
                     <button
                         className={`nav-item ${activeTab === 'history' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('history')}
+                        onClick={() => switchTab('history')}
                     >
                         <History size={20} />
                         <span>History</span>
                     </button>
                     <button
                         className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('profile')}
+                        onClick={() => switchTab('profile')}
                     >
                         <User size={20} />
                         <span>Profile</span>
                     </button>
                     <button
                         className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('settings')}
+                        onClick={() => switchTab('settings')}
                     >
                         <Settings size={20} />
                         <span>Settings</span>
@@ -107,19 +119,22 @@ const Dashboard = () => {
 
             {/* Main Content */}
             <main className="dashboard-main">
-                {/* Top Navbar */}
+                {/* Top Header */}
                 <header className="dashboard-header">
                     <button className="mobile-menu-btn" onClick={toggleSidebar}>
                         <Menu size={24} />
                     </button>
                     <div className="header-search">
                         <Search size={18} />
-                        <input type="text" placeholder="Search books, authors..." />
+                        <input type="text" placeholder="Search books, authors, genres..." />
                     </div>
                     <div className="header-actions">
                         <button className="icon-btn"><Bell size={20} /></button>
                         <div className="user-profile-header" onClick={() => setActiveTab('profile')}>
-                            <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random`} alt="user" />
+                            <img
+                                src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&bold=true`}
+                                alt="user"
+                            />
                             <div className="user-info">
                                 <span className="user-name">{user.name}</span>
                                 <span className="user-role">{user.role}</span>
@@ -128,11 +143,12 @@ const Dashboard = () => {
                     </div>
                 </header>
 
+                {/* ─── OVERVIEW TAB ─── */}
                 {activeTab === 'overview' && (
                     <div className="dashboard-content animate-fade-in">
                         <div className="welcome-banner">
-                            <h1>Hello, {user.name.split(' ')[0]}! 👋</h1>
-                            <p>Welcome back! You have 3 books due this week.</p>
+                            <h1>Welcome back, {user.name.split(' ')[0]}! 👋</h1>
+                            <p>Here's what's happening with your library account today.</p>
                         </div>
 
                         <div className="stats-grid">
@@ -155,7 +171,7 @@ const Dashboard = () => {
                                 <div className="stat-icon blue"><Star size={24} /></div>
                                 <div className="stat-info">
                                     <h3>4.8</h3>
-                                    <p>Reader Rating</p>
+                                    <p>Reader Score</p>
                                 </div>
                             </div>
                         </div>
@@ -170,15 +186,15 @@ const Dashboard = () => {
                                     <div className="activity-item">
                                         <div className="activity-icon green"><ShieldCheck size={18} /></div>
                                         <div className="activity-details">
-                                            <p>Successfully borrowed <strong>"The Great Gatsby"</strong></p>
+                                            <p>Borrowed <strong>"The Great Gatsby"</strong> from Fiction</p>
                                             <span>2 hours ago</span>
                                         </div>
                                     </div>
                                     <div className="activity-item">
                                         <div className="activity-icon blue"><History size={18} /></div>
                                         <div className="activity-details">
-                                            <p>Returned <strong>"Atomic Habits"</strong> 2 days early!</p>
-                                            <span>Yesterday</span>
+                                            <p>Returned <strong>"Atomic Habits"</strong> — 2 days early!</p>
+                                            <span>Yesterday at 3:42 PM</span>
                                         </div>
                                     </div>
                                     <div className="activity-item">
@@ -188,20 +204,31 @@ const Dashboard = () => {
                                             <span>3 days ago</span>
                                         </div>
                                     </div>
+                                    <div className="activity-item">
+                                        <div className="activity-icon green"><Award size={18} /></div>
+                                        <div className="activity-details">
+                                            <p>Earned <strong>"Bookworm"</strong> reader badge 🏅</p>
+                                            <span>Last week</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div className="recommended-books">
                                 <div className="section-header">
-                                    <h2>Recommended for You</h2>
+                                    <h2>Recommended</h2>
                                 </div>
                                 <div className="book-mini-list">
-                                    {[1, 2, 3].map(i => (
+                                    {[
+                                        { title: 'Deep Work', author: 'Cal Newport', id: 24 },
+                                        { title: 'Sapiens', author: 'Yuval N. Harari', id: 36 },
+                                        { title: 'Dune', author: 'Frank Herbert', id: 48 },
+                                    ].map((book, i) => (
                                         <div className="book-mini-card" key={i}>
-                                            <img src={`https://picsum.photos/id/${10 + i}/60/80`} alt="book" />
+                                            <img src={`https://picsum.photos/id/${book.id}/60/80`} alt={book.title} />
                                             <div className="book-mini-info">
-                                                <h4>Book Title {i}</h4>
-                                                <p>Author Name</p>
+                                                <h4>{book.title}</h4>
+                                                <p>{book.author}</p>
                                             </div>
                                             <ChevronRight size={18} className="chevron" />
                                         </div>
@@ -212,18 +239,22 @@ const Dashboard = () => {
                     </div>
                 )}
 
+                {/* ─── PROFILE TAB ─── */}
                 {activeTab === 'profile' && (
                     <div className="profile-content animate-fade-in">
                         <div className="profile-card">
                             <div className="profile-cover"></div>
                             <div className="profile-header-main">
                                 <div className="profile-img-container">
-                                    <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random&size=128`} alt="Profile" />
-                                    <button className="edit-img-btn"><Clock size={16} /></button>
+                                    <img
+                                        src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&bold=true&size=128`}
+                                        alt="Profile"
+                                    />
+                                    <button className="edit-img-btn"><Calendar size={14} /></button>
                                 </div>
                                 <div className="profile-identity">
                                     <h2>{user.name}</h2>
-                                    <p>{user.role.charAt(0).toUpperCase() + user.role.slice(1)} • Member since 2024</p>
+                                    <p>{user.role.charAt(0).toUpperCase() + user.role.slice(1)} • Member since {memberDate}</p>
                                 </div>
                                 <button className="edit-profile-btn">Edit Profile</button>
                             </div>
@@ -235,7 +266,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="info-group">
                                     <label><Phone size={16} /> Phone Number</label>
-                                    <p>{user.phone || '+1 (555) 000-0000'}</p>
+                                    <p>{user.phone || 'Not provided'}</p>
                                 </div>
                                 <div className="info-group">
                                     <label><ShieldCheck size={16} /> Account Status</label>
@@ -243,7 +274,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="info-group">
                                     <label><CreditCard size={16} /> Membership ID</label>
-                                    <p>LMS-{user._id.substring(user._id.length - 8).toUpperCase()}</p>
+                                    <p>LMS-{user._id ? user._id.substring(user._id.length - 8).toUpperCase() : '00000000'}</p>
                                 </div>
                             </div>
 
@@ -257,7 +288,7 @@ const Dashboard = () => {
                                     <span>Active Loans</span>
                                 </div>
                                 <div className="profile-stat-box">
-                                    <h4>0</h4>
+                                    <h4>₹0</h4>
                                     <span>Fines Owed</span>
                                 </div>
                             </div>

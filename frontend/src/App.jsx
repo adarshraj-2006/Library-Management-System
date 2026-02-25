@@ -12,6 +12,7 @@ import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import Footer from "./components/Footer/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from 'react-hot-toast';
 
 function Layout({ children }) {
@@ -31,6 +32,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop />
         <Toaster position="top-center" reverseOrder={false} />
         <Layout>
           <ErrorBoundary>

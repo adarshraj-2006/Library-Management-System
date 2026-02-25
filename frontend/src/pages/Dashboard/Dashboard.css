@@ -5,38 +5,37 @@
     --sidebar-collapsed: 80px;
     --header-height: 70px;
 
-    /* Premium Color Palette */
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-light: #eef2ff;
-    --primary-glow: rgba(99, 102, 241, 0.1);
+    /* Blue Premium Color Palette (Synced with Home) */
+    --primary: #0066cc;
+    --primary-hover: #0052a3;
+    --primary-light: #f0f7ff;
+    --primary-glow: rgba(0, 102, 204, 0.1);
 
-    --accent-purple: #a855f7;
-    --accent-pink: #ec4899;
+    --accent-purple: #004d99;
+    --accent-pink: #ef4444;
     --accent-orange: #f97316;
     --accent-emerald: #10b981;
-    --accent-sky: #0ea5e9;
+    --accent-sky: #66b2ff;
 
-    --bg-app: #f1f5f9;
+    --bg-app: #f0f7ff;
     --bg-sidebar: #ffffff;
     --bg-card: #ffffff;
     --bg-card-hover: #f8fafc;
-    --bg-main: #f1f5f9;
-    --bg-input: #f8fafc;
-    --bg-header: rgba(241, 245, 249, 0.85);
+    --bg-main: #f0f7ff;
+    --bg-input: #ffffff;
+    --bg-header: rgba(240, 247, 255, 0.85);
 
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4d4d4d;
+    --text-muted: #808080;
 
-    --border: #e2e8f0;
-
+    --border: #e1e8f0;
     --border-light: #cbd5e1;
 
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.1);
-    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+    --shadow-sm: 0 2px 4px rgba(0, 102, 204, 0.05);
+    --shadow-md: 0 10px 20px rgba(0, 102, 204, 0.08);
+    --shadow-lg: 0 20px 40px rgba(0, 102, 204, 0.12);
+    --shadow-glow: 0 0 20px rgba(0, 102, 204, 0.1);
 
     --radius-sm: 8px;
     --radius-md: 12px;
@@ -79,24 +78,38 @@
 }
 
 .sidebar-logo {
-    padding: 28px 24px;
+    padding: 32px 24px;
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: 1.3rem;
+    gap: 12px;
+    font-size: 1.5rem;
     font-weight: 800;
-    letter-spacing: -0.02em;
-    background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+.logo-box-sidebar {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #0066cc, #004d99);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(0, 102, 204, 0.2);
+    flex-shrink: 0;
+}
+
+.logo-box-sidebar svg {
+    color: white !important;
+}
+
+.sidebar-logo span {
+    background: linear-gradient(135deg, #1a1a1a 0%, #4d4d4d 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.logo-icon {
-    width: 32px;
-    height: 32px;
-    color: var(--primary);
-    -webkit-text-fill-color: initial;
 }
 
 .sidebar-nav {
@@ -312,8 +325,8 @@
 .welcome-banner {
     margin-bottom: 32px;
     padding: 32px 36px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.08) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.15);
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.12) 0%, rgba(0, 77, 153, 0.08) 100%);
+    border: 1px solid rgba(0, 102, 204, 0.15);
     border-radius: var(--radius-xl);
     position: relative;
     overflow: hidden;
@@ -326,7 +339,7 @@
     right: -40px;
     width: 180px;
     height: 180px;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 102, 204, 0.15) 0%, transparent 70%);
     border-radius: 50%;
 }
 
@@ -614,7 +627,7 @@
 
 .profile-cover {
     height: 180px;
-    background: linear-gradient(135deg, #6366f1 0%, #a855f7 40%, #ec4899 100%);
+    background: linear-gradient(135deg, #0066cc 0%, #004d99 40%, #66b2ff 100%);
     position: relative;
 }
 
@@ -705,7 +718,7 @@
 
 .edit-profile-btn:hover {
     background: var(--primary-hover);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 102, 204, 0.3);
     transform: translateY(-1px);
 }
 

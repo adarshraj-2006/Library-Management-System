@@ -34,6 +34,9 @@ const HeroDashboard = () => {
             <div className="dashboard-glass-card">
                 {/* Dashboard Sidebar */}
                 <div className="glass-sidebar">
+                    <div className="mini-logo-box">
+                        <BookMarked size={20} />
+                    </div>
                     <div className="status-dots">
                         <span className="dot red"></span>
                         <span className="dot yellow"></span>

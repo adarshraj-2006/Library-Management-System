@@ -122,7 +122,9 @@ const Dashboard = () => {
             {/* Sidebar */}
             <aside className={`dashboard-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}>
                 <div className="sidebar-logo">
-                    <BookMarked className="logo-icon" />
+                    <div className="logo-box-sidebar">
+                        <BookMarked size={22} />
+                    </div>
                     <span>Lumina</span>
                 </div>
                 <nav className="sidebar-nav">

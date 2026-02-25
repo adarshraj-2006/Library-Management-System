@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, User, Phone, ArrowRight, Github, Chrome, Facebook, Apple, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, Github, Chrome, Facebook, Apple, Loader2, BookMarked } from 'lucide-react';
 import API from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -53,8 +53,8 @@ const Login = () => {
         <div className="login-container">
             <div className="login-box animate-fade-in">
                 <div className="login-header">
-                    <div className="logo-icon">
-                        <ArrowRight size={24} />
+                    <div className="login-logo-box">
+                        <BookMarked size={28} />
                     </div>
                     <h1>{isLogin ? 'Sign in with email' : 'Create an account'}</h1>
                     <p>{isLogin ? 'Enter your details to access your account' : 'Fill in the information to get started'}</p>

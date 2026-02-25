@@ -28,16 +28,17 @@
     margin-bottom: 32px;
 }
 
-.logo-icon {
-    width: 48px;
-    height: 48px;
-    background: white;
-    border-radius: 12px;
+.login-logo-box {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #0066cc, #004d99);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 102, 204, 0.2);
 }
 
 .login-header h1 {

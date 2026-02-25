@@ -85,10 +85,9 @@ const userSchema = new mongoose.Schema(
 );
 
 // ── Pre-save Hook: Hash password before saving ──────────────────────────────
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
     this.password = await bcrypt.hash(this.password, 12);
-    next();
 });
 
 // ── Instance Method: Compare plaintext password with hashed ────────────────
@@ -100,7 +99,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 userSchema.methods.toSafeObject = function () {
     const obj = this.toObject();
     delete obj.password;
-    delete obj.refreshToken;
     delete obj.emailVerificationToken;
     delete obj.emailVerificationExpiry;
     delete obj.passwordResetToken;

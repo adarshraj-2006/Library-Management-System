@@ -95,7 +95,13 @@ export const login = asyncHandler(async (req, res) => {
     // Select password explicitly (it's excluded by default)
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user || !(await user.comparePassword(password))) {
+    if (!user) {
+        console.log("Login failed: User not found with email:", email);
+        return errorResponse(res, "Invalid email or password.", 401);
+    }
+
+    if (!(await user.comparePassword(password))) {
+        console.log("Login failed: Password mismatch for email:", email);
         return errorResponse(res, "Invalid email or password.", 401);
     }
 

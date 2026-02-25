@@ -22,7 +22,7 @@ export const verifyJWT = async (req, res, next) => {
         const decoded = verifyAccessToken(token);
 
         // Fetch fresh user from DB (so blocked/deleted accounts are rejected)
-        const user = await User.findById(decoded.id).select("-password -refreshToken");
+        const user = await User.findById(decoded.id).select("-password");
 
         if (!user) {
             return errorResponse(res, "User not found. Token invalid.", 401);
@@ -63,7 +63,7 @@ export const optionalAuth = async (req, res, next) => {
         if (!token) return next(); // No token → proceed as guest
 
         const decoded = verifyAccessToken(token);
-        const user = await User.findById(decoded.id).select("-password -refreshToken");
+        const user = await User.findById(decoded.id).select("-password");
         if (user && !user.isBlocked && user.isActive) {
             req.user = user;
         }

@@ -9,6 +9,7 @@ export const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const messages = errors.array().map((e) => e.msg);
+        console.log("Validation errors:", messages); // Added for debugging
         return res.status(422).json({
             success: false,
             message: "Validation failed",

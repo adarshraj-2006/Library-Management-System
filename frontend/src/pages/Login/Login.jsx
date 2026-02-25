@@ -33,14 +33,17 @@ const Login = () => {
                 localStorage.setItem('accessToken', res.data.data.accessToken);
                 localStorage.setItem('user', JSON.stringify(res.data.data.user));
                 toast.success('Welcome back!');
-                navigate('/Home');
+                navigate('/dashboard');
             } else {
                 await API.post('/auth/register', formData);
                 toast.success('Registration successful! Please verify your email.');
                 setIsLogin(true);
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Something went wrong');
+            const errorMsg = error.response?.data?.errors
+                ? error.response.data.errors.join(", ")
+                : (error.response?.data?.message || 'Something went wrong');
+            toast.error(errorMsg);
         } finally {
             setLoading(false);
         }

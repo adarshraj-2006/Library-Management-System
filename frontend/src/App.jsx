@@ -9,13 +9,14 @@ import About from "./pages/About/About";
 import NotFound from "./pages/NotFound/NotFound";
 import Borrowpage from "./pages/Borrowpage/Borrowpage";
 import Login from "./pages/Login/Login";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import Footer from "./components/Footer/Footer";
 import { Toaster } from 'react-hot-toast';
 
 function Layout({ children }) {
   const location = useLocation();
-  const hideNavAndFooter = location.pathname === "/Login";
+  const hideNavAndFooter = ["/Login", "/dashboard"].includes(location.pathname);
 
   return (
     <>
@@ -42,6 +43,7 @@ function App() {
               <Route path="/About" element={<About />} />
               <Route path="/borrow" element={<Borrowpage />} />
               <Route path="/Login" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>

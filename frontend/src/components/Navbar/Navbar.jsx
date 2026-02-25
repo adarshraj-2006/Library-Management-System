@@ -8,6 +8,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  const [user, setUser] = useState(null);
+
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
@@ -21,6 +23,13 @@ export default function Navbar() {
 
   useEffect(() => {
     closeMenu();
+    // Check if user is logged in
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    } else {
+      setUser(null);
+    }
   }, [location]);
 
   return (
@@ -36,14 +45,24 @@ export default function Navbar() {
         <div className={`nav-links ${isOpen ? 'open' : ''}`}>
           <Link to='/Home' className={location.pathname === '/Home' ? 'active' : ''}>Home</Link>
           <Link to='/Catalog' className={location.pathname === '/Catalog' ? 'active' : ''}>Catalog</Link>
-          <Link to='/mybooks' className={location.pathname === '/mybooks' ? 'active' : ''}>My books</Link>
+          {user && <Link to='/dashboard' className={location.pathname === '/dashboard' ? 'active' : ''}>Dashboard</Link>}
           <Link to='/About' className={location.pathname === '/About' ? 'active' : ''}>About</Link>
           <Link to='/Contact' className={location.pathname === '/Contact' ? 'active' : ''}>Contact</Link>
-          <Link to='/Login' className="signin mobile-only">Sign in</Link>
+          {!user ? (
+            <Link to='/Login' className="signin mobile-only">Sign in</Link>
+          ) : (
+            <Link to='/dashboard' className="mobile-only">Profile</Link>
+          )}
         </div>
 
         <div className="nav-actions">
-          <Link to='/Login' className="signin desktop-only">Sign in</Link>
+          {!user ? (
+            <Link to='/Login' className="signin desktop-only">Sign in</Link>
+          ) : (
+            <Link to='/dashboard' className="user-nav-profile desktop-only">
+              <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random`} alt="user" />
+            </Link>
+          )}
           <button className="menu-toggle" onClick={toggleMenu}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>

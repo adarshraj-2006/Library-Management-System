@@ -4,7 +4,6 @@ import {
     verifyEmail,
     login,
     logout,
-    refreshToken,
     forgotPassword,
     resetPassword,
     getProfile,
@@ -19,7 +18,6 @@ const router = express.Router();
 router.post("/register", registerValidators, validate, register);
 router.get("/verify-email/:token", verifyEmail);
 router.post("/login", loginValidators, validate, login);
-router.post("/refresh-token", refreshToken);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
 

@@ -178,6 +178,19 @@
 
 /* ================= RESPONSIVE ================= */
 
+.user-nav-profile img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.user-nav-profile:hover img {
+  transform: scale(1.1);
+}
+
 @media (max-width: 900px) {
   .navbar {
     height: 70px;

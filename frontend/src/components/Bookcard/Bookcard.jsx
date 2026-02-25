@@ -1,45 +1,38 @@
 import "./Bookcard.css";
 import { Star } from "lucide-react";
 
-function BookCard({ image, title, author, price, originalPrice, discount, rating }) {
-  // Generate stars based on rating
-  const renderStars = (rating) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        size={14}
-        className={i < rating ? "star-filled" : "star-empty"}
-      />
-    ));
-  };
+function BookCard({ coverImage, title, author, genre, availableCopies, totalCopies }) {
+  const isAvailable = availableCopies > 0;
 
   return (
     <div className="book-card-container">
       <div className="book-card">
-        {discount && (
-          <div className="discount-badge">
-            {discount}%
-          </div>
-        )}
+        <div className={`status-badge ${isAvailable ? 'available' : 'unavailable'}`}>
+          {isAvailable ? 'Available' : 'Issued'}
+        </div>
 
         <div className="book-image-container">
-          <img src={image} alt={title} className="book-image-main" />
+          <img
+            src={coverImage || 'https://via.placeholder.com/150?text=No+Cover'}
+            alt={title}
+            className="book-image-main"
+          />
         </div>
       </div>
 
       <div className="book-details">
+        <span className="book-genre-tag">{genre}</span>
         <h3 className="book-title-main" title={title}>{title}</h3>
         <p className="book-author-main">{author}</p>
 
-        <div className="book-rating">
-          {renderStars(rating)}
-        </div>
-
-        <div className="book-pricing">
-          <span className="current-price">₹{price}</span>
-          {originalPrice && (
-            <span className="original-price">₹{originalPrice}</span>
-          )}
+        <div className="availability-info">
+          <div className="stock-bar">
+            <div
+              className="stock-progress"
+              style={{ width: `${(availableCopies / totalCopies) * 100}%` }}
+            ></div>
+          </div>
+          <span className="stock-text">{availableCopies} / {totalCopies} copies left</span>
         </div>
       </div>
     </div>

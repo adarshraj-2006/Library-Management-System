@@ -20,6 +20,7 @@ function Catalog() {
   const fetchBooks = async () => {
     try {
       const res = await API.get("/books");
+      console.log("Catalog API Response:", res.data);
       setBooks(res.data.data.books);
     } catch (err) {
       toast.error("Failed to load books");
@@ -80,8 +81,6 @@ function Catalog() {
               >
                 <BookCard
                   {...book}
-                  image={book.coverImage}
-                  available={book.availableCopies > 0}
                 />
               </div>
             ))

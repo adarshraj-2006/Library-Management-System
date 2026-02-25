@@ -23,12 +23,25 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import API from '../../services/api';
 import './Dashboard.css';
 
 const Dashboard = () => {
     const [user, setUser] = useState(null);
     const [activeTab, setActiveTab] = useState('overview');
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    // Real Data State
+    const [issuedBooks, setIssuedBooks] = useState([]);
+    const [recommendedBooks, setRecommendedBooks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState({
+        borrowed: 0,
+        pending: 0,
+        overdue: 0,
+        readerScore: 4.8 // Base score
+    });
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,10 +49,48 @@ const Dashboard = () => {
         if (!storedUser) {
             toast.error('Please login to access dashboard');
             navigate('/Login');
-        } else {
-            setUser(JSON.parse(storedUser));
+            return;
         }
+        setUser(JSON.parse(storedUser));
+        fetchDashboardData();
     }, [navigate]);
+
+    const fetchDashboardData = async () => {
+        try {
+            setLoading(true);
+            const [issuesRes, booksRes] = await Promise.all([
+                API.get('/issues/my'),
+                API.get('/books?limit=5')
+            ]);
+
+            const issues = issuesRes.data.data.issues || [];
+            const books = booksRes.data.data.books || [];
+
+            console.log("Dashboard Stats - Issues:", issues);
+            console.log("Dashboard Stats - Recommended Books:", books);
+
+            setIssuedBooks(issues);
+            setRecommendedBooks(books);
+
+            // Calculate Stats
+            const borrowed = issues.length;
+            const pending = issues.filter(i => i.status === 'issued').length;
+            const overdue = issues.filter(i => i.status === 'overdue' || i.isCurrentlyOverdue).length;
+
+            setStats(prev => ({
+                ...prev,
+                borrowed,
+                pending,
+                overdue
+            }));
+
+        } catch (error) {
+            console.error("Error fetching dashboard data:", error);
+            toast.error("Failed to load dashboard data");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -59,7 +110,9 @@ const Dashboard = () => {
 
     const memberDate = user.createdAt
         ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        : 'Jan 2024';
+        : 'Feb 2025';
+
+    const recentActivities = issuedBooks.slice(0, 4);
 
     return (
         <div className="dashboard-container">
@@ -155,23 +208,23 @@ const Dashboard = () => {
                             <div className="stat-card">
                                 <div className="stat-icon purple"><BookOpen size={24} /></div>
                                 <div className="stat-info">
-                                    <h3>12</h3>
+                                    <h3>{stats.borrowed}</h3>
                                     <p>Books Borrowed</p>
                                 </div>
-                                <div className="stat-trend positive"><TrendingUp size={14} /> +2 this month</div>
+                                {stats.borrowed > 0 && <div className="stat-trend positive"><TrendingUp size={14} /> Active Account</div>}
                             </div>
                             <div className="stat-card">
                                 <div className="stat-icon orange"><Clock size={24} /></div>
                                 <div className="stat-info">
-                                    <h3>3</h3>
+                                    <h3>{stats.pending}</h3>
                                     <p>Pending Returns</p>
                                 </div>
                             </div>
                             <div className="stat-card">
                                 <div className="stat-icon blue"><Star size={24} /></div>
                                 <div className="stat-info">
-                                    <h3>4.8</h3>
-                                    <p>Reader Score</p>
+                                    <h3>{stats.overdue}</h3>
+                                    <p>Overdue Books</p>
                                 </div>
                             </div>
                         </div>
@@ -183,34 +236,24 @@ const Dashboard = () => {
                                     <button className="text-btn">View All</button>
                                 </div>
                                 <div className="activity-list">
-                                    <div className="activity-item">
-                                        <div className="activity-icon green"><ShieldCheck size={18} /></div>
-                                        <div className="activity-details">
-                                            <p>Borrowed <strong>"The Great Gatsby"</strong> from Fiction</p>
-                                            <span>2 hours ago</span>
-                                        </div>
-                                    </div>
-                                    <div className="activity-item">
-                                        <div className="activity-icon blue"><History size={18} /></div>
-                                        <div className="activity-details">
-                                            <p>Returned <strong>"Atomic Habits"</strong> — 2 days early!</p>
-                                            <span>Yesterday at 3:42 PM</span>
-                                        </div>
-                                    </div>
-                                    <div className="activity-item">
-                                        <div className="activity-icon red"><Bell size={18} /></div>
-                                        <div className="activity-details">
-                                            <p>Overdue reminder for <strong>"Clean Code"</strong></p>
-                                            <span>3 days ago</span>
-                                        </div>
-                                    </div>
-                                    <div className="activity-item">
-                                        <div className="activity-icon green"><Award size={18} /></div>
-                                        <div className="activity-details">
-                                            <p>Earned <strong>"Bookworm"</strong> reader badge 🏅</p>
-                                            <span>Last week</span>
-                                        </div>
-                                    </div>
+                                    {recentActivities.length > 0 ? (
+                                        recentActivities.map((activity, idx) => (
+                                            <div className="activity-item" key={activity._id || idx}>
+                                                <div className={`activity-icon ${activity.status === 'returned' ? 'blue' : (activity.isCurrentlyOverdue ? 'red' : 'green')}`}>
+                                                    {activity.status === 'returned' ? <History size={18} /> : <ShieldCheck size={18} />}
+                                                </div>
+                                                <div className="activity-details">
+                                                    <p>
+                                                        {activity.status === 'returned' ? 'Returned' : 'Borrowed'}
+                                                        <strong> "{activity.book?.title || 'Unknown'}"</strong>
+                                                    </p>
+                                                    <span>{new Date(activity.updatedAt || activity.issuedDate).toLocaleDateString()}</span>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="no-data">No recent activity found.</p>
+                                    )}
                                 </div>
                             </div>
 
@@ -219,20 +262,23 @@ const Dashboard = () => {
                                     <h2>Recommended</h2>
                                 </div>
                                 <div className="book-mini-list">
-                                    {[
-                                        { title: 'Deep Work', author: 'Cal Newport', id: 24 },
-                                        { title: 'Sapiens', author: 'Yuval N. Harari', id: 36 },
-                                        { title: 'Dune', author: 'Frank Herbert', id: 48 },
-                                    ].map((book, i) => (
-                                        <div className="book-mini-card" key={i}>
-                                            <img src={`https://picsum.photos/id/${book.id}/60/80`} alt={book.title} />
-                                            <div className="book-mini-info">
-                                                <h4>{book.title}</h4>
-                                                <p>{book.author}</p>
+                                    {recommendedBooks.length > 0 ? (
+                                        recommendedBooks.map((book) => (
+                                            <div className="book-mini-card" key={book._id} onClick={() => navigate('/Catalog')}>
+                                                <img
+                                                    src={book.coverImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(book.title)}&background=random`}
+                                                    alt={book.title}
+                                                />
+                                                <div className="book-mini-info">
+                                                    <h4>{book.title}</h4>
+                                                    <p>{book.author}</p>
+                                                </div>
+                                                <ChevronRight size={18} className="chevron" />
                                             </div>
-                                            <ChevronRight size={18} className="chevron" />
-                                        </div>
-                                    ))}
+                                        ))
+                                    ) : (
+                                        <p className="no-data">Browse our catalog for books.</p>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -280,16 +326,16 @@ const Dashboard = () => {
 
                             <div className="profile-stats-tabs">
                                 <div className="profile-stat-box">
-                                    <h4>12</h4>
-                                    <span>Books Read</span>
+                                    <h4>{stats.borrowed}</h4>
+                                    <span>Books Borrowed</span>
                                 </div>
                                 <div className="profile-stat-box">
-                                    <h4>4</h4>
+                                    <h4>{stats.pending}</h4>
                                     <span>Active Loans</span>
                                 </div>
                                 <div className="profile-stat-box">
-                                    <h4>₹0</h4>
-                                    <span>Fines Owed</span>
+                                    <h4>{stats.overdue}</h4>
+                                    <span>Overdue</span>
                                 </div>
                             </div>
                         </div>

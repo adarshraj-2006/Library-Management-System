@@ -73,8 +73,11 @@ function Home() {
         <div className="topics-grid">
           {topics.map((topic, index) => (
             <div className="topic-card" key={index} onClick={() => navigate('/Catalog')}>
-              <div className="topic-icon-wrapper" style={{ color: topic.color }}>
-                {topic.icon}
+              <div className="topic-icon-wrapper">
+                <div className="topic-icon" style={{ color: topic.color }}>
+                  {topic.icon}
+                </div>
+                <span className="topic-label">{topic.title}</span>
               </div>
             </div>
           ))}

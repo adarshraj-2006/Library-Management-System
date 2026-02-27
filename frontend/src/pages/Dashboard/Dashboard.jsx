@@ -9,6 +9,7 @@ import {
     Search,
     Bell,
     TrendingUp,
+    ArrowRight,
     Clock,
     Star,
     ChevronRight,

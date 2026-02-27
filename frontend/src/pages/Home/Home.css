@@ -60,7 +60,8 @@
 
 /* Position search wrapper nicely trailing off the bottom or near the bottom */
 .hero-search-wrapper {
-  transform: translateY(50%);
+  transform: translateY(60%);
+  /* Adjusted slightly lower */
   /* makes it overhang like a card */
   width: 100%;
   max-width: 800px;
@@ -74,7 +75,7 @@
   border-radius: 8px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  height: 64px;
+  height: 65px;
 }
 
 .hero-search-bar input {

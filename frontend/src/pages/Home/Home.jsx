@@ -31,11 +31,11 @@ function Home() {
   };
 
   const topics = [
-    { title: "Education", icon: <Book size={48} strokeWidth={1} />, color: "#ff6b6b" },
-    { title: "Documents", icon: <FileText size={48} strokeWidth={1} />, color: "#4ecdc4" },
-    { title: "Science", icon: <FlaskConical size={48} strokeWidth={1} />, color: "#45b7d1" },
-    { title: "Literature", icon: <PenTool size={48} strokeWidth={1} />, color: "#f9ca24" },
-    { title: "More", icon: <LayoutGrid size={48} strokeWidth={1} />, color: "#576574" },
+    { title: "Education", icon: <Book size={32} strokeWidth={1} />, color: "#ff6b6b" },
+    { title: "Documents", icon: <FileText size={32} strokeWidth={1} />, color: "#4ecdc4" },
+    { title: "Science", icon: <FlaskConical size={32} strokeWidth={1} />, color: "#45b7d1" },
+    { title: "Literature", icon: <PenTool size={32} strokeWidth={1} />, color: "#f9ca24" },
+    { title: "More", icon: <LayoutGrid size={32} strokeWidth={1} />, color: "#576574" },
   ];
 
   return (

@@ -1,54 +1,59 @@
-import { Link } from "react-router-dom";
-import { Book, Library, Globe, ArrowRight, Bookmark } from "lucide-react";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, Book, FileText, FlaskConical, PenTool, LayoutGrid } from "lucide-react";
 import "./Home.css";
-import HeroDashboard from "../../components/HeroDashboard/HeroDashboard";
 
 function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/Catalog?search=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const topics = [
+    { title: "Education", icon: <Book size={48} strokeWidth={1} />, color: "#ff6b6b" },
+    { title: "Documents", icon: <FileText size={48} strokeWidth={1} />, color: "#4ecdc4" },
+    { title: "Science", icon: <FlaskConical size={48} strokeWidth={1} />, color: "#45b7d1" },
+    { title: "Literature", icon: <PenTool size={48} strokeWidth={1} />, color: "#f9ca24" },
+    { title: "More", icon: <LayoutGrid size={48} strokeWidth={1} />, color: "#576574" },
+  ];
+
   return (
-    <div className="home">
-      <div className="hero">
-        <div className="hero-left animate-fade-in">
-          <h1>Welcome to Your <br /><span>Digital Sanctuary</span></h1>
-          <p>
-            Explore a vast universe of knowledge. Manage your personal collection,
-            discover new bestsellers, and immerse yourself in stories that change lives.
-          </p>
-          <div className="hero-btns">
-            <Link to="/Catalog" className="primary-btn">
-              Explore Catalog <ArrowRight size={20} style={{ marginLeft: '8px', verticalAlign: 'middle' }} />
-            </Link>
-            <Link to="/Contact" className="secondary-btn">Contact Us</Link>
-          </div>
-        </div>
-        <div className="hero-right animate-fade-in-right">
-          <HeroDashboard />
+    <div className="home-container">
+      {/* Hero Section */}
+      <div className="home-hero">
+        <div className="hero-search-wrapper animate-fade-in">
+          <form className="hero-search-bar" onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Enter keyword to search collection..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button type="submit">
+              <Search size={24} />
+            </button>
+          </form>
         </div>
       </div>
 
-      <div className="features-section">
-        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          <div className="icon-box">
-            <Bookmark />
-          </div>
-          <h3>Easy Borrowing</h3>
-          <p>Borrow books with just a click and manage your due dates effortlessly with automated reminders.</p>
-        </div>
-        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.6s' }}>
-          <div className="icon-box">
-            <Library />
-          </div>
-          <h3>Wide Collection</h3>
-          <p>From timeless classics to modern bestsellers, our curated collection spans every genre imaginable.</p>
-        </div>
-        <div className="feature-card animate-fade-in" style={{ animationDelay: '0.8s' }}>
-          <div className="icon-box">
-            <Globe />
-          </div>
-          <h3>Global Access</h3>
-          <p>Access your favorite titles anytime, anywhere. Your library follows you on every digital device.</p>
+      {/* Topics Section */}
+      <div className="topics-section animate-fade-in">
+        <h2 className="topics-title">Select the topic you are interested in</h2>
+        <div className="topics-grid">
+          {topics.map((topic, index) => (
+            <div className="topic-card" key={index} onClick={() => navigate('/Catalog')}>
+              <div className="topic-icon-wrapper" style={{ color: topic.color }}>
+                {topic.icon}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
     </div>
   );
 }

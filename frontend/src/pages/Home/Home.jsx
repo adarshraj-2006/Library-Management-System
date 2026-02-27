@@ -1,11 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, Book, FileText, FlaskConical, PenTool, LayoutGrid } from "lucide-react";
 import "./Home.css";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
+
+  const slides = [
+    "/assets/for%20home/h1.jpg",
+    "/assets/for%20home/h2.jpg",
+    "/assets/for%20home/h3.jpg",
+    "/assets/for%20home/h4.jpg",
+    "/assets/for%20home/h5.jpg"
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -26,6 +42,16 @@ function Home() {
     <div className="home-container">
       {/* Hero Section */}
       <div className="home-hero">
+        <div className="hero-slider-bg">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+              style={{ backgroundImage: `url("${slide}")` }}
+            />
+          ))}
+        </div>
+
         <div className="hero-search-wrapper animate-fade-in">
           <form className="hero-search-bar" onSubmit={handleSearch}>
             <input

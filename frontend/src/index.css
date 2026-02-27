@@ -131,3 +131,10 @@ button {
 .animate-fade-in {
     animation: fadeIn 0.8s ease-out forwards;
 }
+
+/* Add padding for mobile bottom nav */
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 76px;
+    }
+}

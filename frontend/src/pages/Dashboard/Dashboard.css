@@ -1067,3 +1067,339 @@
     border-radius: var(--radius-md);
     background: rgba(0, 0, 0, 0.02);
 }
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE DESIGN OVERRIDES (Matching Mockup)
+   ══════════════════════════════════════════════════════════ */
+.mobile-only {
+    display: none !important;
+}
+
+.mobile-header-only {
+    display: none;
+}
+
+.mobile-bottom-nav {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* Hide desktop elements */
+    .desktop-only,
+    .dashboard-sidebar,
+    .dashboard-header {
+        display: none !important;
+    }
+
+    /* Change container layout */
+    .dashboard-container {
+        background: linear-gradient(180deg, #d8eeff 0%, #ffffff 40%);
+        min-height: 100vh;
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-main {
+        padding: 24px 20px 80px 20px;
+        /* space for bottom nav */
+        width: 100%;
+        margin: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .dashboard-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .mobile-only {
+        display: flex !important;
+    }
+
+    /* Mobile Header */
+    .mobile-header-only {
+        display: flex;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .md-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .md-logo-icon {
+        width: 32px;
+        height: 32px;
+        background: #0052cc;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 82, 204, 0.3);
+    }
+
+    .md-logo-text {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #111827;
+        letter-spacing: -0.02em;
+    }
+
+    /* Greeting */
+    .md-greeting {
+        margin-bottom: 24px;
+        display: block !important;
+    }
+
+    .md-greeting h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1.1;
+        color: #111827;
+        letter-spacing: -0.03em;
+    }
+
+    /* Stats Grid Override */
+    .stats-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        grid-template-columns: none !important;
+        gap: 12px !important;
+        margin-bottom: 24px !important;
+    }
+
+    .stat-card {
+        flex: 1;
+        padding: 14px 12px;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+        border: none;
+    }
+
+    .stat-card::after {
+        display: none;
+    }
+
+    .stat-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        flex-shrink: 0;
+    }
+
+    .stat-icon.purple {
+        background: #eff6ff;
+        color: #3b82f6;
+    }
+
+    /* Blue */
+    .stat-icon.green {
+        background: #ecfdf5;
+        color: #10b981;
+    }
+
+    /* Green */
+    .stat-icon.orange {
+        background: #fff7ed;
+        color: #f59e0b;
+    }
+
+    /* Orange */
+
+    .stat-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .stat-info {
+        gap: 2px;
+    }
+
+    .stat-info h3 {
+        font-size: 1.1rem;
+        line-height: 1;
+        background: none;
+        -webkit-text-fill-color: #111827;
+        color: #111827;
+    }
+
+    .stat-info p {
+        font-size: 0.7rem;
+        font-family: 'Outfit', sans-serif;
+        color: #6b7280;
+    }
+
+    .stat-trend {
+        display: none !important;
+    }
+
+    /* Search Bar */
+    .md-search-container {
+        margin-bottom: 24px;
+    }
+
+    .md-search-bar {
+        background: white;
+        border-radius: 20px;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .md-search-icon {
+        color: #9ca3af;
+    }
+
+    .md-search-bar input {
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 0.9rem;
+        color: #374151;
+        width: 100%;
+    }
+
+    /* Dashboard grids on mobile */
+    .recent-activity {
+        display: none;
+        /* Hidden on mockup */
+    }
+
+    .recommended-books {
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .md-section-header {
+        margin-bottom: 16px;
+    }
+
+    .md-section-header h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #0d3b66;
+    }
+
+    .md-arrow-icon {
+        color: #0d3b66;
+    }
+
+    .md-books-grid {
+        display: flex !important;
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .md-book-card {
+        flex: 1;
+        background: white;
+        border-radius: 20px;
+        padding: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        border: none;
+    }
+
+    .md-cover-container {
+        width: 100%;
+        aspect-ratio: 1/1.05;
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 12px;
+    }
+
+    .md-cover-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover !important;
+        border-radius: 0;
+        border: none;
+    }
+
+    .md-rating-badge {
+        position: absolute;
+        bottom: 8px;
+        left: 8px;
+        background: rgba(0, 0, 0, 0.65);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        backdrop-filter: blur(4px);
+    }
+
+    .md-book-details {
+        padding: 0 4px 4px;
+    }
+
+    .md-book-details h4 {
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .md-book-details p {
+        font-size: 0.75rem;
+        color: #6b7280;
+    }
+
+    .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        justify-content: space-between;
+        padding: 16px 24px;
+        background: white;
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+        z-index: 1000;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    .md-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        color: #9ca3af;
+        cursor: pointer;
+        padding: 0;
+        background: transparent;
+        border: none;
+    }
+
+    .md-nav-item span {
+        font-size: 0.65rem;
+        font-weight: 600;
+        display: block !important;
+    }
+
+    .md-nav-item.active {
+        color: #0052cc;
+        background: transparent;
+        font-weight: normal;
+    }
+}

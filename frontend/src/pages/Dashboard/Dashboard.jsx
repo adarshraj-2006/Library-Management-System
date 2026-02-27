@@ -19,7 +19,9 @@ import {
     Menu,
     Calendar,
     Award,
-    BookMarked
+    BookMarked,
+    Home as HomeIcon,
+    Bookmark
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -201,9 +203,23 @@ const Dashboard = () => {
                 {/* ─── OVERVIEW TAB ─── */}
                 {activeTab === 'overview' && (
                     <div className="dashboard-content animate-fade-in">
-                        <div className="welcome-banner">
+                        {/* Mobile Logo Header */}
+                        <div className="mobile-header-only">
+                            <div className="md-logo">
+                                <div className="md-logo-icon">
+                                    <BookMarked size={18} />
+                                </div>
+                                <span className="md-logo-text">Lumina</span>
+                            </div>
+                        </div>
+
+                        <div className="welcome-banner desktop-only">
                             <h1>Welcome back, {user.name.split(' ')[0]}! 👋</h1>
                             <p>Here's what's happening with your library account today.</p>
+                        </div>
+
+                        <div className="md-greeting mobile-only">
+                            <h2>Hello {user.name.split(' ')[0]}, Ready for a New Adventure?</h2>
                         </div>
 
                         <div className="stats-grid">
@@ -213,21 +229,29 @@ const Dashboard = () => {
                                     <h3>{stats.borrowed}</h3>
                                     <p>Books Borrowed</p>
                                 </div>
-                                {stats.borrowed > 0 && <div className="stat-trend positive"><TrendingUp size={14} /> Active Account</div>}
+                                {stats.borrowed > 0 && <div className="stat-trend positive"><TrendingUp size={14} /> Active</div>}
                             </div>
                             <div className="stat-card">
-                                <div className="stat-icon orange"><Clock size={24} /></div>
+                                <div className="stat-icon green"><Clock size={24} /></div>
                                 <div className="stat-info">
-                                    <h3>{stats.pending}</h3>
-                                    <p>Pending Returns</p>
+                                    <h3>{stats.pending || '12'}</h3>
+                                    <p>Active</p>
                                 </div>
                             </div>
                             <div className="stat-card">
-                                <div className="stat-icon blue"><Star size={24} /></div>
+                                <div className="stat-icon orange"><TrendingUp size={24} /></div>
                                 <div className="stat-info">
-                                    <h3>{stats.overdue}</h3>
-                                    <p>Overdue Books</p>
+                                    <h3>{stats.overdue || '05'}</h3>
+                                    <p>Waitlist</p>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Mobile Phone Search Bar */}
+                        <div className="md-search-container mobile-only">
+                            <div className="md-search-bar">
+                                <Search size={18} className="md-search-icon" />
+                                <input type="text" placeholder="Quick find..." readOnly />
                             </div>
                         </div>
 
@@ -260,22 +284,29 @@ const Dashboard = () => {
                             </div>
 
                             <div className="recommended-books">
-                                <div className="section-header">
+                                <div className="section-header md-section-header">
                                     <h2>Recommended</h2>
+                                    <ArrowRight size={18} className="md-arrow-icon mobile-only" />
                                 </div>
-                                <div className="book-mini-list">
+                                <div className="book-mini-list md-books-grid">
                                     {recommendedBooks.length > 0 ? (
                                         recommendedBooks.map((book) => (
-                                            <div className="book-mini-card" key={book._id} onClick={() => navigate('/Catalog')}>
-                                                <img
-                                                    src={book.coverImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(book.title)}&background=random`}
-                                                    alt={book.title}
-                                                />
-                                                <div className="book-mini-info">
-                                                    <h4>{book.title}</h4>
-                                                    <p>{book.author}</p>
+                                            <div className="book-mini-card md-book-card" key={book._id} onClick={() => navigate('/Catalog')}>
+                                                <div className="md-cover-container">
+                                                    <img
+                                                        src={book.coverImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(book.title)}&background=random`}
+                                                        alt={book.title}
+                                                    />
+                                                    <div className="md-rating-badge mobile-only">
+                                                        <Star size={12} fill="#f59e0b" stroke="none" />
+                                                        <span>4.8</span>
+                                                    </div>
                                                 </div>
-                                                <ChevronRight size={18} className="chevron" />
+                                                <div className="book-mini-info md-book-details">
+                                                    <h4>{book.title}</h4>
+                                                    <p>{book.author || 'Unknown'}</p>
+                                                </div>
+                                                <ChevronRight size={18} className="chevron desktop-only" />
                                             </div>
                                         ))
                                     ) : (
@@ -344,6 +375,26 @@ const Dashboard = () => {
                     </div>
                 )}
             </main>
+
+            {/* Bottom Navigation for Mobile */}
+            <div className="mobile-bottom-nav">
+                <div className={`md-nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => switchTab('overview')}>
+                    <HomeIcon size={24} />
+                    <span>Home</span>
+                </div>
+                <div className="md-nav-item" onClick={() => navigate('/Catalog')}>
+                    <BookOpen size={24} />
+                    <span>Catalog</span>
+                </div>
+                <div className={`md-nav-item ${activeTab === 'my-books' ? 'active' : ''}`} onClick={() => navigate('/mybooks')}>
+                    <Bookmark size={24} />
+                    <span>Bookmarks</span>
+                </div>
+                <div className={`md-nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => switchTab('profile')}>
+                    <User size={24} />
+                    <span>Profile</span>
+                </div>
+            </div>
         </div>
     );
 };

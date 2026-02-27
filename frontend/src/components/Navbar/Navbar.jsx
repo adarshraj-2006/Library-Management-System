@@ -33,34 +33,34 @@ export default function Navbar() {
     }
   }, [location]);
 
+  const isHome = location.pathname === '/' || location.pathname === '/Home';
+  const isTransparent = isHome;
+
   return (
-    <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+    <nav className={`navbar ${isTransparent ? 'transparent' : ''}`}>
       <div className="container">
         <Link to="/Home" className="logo">
-          <div className="logo-box">
-            <BookMarked size={22} color="white" />
-          </div>
           <span>Lumina</span>
         </Link>
 
         <div className={`nav-links ${isOpen ? 'open' : ''}`}>
           <Link to='/Home' className={location.pathname === '/Home' ? 'active' : ''}>Home</Link>
-          <Link to='/Catalog' className={location.pathname === '/Catalog' ? 'active' : ''}>Catalog</Link>
-          <Link to='/About' className={location.pathname === '/About' ? 'active' : ''}>About</Link>
-          <Link to='/Contact' className={location.pathname === '/Contact' ? 'active' : ''}>Contact</Link>
+          <Link to='/About' className={location.pathname === '/About' ? 'active' : ''}>Information</Link>
+          <Link to='/Contact' className={location.pathname === '/Contact' ? 'active' : ''}>Help</Link>
+          <Link to='/Catalog' className={location.pathname === '/Catalog' ? 'active' : ''}>Librarian</Link>
+          <Link to='/Login' className="desktop-only text-link">Admin Login</Link>
+          <Link to='/Login' className="desktop-only text-link">Member Area</Link>
           <Link to='/Login' className="signin mobile-only">{user ? 'Profile' : 'Sign in'}</Link>
         </div>
 
         <div className="nav-actions">
-          {!user ? (
-            <Link to='/Login' className="signin desktop-only">Sign in</Link>
-          ) : (
+          {user && (
             <Link to='/dashboard' className="user-nav-profile desktop-only">
               <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random`} alt="user" />
             </Link>
           )}
           <button className="menu-toggle" onClick={toggleMenu}>
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? <X size={28} color={isTransparent ? "white" : "black"} /> : <Menu size={28} color={isTransparent ? "white" : "black"} />}
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
+
 import React from 'react';
 import './HeroDashboard.css';
-import { Search, Book, Bookmark, TrendingUp, Clock, ArrowRight, Star, BookMarked, Home, User } from 'lucide-react';
+import { Search, Book, Bookmark, TrendingUp, Users, Clock, ArrowRight, Star,BookMarked } from 'lucide-react';
 
 const HeroDashboard = () => {
     const bookData = [
@@ -23,101 +24,95 @@ const HeroDashboard = () => {
     ];
 
     const stats = [
-        { label: "Borrowed", value: "24", icon: <Book size={18} />, color: "blue" },
-        { label: "Active", value: "12", icon: <Clock size={18} />, color: "green" },
-        { label: "Waitlist", value: "05", icon: <TrendingUp size={18} />, color: "orange" }
+        { label: "Borrowed", value: "24", icon: <Book size={14} />, color: "#3b82f6" },
+        { label: "Active", value: "12", icon: <Clock size={14} />, color: "#10b981" },
+        { label: "Waitlist", value: "05", icon: <TrendingUp size={14} />, color: "#f59e0b" }
     ];
 
     return (
         <div className="hero-dashboard-wrapper">
-            <div className="mobile-mockup-card">
-                {/* Header */}
-                <div className="md-header">
-                    <div className="md-logo">
-                        <div className="md-logo-icon">
-                            <BookMarked size={18} />
+            <div className="dashboard-glass-card">
+                {/* Dashboard Sidebar */}
+                <div className="glass-sidebar">
+                    <div className="mini-logo-box">
+                        <BookMarked size={20} />
+                    </div>
+                    <div className="status-dots">
+                        <span className="dot red"></span>
+                        <span className="dot yellow"></span>
+                        <span className="dot green"></span>
+                    </div>
+                    <div className="nav-items">
+                        <div className="nav-item active"><Book size={18} /></div>
+                        <div className="nav-item"><Bookmark size={18} /></div>
+                        <div className="nav-item"><Users size={18} /></div>
+                    </div>
+                </div>
+
+                {/* Dashboard Main Content */}
+                <div className="glass-main">
+                    <header className="glass-header">
+                        <div className="glass-search">
+                            <Search size={14} className="search-icon" />
+                            <input type="text" placeholder="Quick find..." readOnly />
                         </div>
-                        <span className="md-logo-text">Lumina</span>
-                    </div>
-                </div>
-
-                {/* Greeting */}
-                <div className="md-greeting">
-                    <h2>Hello Alex, Ready for a New Adventure?</h2>
-                </div>
-
-                {/* Stats Row */}
-                <div className="md-stats-row">
-                    {stats.map((stat, index) => (
-                        <div key={index} className="md-stat-card">
-                            <div className={`md-stat-icon ${stat.color}`}>
-                                {stat.icon}
-                            </div>
-                            <div className="md-stat-info">
-                                <h3>{stat.value}</h3>
-                                <p>{stat.label}</p>
-                            </div>
+                        <div className="header-actions">
+                            <div className="pulse-indicator"></div>
+                            <div className="avatar">A</div>
                         </div>
-                    ))}
-                </div>
+                    </header>
 
-                {/* Search Bar */}
-                <div className="md-search-container">
-                    <div className="md-search-bar">
-                        <Search size={18} className="md-search-icon" />
-                        <input type="text" placeholder="Quick find..." readOnly />
-                    </div>
-                </div>
-
-                {/* Recommended Section */}
-                <div className="md-recommended">
-                    <div className="md-section-header">
-                        <h3>Recommended</h3>
-                        <ArrowRight size={18} className="md-arrow-icon" />
-                    </div>
-
-                    <div className="md-books-grid">
-                        {bookData.map(book => (
-                            <div key={book.id} className="md-book-card">
-                                <div className="md-cover-container">
-                                    <img src={book.cover} alt={book.title} />
-                                    <div className="md-rating-badge">
-                                        <Star size={12} fill="#f59e0b" stroke="none" />
-                                        <span>{book.rating}</span>
+                    <div className="dashboard-scrollable">
+                        <section className="stats-row">
+                            {stats.map((stat, i) => (
+                                <div key={i} className="stat-pill" style={{ '--accent': stat.color }}>
+                                    <span className="pill-icon">{stat.icon}</span>
+                                    <div className="pill-info">
+                                        <span className="pill-val">{stat.value}</span>
+                                        <span className="pill-lbl">{stat.label}</span>
                                     </div>
                                 </div>
-                                <div className="md-book-details">
-                                    <h4>{book.title}</h4>
-                                    <p>{book.author}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                            ))}
+                        </section>
 
-                {/* Bottom Navigation */}
-                <div className="md-bottom-nav">
-                    <div className="md-nav-item active">
-                        <Home size={20} />
-                        <span>Home</span>
-                    </div>
-                    <div className="md-nav-item">
-                        <Book size={20} />
-                        <span>Catalog</span>
-                    </div>
-                    <div className="md-nav-item">
-                        <Bookmark size={20} />
-                        <span>Bookmarks</span>
-                    </div>
-                    <div className="md-nav-item">
-                        <User size={20} />
-                        <span>Profile</span>
+                        <section className="featured-section">
+                            <div className="section-head">
+                                <h4>Recommended</h4>
+                                <ArrowRight size={14} />
+                            </div>
+                            <div className="books-mini-grid">
+                                {bookData.map((book) => (
+                                    <div key={book.id} className="mini-book-card">
+                                        <div className="book-thumb">
+                                            <img src={book.cover} alt={book.title} />
+                                            <div className="rating-tag">
+                                                <Star size={10} fill="#f59e0b" stroke="none" />
+                                                {book.rating}
+                                            </div>
+                                        </div>
+                                        <div className="book-meta">
+                                            <h5>{book.title}</h5>
+                                            <p>{book.author}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
 
-            {/* Background glowing effects to match the reference */}
-            <div className="md-glow-top"></div>
+            {/* Decorative elements */}
+            <div className="glass-blob blob-1"></div>
+            <div className="glass-blob blob-2"></div>
+
+            <div className="floating-stat-card card-1">
+                <div className="activity-pulse"></div>
+                <div className="stat-content">
+                    <span className="stat-title">New Entry</span>
+                    <span className="stat-desc">"Sapiens" returned</span>
+                </div>
+            </div>
         </div>
     );
 };

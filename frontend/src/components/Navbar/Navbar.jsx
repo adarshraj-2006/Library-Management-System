@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, BookMarked } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, BookMarked, Home, BookOpen, Bookmark, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 
@@ -9,6 +9,7 @@ export default function Navbar() {
   const location = useLocation();
 
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -64,6 +65,27 @@ export default function Navbar() {
         </div>
       </div>
       {isOpen && <div className="overlay" onClick={closeMenu}></div>}
+
+      {/* Global Bottom Navigation for Mobile */}
+      <div className="mobile-bottom-nav">
+        <div className={`md-nav-item ${location.pathname === '/Home' ? 'active' : ''}`} onClick={() => navigate('/Home')}>
+          <Home size={24} />
+          <span>Home</span>
+        </div>
+        <div className={`md-nav-item ${location.pathname === '/Catalog' ? 'active' : ''}`} onClick={() => navigate('/Catalog')}>
+          <BookOpen size={24} />
+          <span>Catalog</span>
+        </div>
+        <div className={`md-nav-item ${location.pathname === '/mybooks' ? 'active' : ''}`} onClick={() => navigate('/mybooks')}>
+          <Bookmark size={24} />
+          <span>Bookmarks</span>
+        </div>
+        <div className={`md-nav-item ${location.pathname === '/dashboard' || location.pathname === '/Login' ? 'active' : ''}`} onClick={() => navigate(user ? '/dashboard' : '/Login')}>
+          <User size={24} />
+          <span>Profile</span>
+        </div>
+      </div>
+
     </nav>
   );
 }

@@ -153,7 +153,99 @@
   border-color: #d1d5db;
 }
 
+/* Book Collections Section */
+.collections-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 40px 100px 40px;
+  width: 100%;
+}
+
+.collection-section {
+  margin-bottom: 80px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 16px;
+}
+
+.header-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  color: #3b82f6;
+}
+
+.section-header h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.view-all-btn {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #3b82f6;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.view-all-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateX(4px);
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.book-item {
+  transition: transform 0.3s ease;
+}
+
+/* Skeleton Loading */
+.book-skeleton {
+  width: 100%;
+  aspect-ratio: 2 / 3.5;
+  background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 /* Responsive Adjustments */
+@media (max-width: 1100px) {
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .home-hero {
     height: 55vh;
@@ -181,7 +273,7 @@
   }
 
   .topics-section {
-    padding: 80px 15px 60px 15px;
+    padding: 80px 15px 40px 15px;
   }
 
   .topics-title {
@@ -192,6 +284,19 @@
   .topic-card {
     width: 140px;
     height: 140px;
+  }
+
+  .collections-container {
+    padding: 0 20px 60px 20px;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .section-header h3 {
+    font-size: 1.25rem;
   }
 }
 
@@ -220,5 +325,14 @@
 
   .topics-grid {
     gap: 12px;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .section-header {
+    margin-bottom: 20px;
   }
 }

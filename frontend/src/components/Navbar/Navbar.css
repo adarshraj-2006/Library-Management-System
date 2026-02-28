@@ -153,6 +153,46 @@
   box-shadow: 0 12px 25px rgba(59, 130, 246, 0.3);
 }
 
+.member-area-btn {
+  padding: 10px 24px;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white !important;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.member-area-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+}
+
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.navbar.transparent .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .menu-toggle {
   display: none;
   background: none;

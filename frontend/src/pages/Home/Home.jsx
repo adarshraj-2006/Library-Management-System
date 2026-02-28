@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, Book, FileText, FlaskConical, PenTool, LayoutGrid, Sparkles, Clock } from "lucide-react";
+import { Search, Book, FileText, FlaskConical, PenTool, LayoutGrid, Sparkles, Clock, ChevronRight, ChevronLeft, ArrowRight } from "lucide-react";
 import BookCard from "../../components/Bookcard/Bookcard";
 import API from "../../services/api";
 import "./Home.css";
@@ -72,17 +72,23 @@ function Home() {
           ))}
         </div>
 
-        <div className="hero-search-wrapper">
-          <div className="animate-fade-in">
+        <div className="hero-content animate-fade-in">
+          <h1 className="hero-title">"The library of the future is yours to explore."</h1>
+          <p className="hero-subtitle">Search through our curated collection of over 50,000 digital volumes.</p>
+
+          <div className="hero-search-wrapper">
             <form className="hero-search-bar" onSubmit={handleSearch}>
-              <input
-                type="text"
-                placeholder="Enter keyword to search collection..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button type="submit">
-                <Search size={24} />
+              <div className="search-input-group">
+                <Search size={22} className="search-icon-left" />
+                <input
+                  type="text"
+                  placeholder="Enter keyword to search collection..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <button type="submit" className="search-submit-btn">
+                Search
               </button>
             </form>
           </div>
@@ -108,47 +114,77 @@ function Home() {
 
       {/* Book Collections Section */}
       <div className="collections-container animate-fade-in">
-        {/* Section 1: Featured Collections */}
+        {/* Section 1: Your Reading List */}
         <section className="collection-section">
-          <div className="section-header">
-            <div className="header-label">
-              <Sparkles size={20} className="header-icon" />
-              <h3>Featured Collections</h3>
+          <div className="section-header-modern">
+            <div className="header-text">
+              <h3>Your Reading List</h3>
+              <p>Continue where you left off</p>
             </div>
-            <Link to="/Catalog" className="view-all-btn">View All</Link>
+            <Link to="/mybooks" className="view-all-link">
+              View All <ChevronRight size={18} />
+            </Link>
           </div>
-          <div className="books-grid">
-            {loading ? (
-              [...Array(4)].map((_, i) => <div key={i} className="book-skeleton" />)
-            ) : (
-              books.slice(0, 4).map((book) => (
-                <div key={book._id} className="book-item" onClick={() => navigate('/Catalog')}>
-                  <BookCard {...book} />
+          <div className="reading-list-grid">
+            {[
+              { title: "The Midnight Library", author: "Matt Haig", category: "FICTION", progress: 65, cover: "/assets/books/book1.jpg" },
+              { title: "Atomic Habits", author: "James Clear", category: "SELF-HELP", progress: 20, cover: "/assets/books/book2.jpg" },
+              { title: "Dune", author: "Frank Herbert", category: "SCI-FI", progress: 80, cover: "/assets/books/book3.jpg" },
+              { title: "Pride & Prejudice", author: "Jane Austen", category: "CLASSIC", progress: 45, cover: "/assets/books/book4.jpg" },
+              { title: "1984", author: "George Orwell", category: "CLASSIC", progress: 90, cover: "/assets/books/book5.jpg" },
+            ].map((book, i) => (
+              <div key={i} className="reading-card">
+                <div className="reading-cover">
+                  <img src={book.cover} alt={book.title} />
                 </div>
-              ))
-            )}
+                <div className="reading-info">
+                  <span className="reading-category">{book.category}</span>
+                  <h4 className="reading-title">{book.title}</h4>
+                  <p className="reading-author">{book.author}</p>
+                  <div className="reading-progress-container">
+                    <div className="progress-bar-bg">
+                      <div className="progress-bar-fill" style={{ width: `${book.progress}%` }}></div>
+                    </div>
+                    <span className="progress-percent">{book.progress}%</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* Section 2: New Arrivals */}
+        {/* Section 2: Featured Classics */}
         <section className="collection-section">
-          <div className="section-header">
-            <div className="header-label">
-              <Clock size={20} className="header-icon" />
-              <h3>New Arrivals</h3>
+          <div className="section-header-modern">
+            <div className="header-text">
+              <h3>Featured Classics</h3>
+              <p>Timeless stories that shaped literature</p>
             </div>
-            <Link to="/Catalog" className="view-all-btn">View All</Link>
+            <div className="header-nav-btns">
+              <button className="nav-btn-round"><ChevronLeft size={20} /></button>
+              <button className="nav-btn-round"><ChevronRight size={20} /></button>
+            </div>
           </div>
-          <div className="books-grid">
-            {loading ? (
-              [...Array(4)].map((_, i) => <div key={i} className="book-skeleton" />)
-            ) : (
-              books.slice(4, 8).map((book) => (
-                <div key={book._id} className="book-item" onClick={() => navigate('/Catalog')}>
-                  <BookCard {...book} />
+          <div className="classics-list">
+            {[
+              { title: "Moby Dick", author: "Herman Melville", year: "1851", badge: "MUST READ", color: "#f3f4f6", cover: "/assets/books/book6.jpg" },
+              { title: "Great Expectations", author: "Charles Dickens", year: "1861", badge: "POPULAR", color: "#ecfdf5", cover: "/assets/books/book7.jpg" },
+              { title: "1984", author: "George Orwell", year: "1949", badge: "ESSENTIAL", color: "#fef2f2", cover: "/assets/books/book8.jpg" },
+            ].map((book, i) => (
+              <div key={i} className="classic-horizontal-card">
+                <div className="classic-cover-box" style={{ backgroundColor: book.color }}>
+                  <img src={book.cover} alt={book.title} />
                 </div>
-              ))
-            )}
+                <div className="classic-info">
+                  <h4 className="classic-title">{book.title}</h4>
+                  <p className="classic-author">{book.author}</p>
+                  <div className="classic-badges">
+                    <span className="badge-year">{book.year}</span>
+                    <span className="badge-status">{book.badge}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </div>

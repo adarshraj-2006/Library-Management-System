@@ -1,90 +1,68 @@
-
 import React from 'react';
 import './Footer.css';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, BookOpen, Clock, Globe } from 'lucide-react';
+import { Send, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="footer-library">
-            <div className="footer-content">
-                {/* --- Section 1: Brand & About --- */}
-                <div className="footer-section brand-section">
+        <footer className="lumina-footer">
+            <div className="footer-top-container">
+                {/* Brand Column */}
+                <div className="footer-col brand-col">
                     <div className="footer-logo">
-                        <BookOpen size={28} className="footer-icon-main" />
-                        <h2>Lumina<span className="dot">.</span></h2>
+                        <h2>Lumina</h2>
                     </div>
-                    <p className="footer-text">
-                        A sanctuary for knowledge seekers. Manage your books, discover new worlds,
-                        and connect with a community of lifelong learners.
+                    <p className="footer-desc">
+                        Curating the world's most significant literary works for a digital age.
+                        Accessible anywhere, anytime.
                     </p>
-                    <div className="social-links">
-                        <a href="#" className="social-icon" aria-label="Facebook"><Facebook size={18} /></a>
-                        <a href="#" className="social-icon" aria-label="Twitter"><Twitter size={18} /></a>
-                        <a href="#" className="social-icon" aria-label="Instagram"><Instagram size={18} /></a>
-                        <a href="#" className="social-icon" aria-label="LinkedIn"><Linkedin size={18} /></a>
-                    </div>
                 </div>
 
-                {/* --- Section 2: Quick Navigation --- */}
-                <div className="footer-section links-section">
-                    <h3>Explore</h3>
-                    <ul className="footer-links">
-                        <li><Link to="/Home">Home</Link></li>
-                        <li><Link to="/Catalog">Catalog</Link></li>
-                        <li><Link to="/About">About Us</Link></li>
-                        <li><Link to="/Contact">Contact</Link></li>
-                        <li><Link to="/Login">Login / Sign Up</Link></li>
+                {/* Collections Column */}
+                <div className="footer-col">
+                    <h4>Collections</h4>
+                    <ul className="footer-nav">
+                        <li><Link to="/Catalog">Digital Firsts</Link></li>
+                        <li><Link to="/Catalog">Historical Archives</Link></li>
+                        <li><Link to="/Catalog">Scientific Journals</Link></li>
+                        <li><Link to="/Catalog">Children's Literature</Link></li>
                     </ul>
                 </div>
 
-                {/* --- Section 3: Library Services --- */}
-                <div className="footer-section services-section">
-                    <h3>Services</h3>
-                    <ul className="footer-links">
-                        <li><a href="#">Book Reservation</a></li>
-                        <li><a href="#">Digital Archives</a></li>
-                        <li><a href="#">Study Rooms</a></li>
-                        <li><a href="#">Events & Workshops</a></li>
-                        <li><a href="#">Research Help</a></li>
+                {/* Resources Column */}
+                <div className="footer-col">
+                    <h4>Resources</h4>
+                    <ul className="footer-nav">
+                        <li><Link to="/About">Research Tools</Link></li>
+                        <li><Link to="/About">Citational Guide</Link></li>
+                        <li><Link to="/About">API Access</Link></li>
+                        <li><Link to="/About">Library Network</Link></li>
                     </ul>
                 </div>
 
-                {/* --- Section 4: Contact Info --- */}
-                <div className="footer-section contact-section">
-                    <h3>Contact Us</h3>
-                    <ul className="contact-list">
-                        <li>
-                            <MapPin size={18} className="contact-icon" />
-                            <span>123 Knowledge Avenue, Education City, CA 90210</span>
-                        </li>
-                        <li>
-                            <Phone size={18} className="contact-icon" />
-                            <span>+1 (555) 123-4567</span>
-                        </li>
-                        <li>
-                            <Mail size={18} className="contact-icon" />
-                            <span>support@lumina.com</span>
-                        </li>
-                        <li>
-                            <Clock size={18} className="contact-icon" />
-                            <span>Mon - Fri: 8:00 AM - 9:00 PM<br />Sat - Sun: 10:00 AM - 6:00 PM</span>
-                        </li>
-                    </ul>
+                {/* Newsletter Column */}
+                <div className="footer-col newsletter-col">
+                    <h4>Newsletter</h4>
+                    <p>Stay updated with our newest additions.</p>
+                    <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
+                        <input type="email" placeholder="Email address" />
+                        <button type="submit" className="newsletter-btn">
+                            <Send size={18} />
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            {/* --- Bottom Footer --- */}
-            <div className="footer-bottom">
-                <div className="footer-bottom-content">
-                    <p>&copy; {currentYear} Lumina Library. All rights reserved.</p>
-                    <div className="footer-legal">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
-                        <a href="#">Cookie Policy</a>
-                    </div>
+            <div className="footer-bottom-container">
+                <div className="footer-copyright">
+                    <p>© {currentYear} Lumina Digital Library System. All rights reserved.</p>
+                </div>
+                <div className="footer-legal-links">
+                    <Link to="#">Privacy Policy</Link>
+                    <Link to="#">Terms of Service</Link>
+                    <Link to="#">Cookie Settings</Link>
                 </div>
             </div>
         </footer>

@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, BookMarked, Home, BookOpen, Bookmark, User } from "lucide-react";
+import { Menu, X, BookMarked, Home, BookOpen, Bookmark, User, Moon } from "lucide-react";
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 
@@ -49,11 +49,14 @@ export default function Navbar() {
           <Link to='/Contact' className={location.pathname === '/Contact' ? 'active' : ''}>Help</Link>
           <Link to='/Catalog' className={location.pathname === '/Catalog' ? 'active' : ''}>Librarian</Link>
           <Link to='/Login' className="desktop-only text-link">Admin Login</Link>
-          <Link to='/Login' className="desktop-only text-link">Member Area</Link>
+          <Link to='/Login' className="member-area-btn">Member Area</Link>
           <Link to='/Login' className="signin mobile-only">{user ? 'Profile' : 'Sign in'}</Link>
         </div>
 
         <div className="nav-actions">
+          <button className="theme-toggle-btn desktop-only">
+            <Moon size={20} color={isTransparent ? "white" : "black"} />
+          </button>
           {user && (
             <Link to='/dashboard' className="user-nav-profile desktop-only">
               <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random`} alt="user" />

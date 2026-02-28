@@ -9,14 +9,13 @@
 /* Hero Section with Slider Backgrounds */
 .home-hero {
   width: 100%;
-  height: 65vh;
+  height: 70vh;
   min-height: 480px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   position: relative;
   background-color: #000;
-  /* DONT hide overflow so the search bar can hang off the edge! */
 }
 
 /* Container locking the slider backgrounds */
@@ -42,7 +41,6 @@
   opacity: 0;
   transition: opacity 1.2s ease-in-out, transform 6s ease-out;
   transform: scale(1.05);
-  /* slightly zoomed out */
   z-index: 1;
 }
 
@@ -55,14 +53,16 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
 }
 
-/* Position search wrapper nicely trailing off the bottom or near the bottom */
+/* ✅ Search wrapper adjusted 15px upward */
 .hero-search-wrapper {
-  transform: translateY(60%);
-  /* Adjusted slightly lower */
-  /* makes it overhang like a card */
+  transform: translateY(calc(60% - 15px));
   width: 100%;
   max-width: 800px;
   padding: 0 20px;
@@ -113,7 +113,6 @@
 /* Topics Section */
 .topics-section {
   padding: 120px 20px 80px 20px;
-  /* high top padding to clear the search bar overhang */
   text-align: center;
   max-width: 1000px;
   margin: 0 auto;
@@ -156,36 +155,10 @@
   border-color: #d1d5db;
 }
 
-.topic-icon-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.topic-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease;
-}
-
-.topic-card:hover .topic-icon {
-  transform: scale(1.1);
-}
-
-.topic-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #555;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Mobile responsive */
+/* Mobile */
 @media (max-width: 768px) {
   .home-hero {
-    height: 50vh;
+    height: 60vh;
     min-height: 350px;
   }
 
@@ -197,37 +170,14 @@
     font-size: 1rem;
     padding: 0 16px;
   }
-
-  .topics-title {
-    font-size: 1.3rem;
-  }
-
-  .topics-grid {
-    gap: 16px;
-  }
-
-  .topic-card {
-    width: 120px;
-    height: 120px;
-  }
-
-  .topic-card svg {
-    width: 36px;
-    height: 36px;
-  }
 }
 
 @media (max-width: 480px) {
   .hero-search-wrapper {
-    transform: translateY(20px);
+    transform: translateY(calc(20px - 15px));
   }
 
   .topics-section {
     padding-top: 60px;
-  }
-
-  .topic-card {
-    width: calc(50% - 8px);
-    max-width: 140px;
   }
 }

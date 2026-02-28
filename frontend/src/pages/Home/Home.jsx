@@ -52,18 +52,20 @@ function Home() {
           ))}
         </div>
 
-        <div className="hero-search-wrapper animate-fade-in">
-          <form className="hero-search-bar" onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Enter keyword to search collection..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button type="submit">
-              <Search size={24} />
-            </button>
-          </form>
+        <div className="hero-search-wrapper">
+          <div className="animate-fade-in">
+            <form className="hero-search-bar" onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Enter keyword to search collection..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button type="submit">
+                <Search size={24} />
+              </button>
+            </form>
+          </div>
         </div>
       </div>
 

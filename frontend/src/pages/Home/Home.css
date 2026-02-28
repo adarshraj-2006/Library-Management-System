@@ -53,11 +53,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.6) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.6) 100%);
 }
 
 /* ✅ Search wrapper adjusted 15px upward */
@@ -155,29 +153,72 @@
   border-color: #d1d5db;
 }
 
-/* Mobile */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .home-hero {
-    height: 60vh;
-    min-height: 350px;
+    height: 55vh;
+    min-height: 380px;
+  }
+
+  .hero-search-wrapper {
+    transform: translateY(27px);
+    /* Half of 54px search bar */
+    padding: 0 15px;
   }
 
   .hero-search-bar {
     height: 54px;
+    border-radius: 6px;
   }
 
   .hero-search-bar input {
     font-size: 1rem;
     padding: 0 16px;
   }
+
+  .hero-search-bar button {
+    padding: 0 16px;
+  }
+
+  .topics-section {
+    padding: 80px 15px 60px 15px;
+  }
+
+  .topics-title {
+    font-size: 1.3rem;
+    margin-bottom: 32px;
+  }
+
+  .topic-card {
+    width: 140px;
+    height: 140px;
+  }
 }
 
 @media (max-width: 480px) {
+  .home-hero {
+    height: 45vh;
+  }
+
   .hero-search-wrapper {
-    transform: translateY(calc(20px - 15px));
+    transform: translateY(27px);
+  }
+
+  .hero-search-bar input {
+    font-size: 0.9rem;
+    padding: 0 12px;
   }
 
   .topics-section {
     padding-top: 60px;
+  }
+
+  .topic-card {
+    width: calc(50% - 12px);
+    height: 130px;
+  }
+
+  .topics-grid {
+    gap: 12px;
   }
 }

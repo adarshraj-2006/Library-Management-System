@@ -1102,8 +1102,7 @@
     }
 
     .dashboard-main {
-        padding: 24px 20px 80px 20px;
-        /* space for bottom nav */
+        padding: 20px 16px 32px 16px;
         width: 100%;
         margin: 0;
         flex: 1;
@@ -1169,24 +1168,22 @@
         letter-spacing: -0.03em;
     }
 
-    /* Stats Grid Override */
+    /* Stats Grid Override — horizontal row on mobile */
     .stats-grid {
-        display: flex !important;
-        flex-direction: row !important;
-        grid-template-columns: none !important;
-        gap: 12px !important;
-        margin-bottom: 24px !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+        margin-bottom: 20px !important;
     }
 
     .stat-card {
-        flex: 1;
-        padding: 14px 12px;
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
+        padding: 14px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
         background: white;
-        border-radius: 16px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.04);
+        border-radius: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         border: none;
     }
 
@@ -1365,18 +1362,9 @@
         color: #6b7280;
     }
 
+    /* Hide Dashboard's internal bottom nav — global Navbar handles navigation */
     .mobile-bottom-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        justify-content: space-between;
-        padding: 16px 24px;
-        background: white;
-        border-top: 1px solid rgba(0, 0, 0, 0.04);
-        z-index: 1000;
-        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.02);
+        display: none !important;
     }
 
     .md-nav-item {
@@ -1401,5 +1389,48 @@
         color: #0052cc;
         background: transparent;
         font-weight: normal;
+    }
+}
+
+/* ════════════════════════════════════════════════════════
+   RESPONSIVE — VERY SMALL PHONE (≤ 400px)
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 400px) {
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+    }
+
+    .stat-card {
+        flex-direction: row !important;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .md-greeting h2 {
+        font-size: 1.5rem;
+    }
+
+    .profile-header-main {
+        padding: 0 12px 16px;
+    }
+
+    .profile-identity h2 {
+        font-size: 1.2rem;
+    }
+
+    .profile-info-grid {
+        padding: 16px 12px;
+        gap: 14px;
+    }
+
+    .profile-stats-tabs {
+        padding: 14px 12px;
+        gap: 16px;
+    }
+
+    .edit-profile-btn {
+        padding: 10px 16px;
+        font-size: 0.85rem;
     }
 }

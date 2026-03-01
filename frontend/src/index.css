@@ -132,9 +132,9 @@ button {
     animation: fadeIn 0.8s ease-out forwards;
 }
 
-/* Add padding for mobile bottom nav */
+/* Add padding-top for mobile two-row navbar (56px row1 + 44px row2) */
 @media (max-width: 768px) {
     body {
-        padding-bottom: 76px;
+        padding-top: 100px !important;
     }
 }

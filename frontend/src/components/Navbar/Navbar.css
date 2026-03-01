@@ -1,27 +1,44 @@
+/* ============================================================
+   NAVBAR — Base
+   ============================================================ */
 .navbar {
   width: 100%;
   height: 80px;
   background: transparent;
-  /* Changed from semi-transparent white */
   border-bottom: none;
-  /* Removed border */
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
   display: flex;
   align-items: center;
-  transition: all 0.3s ease;
+  transition: background 0.35s ease, box-shadow 0.35s ease, height 0.35s ease;
   justify-content: flex-start;
-  /* Ensure start alignment */
 }
 
+/* Scrolled state — frosted glass */
 .navbar.scrolled {
-  height: 80px;
-  background: transparent;
-  box-shadow: none;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+.navbar.scrolled .logo span {
+  background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar.scrolled .nav-links a {
+  color: #374151 !important;
+  -webkit-text-fill-color: #374151 !important;
+}
+
+/* Transparent state (hero / home) */
 .navbar.transparent {
   background: transparent !important;
   border-bottom: none !important;
@@ -35,6 +52,9 @@
   -webkit-text-fill-color: white !important;
 }
 
+/* ============================================================
+   CONTAINER
+   ============================================================ */
 .container {
   width: 100%;
   max-width: 1300px;
@@ -45,7 +65,9 @@
   align-items: center;
 }
 
-/* Logo */
+/* ============================================================
+   LOGO
+   ============================================================ */
 .logo {
   display: flex;
   align-items: center;
@@ -71,30 +93,14 @@
   -webkit-text-fill-color: transparent;
 }
 
-.logo-box {
-  width: 42px;
-  height: 42px;
-  background: linear-gradient(135deg, #0066cc, #004d99);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
-  transition: all 0.3s ease;
-}
-
-.logo:hover .logo-box {
-  transform: rotate(-5deg) scale(1.1);
-  box-shadow: 0 12px 20px rgba(59, 130, 246, 0.4);
-}
-
-/* Nav Links */
+/* ============================================================
+   DESKTOP NAV LINKS
+   ============================================================ */
 .nav-links {
   display: flex;
   gap: 32px;
   align-items: center;
   margin-left: auto;
-  /* Push links to the right */
 }
 
 .nav-links a {
@@ -130,47 +136,31 @@
   width: 100%;
 }
 
+/* ============================================================
+   NAV ACTIONS
+   ============================================================ */
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.signin {
-  padding: 12px 28px;
-  border-radius: 14px;
-  background: #3b82f6;
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
-}
-
-.signin:hover {
-  background: #2563eb;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.3);
-}
-
-.member-area-btn {
-  padding: 10px 24px;
-  border-radius: 8px;
+.nav-signin-btn {
+  padding: 9px 22px;
+  border-radius: 10px;
   background: #3b82f6;
   color: white !important;
   font-weight: 700;
-  text-decoration: none;
-  transition: all 0.3s ease;
   font-size: 14px;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-  display: inline-block;
-  white-space: nowrap;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  -webkit-text-fill-color: white !important;
 }
 
-.member-area-btn:hover {
+.nav-signin-btn:hover {
   background: #2563eb;
   transform: translateY(-1px);
-  box-shadow: 0 6px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
 }
 
 .theme-toggle-btn {
@@ -186,18 +176,17 @@
 }
 
 .theme-toggle-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 .navbar.transparent .theme-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .menu-toggle {
   display: none;
   background: none;
   border: none;
-  color: #1a1a1a;
   cursor: pointer;
   z-index: 1001;
   padding: 8px;
@@ -209,17 +198,186 @@
   background: rgba(0, 0, 0, 0.05);
 }
 
-.mobile-only {
+/* Show hamburger on tablet range only */
+.tablet-only {
   display: none;
 }
 
-.overlay {
-  position: absolute;
+/* Profile image */
+.user-nav-profile img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #3b82f6;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.user-nav-profile:hover img {
+  transform: scale(1.1);
+}
+
+/* ============================================================
+   MOBILE DRAWER
+   ============================================================ */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 85%;
+  max-width: 360px;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 1100;
+  overflow-y: auto;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.12);
+  /* hidden on all viewports by default — JS toggles visibility but CSS hides on desktop */
+}
+
+.mobile-drawer.open {
+  right: 0;
+}
+
+/* Drawer Header */
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.drawer-title {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  color: #1a1a1a;
+  letter-spacing: -0.3px;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.drawer-close:hover {
+  background: #f5f5f5;
+}
+
+/* Auth Buttons */
+.drawer-auth {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.drawer-login-btn,
+.drawer-signup-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-family: 'Inter', 'Outfit', sans-serif;
+}
+
+.drawer-login-btn {
+  border: 2px solid #3b82f6;
+  color: #3b82f6;
+  background: transparent;
+  -webkit-text-fill-color: #3b82f6;
+}
+
+.drawer-login-btn:hover {
+  background: #eff6ff;
+}
+
+.drawer-signup-btn {
+  background: #1d4ed8;
+  color: white;
+  border: 2px solid #1d4ed8;
+  -webkit-text-fill-color: white;
+}
+
+.drawer-signup-btn:hover {
+  background: #1e40af;
+}
+
+/* Drawer Sections */
+.drawer-section {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.drawer-section:last-child {
+  border-bottom: none;
+}
+
+.drawer-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 12px 24px 8px;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.drawer-link {
+  display: block;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: 'Inter', sans-serif;
+  -webkit-text-fill-color: #374151;
+}
+
+.drawer-link:last-child {
+  border-bottom: none;
+}
+
+.drawer-link:hover {
+  background: #f9fafb;
+  color: #1d4ed8;
+  -webkit-text-fill-color: #1d4ed8;
+}
+
+.drawer-link.active {
+  color: #1d4ed8;
+  font-weight: 600;
+  background: #eff6ff;
+  -webkit-text-fill-color: #1d4ed8;
+}
+
+/* Overlay behind drawer */
+.drawer-overlay {
+  position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 999;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1050;
   animation: fadeIn 0.3s ease;
 }
 
@@ -233,21 +391,16 @@
   }
 }
 
-/* ================= RESPONSIVE ================= */
-
-.user-nav-profile img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
-  object-fit: cover;
-  transition: transform 0.2s;
+/* ============================================================
+   MOBILE BOTTOM NAV
+   ============================================================ */
+.mobile-bottom-nav {
+  display: none;
 }
 
-.user-nav-profile:hover img {
-  transform: scale(1.1);
-}
-
+/* ============================================================
+   RESPONSIVE — Tablet (769px – 900px): hamburger menu
+   ============================================================ */
 @media (max-width: 900px) {
   .navbar {
     height: 70px;
@@ -261,47 +414,11 @@
     font-size: 22px;
   }
 
-  .logo-box {
-    width: 36px;
-    height: 36px;
+  .desktop-nav {
+    display: none;
   }
 
-  .nav-links {
-    position: absolute;
-    top: 0;
-    right: -100%;
-    width: 85%;
-    max-width: 400px;
-    height: 100vh;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    flex-direction: column;
-    justify-content: center;
-    gap: 30px;
-    padding: 60px 40px;
-    transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
-  }
-
-  .nav-links.open {
-    right: 0;
-  }
-
-  .nav-links a {
-    font-size: 22px;
-    width: 100%;
-    text-align: left;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-
-  .nav-links a:last-child {
-    border-bottom: none;
-  }
-
-  .menu-toggle {
+  .tablet-only {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -310,28 +427,16 @@
   .desktop-only {
     display: none;
   }
-
-  .mobile-only {
-    display: block;
-    margin-top: 20px;
-    text-align: center;
-    background: #3b82f6;
-    color: white;
-    border-radius: 14px;
-    padding: 16px;
-    font-size: 18px;
-  }
 }
 
-/* Mobile Bottom Nav styles matching Dashboard */
-.mobile-bottom-nav {
-  display: none;
-}
-
+/* ============================================================
+   RESPONSIVE — Phone (≤768px): bottom tab bar takes over
+   ============================================================ */
 @media (max-width: 768px) {
 
-  /* Hide top hamburger menu when bottom nav is active */
-  .menu-toggle {
+  /* Hide hamburger on phones — bottom nav is used instead */
+  .menu-toggle,
+  .tablet-only {
     display: none !important;
   }
 
@@ -339,52 +444,60 @@
     display: none !important;
   }
 
+  /* Hide the mobile drawer on phones — bottom nav replaces it */
+  .mobile-drawer {
+    display: none !important;
+  }
+
   .mobile-bottom-nav {
     display: flex;
     position: fixed;
-    /* Fixed so it shows on phone screens */
     bottom: 0;
     left: 0;
     right: 0;
-    justify-content: space-between;
-    padding: 16px 24px;
+    justify-content: space-around;
+    padding: 12px 16px 16px;
     background: white;
-    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
     z-index: 1000;
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
   }
 
   .md-nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     color: #9ca3af;
     cursor: pointer;
-    padding: 0;
+    padding: 4px 12px;
     background: transparent;
     border: none;
+    border-radius: 12px;
+    transition: color 0.2s, background 0.2s;
   }
 
   .md-nav-item span {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 600;
     display: block !important;
     font-family: 'Inter', sans-serif;
   }
 
   .md-nav-item.active {
-    color: #0052cc;
-    background: transparent;
-    font-weight: normal;
+    color: #1d4ed8;
+  }
+
+  .md-nav-item:hover {
+    background: #f0f4ff;
+    color: #1d4ed8;
   }
 }
 
+/* ============================================================
+   RESPONSIVE — Small phone (≤480px)
+   ============================================================ */
 @media (max-width: 480px) {
-  .logo span {
-    display: none;
-  }
-
   .container {
     padding: 0 16px;
   }

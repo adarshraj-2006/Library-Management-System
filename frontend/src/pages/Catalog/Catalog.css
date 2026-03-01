@@ -167,16 +167,21 @@
     font-weight: 500;
     font-family: 'Inter', sans-serif;
   }
+
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
 }
 
 @media (max-width: 500px) {
-  .catalog-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .catalog {
+    padding: 0 12px;
   }
 
-  .catalog {
-    padding: 0 20px;
+  .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
 
   .book-card-wrapper {

@@ -12,11 +12,11 @@ import { validate, bookValidators } from "../middleware/validate.middleware.js";
 
 const router = express.Router();
 
-// ── Public Routes ─────────────────────────────────────────────────────────────
+
 router.get("/", getAllBooks);
 router.get("/:id", getBookById);
 
-// ── Protected Routes ──────────────────────────────────────────────────────────
+
 router.post(
     "/",
     verifyJWT,

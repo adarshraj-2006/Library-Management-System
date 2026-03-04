@@ -18,9 +18,9 @@ router.use(verifyJWT);
 // ── Member Routes ─────────────────────────────────────────────────────────────
 router.get("/my", getMyIssuedBooks);
 
-// ── Librarian / Admin Routes ──────────────────────────────────────────────────
-router.post("/issue", authorizeRoles("admin", "librarian"), issueValidators, validate, issueBook);
-router.post("/return", authorizeRoles("admin", "librarian"), returnValidators, validate, returnBook);
+// ── Member / Librarian / Admin Routes ──────────────────────────────────────────
+router.post("/issue", authorizeRoles("admin", "librarian", "member"), issueValidators, validate, issueBook);
+router.post("/return", authorizeRoles("admin", "librarian", "member"), returnValidators, validate, returnBook);
 router.get("/all", authorizeRoles("admin", "librarian"), getAllIssuedBooks);
 router.get("/overdue", authorizeRoles("admin", "librarian"), getOverdueBooks);
 

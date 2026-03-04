@@ -31,6 +31,11 @@ export const issueBook = asyncHandler(async (req, res) => {
         return errorResponse(res, "Member not found or account is inactive/blocked.", 404);
     }
 
+    // RBAC: Members can only issue books to themselves
+    if (req.user.role === "member" && req.user._id.toString() !== memberId.toString()) {
+        return errorResponse(res, "You can only borrow books for yourself.", 403);
+    }
+
     // Check member doesn't have the same book already issued
     const alreadyIssued = await BookIssue.findOne({
         book: bookId,
@@ -82,6 +87,12 @@ export const returnBook = asyncHandler(async (req, res) => {
     if (!issue) {
         return errorResponse(res, "Issue record not found.", 404);
     }
+
+    // RBAC: Members can only return their own books
+    if (req.user.role === "member" && issue.issuedTo.toString() !== req.user._id.toString()) {
+        return errorResponse(res, "You can only return books issued to you.", 403);
+    }
+
     if (issue.status === "returned") {
         return errorResponse(res, "This book has already been returned.", 400);
     }

@@ -58,7 +58,7 @@ export const issueValidators = [
     body("bookId").notEmpty().withMessage("Book ID is required").isMongoId().withMessage("Invalid Book ID"),
     body("memberId").notEmpty().withMessage("Member ID is required").isMongoId().withMessage("Invalid Member ID"),
     body("dueDate")
-        .notEmpty().withMessage("Due date is required")
+        .optional()
         .isISO8601().withMessage("Invalid date format (use ISO 8601)"),
 ];
 

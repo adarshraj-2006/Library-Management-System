@@ -59,7 +59,7 @@ const Mybooks = () => {
         icon: 'schedule'
       };
     }
-    
+
     const daysLeft = calculateDaysUntilDue(dueDate);
     if (daysLeft < 0) {
       return {
@@ -95,7 +95,14 @@ const Mybooks = () => {
   };
 
   const handleReturn = async (issueId) => {
-    toast.error('Please contact a librarian to return this book');
+    try {
+      const loadingToast = toast.loading('Returning book...');
+      await API.post('/issues/return', { issueId });
+      toast.success('Book returned successfully', { id: loadingToast });
+      fetchMyBooks(); // Refresh the list
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to return book');
+    }
   };
 
   const handleRenew = async (issueId) => {
@@ -128,7 +135,7 @@ const Mybooks = () => {
                 Issued
                 <span className="badge-count">{displayedBooks.length}</span>
               </h2>
-              <button 
+              <button
                 className="view-all-btn"
                 onClick={() => setShowAll(!showAll)}
               >
@@ -146,17 +153,17 @@ const Mybooks = () => {
               <div className="books-list">
                 {displayedBooks.map((issue) => {
                   const isReturned = issue.status === 'returned';
-                  const status = isReturned 
+                  const status = isReturned
                     ? { text: 'Returned', className: 'status-returned', icon: 'check_circle' }
                     : getDueDateStatus(issue.dueDate, issue.isCurrentlyOverdue);
                   return (
                     <div key={issue._id} className="book-card">
-                      <div 
+                      <div
                         className="book-cover"
                         onClick={() => handleBookClick(issue.book._id)}
                       >
                         {issue.book.coverImage ? (
-                          <div 
+                          <div
                             className="cover-image"
                             style={{ backgroundImage: `url("${issue.book.coverImage}")` }}
                           />
@@ -177,13 +184,13 @@ const Mybooks = () => {
                         </div>
                         {!isReturned && (
                           <div className="book-actions">
-                            <button 
+                            <button
                               className="action-btn secondary"
                               onClick={() => handleReturn(issue._id)}
                             >
                               Return
                             </button>
-                            <button 
+                            <button
                               className="action-btn primary"
                               onClick={() => handleRenew(issue._id)}
                             >
@@ -208,14 +215,14 @@ const Mybooks = () => {
             </div>
             <div className="recent-books-scroll">
               {recentlyViewed.map((book) => (
-                <div 
-                  key={book._id} 
+                <div
+                  key={book._id}
                   className="recent-book-card"
                   onClick={() => handleBookClick(book._id)}
                 >
                   <div className="recent-book-cover">
                     {book.coverImage ? (
-                      <div 
+                      <div
                         className="recent-cover-image"
                         style={{ backgroundImage: `url("${book.coverImage}")` }}
                       />

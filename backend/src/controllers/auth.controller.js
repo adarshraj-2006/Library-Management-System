@@ -42,7 +42,7 @@ export const register = asyncHandler(async (req, res) => {
         phone,
         emailVerificationToken: hashedToken,
         emailVerificationExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-        isVerified: true // Set to true by default for easier testing as per previous user request
+        isVerified: false // Users must now verify their email
     });
 
     // Send verification email (non-blocking)
@@ -107,6 +107,10 @@ export const login = asyncHandler(async (req, res) => {
 
     if (user.isBlocked) {
         return errorResponse(res, "Your account has been blocked. Contact support.", 403);
+    }
+
+    if (!user.isVerified) {
+        return errorResponse(res, "Please verify your email before logging in.", 403);
     }
 
     const payload = { id: user._id, role: user.role };

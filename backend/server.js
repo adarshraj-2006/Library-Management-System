@@ -11,7 +11,7 @@ const app = express();
 
 // 1. CORS Configuration (Handles Preflight automatically)
 app.use(cors({
-  origin: ["http://localhost:5173" || "https://frontend-one-murex-54.vercel.app"],
+  origin: process.env.FRONTEND_URL,
   credentials: true,
   optionsSuccessStatus: 200
 }));

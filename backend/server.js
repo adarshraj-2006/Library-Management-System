@@ -21,32 +21,58 @@ app.use(helmet());               // Secure HTTP headers
 app.use(cookieParser());         // Parse httpOnly cookies
 
 // CORS
+const allowedOrigins = process.env.CLIENT_URL 
+    ? process.env.CLIENT_URL.split(',').map(url => url.trim())
+    : ["http://localhost:5173", "https://frontend-one-murex-54.vercel.app"];
+
 app.use(
     cors({
-        origin: process.env.CLIENT_URL || "http://localhost:5173",
+        origin: (origin, callback) => {
+            // Allow requests with no origin (like mobile apps or curl requests)
+            if (!origin) return callback(null, true);
+            
+            if (allowedOrigins.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
 
-// Global rate limiter — 100 requests per 15 minutes per IP
+// Global rate limiter — More lenient in development, stricter in production
+const isDevelopment = process.env.NODE_ENV !== 'production';
 const globalLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: isDevelopment ? 1000 : 100, // 1000 requests in dev, 100 in production
     standardHeaders: true,
     legacyHeaders: false,
-    message: { success: false, message: "Too many requests. Please try again later." },
+    message: { 
+        success: false, 
+        message: "Too many requests. Please try again later.",
+        retryAfter: Math.ceil(15 * 60) // seconds until retry
+    },
+    // Skip rate limiting for localhost in development
+    skip: (req) => isDevelopment && (req.ip === '127.0.0.1' || req.ip === '::1' || req.ip === '::ffff:127.0.0.1'),
 });
 app.use(globalLimiter);
 
 // Stricter limiter for auth endpoints (prevent brute-force)
 const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 20,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: isDevelopment ? 100 : 20, // More lenient in dev
     standardHeaders: true,
     legacyHeaders: false,
-    message: { success: false, message: "Too many authentication attempts. Please wait 15 minutes." },
+    message: { 
+        success: false, 
+        message: "Too many authentication attempts. Please wait 15 minutes.",
+        retryAfter: Math.ceil(15 * 60)
+    },
+    // Skip rate limiting for localhost in development
+    skip: (req) => isDevelopment && (req.ip === '127.0.0.1' || req.ip === '::1' || req.ip === '::ffff:127.0.0.1'),
 });
 
 // ── Body Parsers ──────────────────────────────────────────────────────────────
@@ -83,6 +109,23 @@ app.use((req, res) => {
 // ── Global Error Handler ──────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
     console.error("❌ Unhandled Error:", err.stack);
+
+    // CORS error
+    if (err.message === 'Not allowed by CORS') {
+        return res.status(403).json({ 
+            success: false, 
+            message: "CORS: Request origin not allowed." 
+        });
+    }
+
+    // Rate limit error (handled by express-rate-limit middleware, but just in case)
+    if (err.status === 429) {
+        return res.status(429).json({
+            success: false,
+            message: "Too many requests. Please try again later.",
+            retryAfter: 15 * 60 // seconds
+        });
+    }
 
     // Mongoose validation error
     if (err.name === "ValidationError") {

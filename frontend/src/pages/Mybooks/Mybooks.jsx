@@ -1,117 +1,259 @@
 import React, { useEffect, useState } from 'react';
 import './Mybooks.css';
-import { Book, Clock, AlertCircle, CheckCircle, Info, Calendar, ChevronRight } from 'lucide-react';
 import API from '../../services/api';
 import toast from 'react-hot-toast';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Mybooks = () => {
   const [issues, setIssues] = useState([]);
+  const [allIssues, setAllIssues] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMyBooks = async () => {
-      try {
-        const res = await API.get('/issues/my');
-        setIssues(res.data.data.issues);
-      } catch (err) {
-        toast.error('Failed to load your books');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMyBooks();
+    fetchRecentlyViewed();
   }, []);
 
-  const getStatusStyle = (status) => {
-    switch (status) {
-      case 'issued': return 'status-issued';
-      case 'overdue': return 'status-overdue';
-      case 'returned': return 'status-returned';
-      default: return '';
+  const fetchMyBooks = async () => {
+    try {
+      const [issuedRes, allRes] = await Promise.all([
+        API.get('/issues/my?status=issued'),
+        API.get('/issues/my')
+      ]);
+      setIssues(issuedRes.data.data.issues || []);
+      setAllIssues(allRes.data.data.issues || []);
+    } catch (err) {
+      toast.error('Failed to load your books');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) return <div className="loading-state">Loading your library...</div>;
+  const fetchRecentlyViewed = async () => {
+    try {
+      // Fetch recently returned books or recent books from catalog
+      const res = await API.get('/books?limit=6');
+      setRecentlyViewed(res.data.data.books || []);
+    } catch (err) {
+      console.error('Failed to load recently viewed books');
+    }
+  };
+
+  const calculateDaysUntilDue = (dueDate) => {
+    const today = new Date();
+    const due = new Date(dueDate);
+    const diffTime = due - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const getDueDateStatus = (dueDate, isOverdue) => {
+    if (isOverdue) {
+      const daysOverdue = Math.abs(calculateDaysUntilDue(dueDate));
+      return {
+        text: `Overdue by ${daysOverdue} day${daysOverdue !== 1 ? 's' : ''}`,
+        className: 'status-overdue',
+        icon: 'schedule'
+      };
+    }
+    
+    const daysLeft = calculateDaysUntilDue(dueDate);
+    if (daysLeft < 0) {
+      return {
+        text: `Overdue by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) !== 1 ? 's' : ''}`,
+        className: 'status-overdue',
+        icon: 'schedule'
+      };
+    } else if (daysLeft === 0) {
+      return {
+        text: 'Due today',
+        className: 'status-due-today',
+        icon: 'schedule'
+      };
+    } else if (daysLeft === 1) {
+      return {
+        text: 'Due in 1 day',
+        className: 'status-due-soon',
+        icon: 'schedule'
+      };
+    } else if (daysLeft <= 7) {
+      return {
+        text: `${daysLeft} days left`,
+        className: 'status-due-soon',
+        icon: 'hourglass_bottom'
+      };
+    } else {
+      return {
+        text: `Due ${new Date(dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`,
+        className: 'status-normal',
+        icon: 'calendar_month'
+      };
+    }
+  };
+
+  const handleReturn = async (issueId) => {
+    toast.error('Please contact a librarian to return this book');
+  };
+
+  const handleRenew = async (issueId) => {
+    toast.error('Renewal feature coming soon. Please contact a librarian.');
+  };
+
+  const handleBookClick = (bookId) => {
+    navigate(`/borrow?id=${bookId}`);
+  };
+
+  if (loading) {
+    return (
+      <div className="mybooks-container">
+        <div className="loading-state">Loading your library...</div>
+      </div>
+    );
+  }
+
+  const displayedBooks = showAll ? allIssues : issues.filter(i => i.status === 'issued');
+  const issuedBooks = issues.filter(i => i.status === 'issued');
 
   return (
-    <div className="mybooks-page">
-      <div className="page-header">
-        <div>
-          <h1>My Reading Journey</h1>
-          <p>Track your currently borrowed and past books</p>
-        </div>
-        <div className="summary-badges">
-          <div className="summary-item">
-            <span className="count">{issues.filter(i => i.status === 'issued').length}</span>
-            <span className="label">Active</span>
-          </div>
-          <div className="summary-item">
-            <span className="count overdue">{issues.filter(i => i.status === 'overdue' || (i.status === 'issued' && i.isCurrentlyOverdue)).length}</span>
-            <span className="label">Overdue</span>
-          </div>
-        </div>
-      </div>
+    <div className="mybooks-container">
 
-      <div className="books-horizontal-list">
-        {issues.length === 0 ? (
-          <div className="empty-state">
-            <Book size={48} />
-            <h3>Your shelf is empty</h3>
-            <p>Browse the catalog to borrow your first book!</p>
-          </div>
-        ) : (
-          issues.map((issue) => (
-            <div key={issue._id} className="horizontal-book-card">
-              <div className="book-cover-mini">
-                {issue.book.coverImage ? (
-                  <img src={issue.book.coverImage} alt={issue.book.title} />
-                ) : (
-                  <div className="cover-placeholder"><Book size={32} /></div>
-                )}
-              </div>
-
-              <div className="book-info-main">
-                <div className="title-row">
-                  <h3>{issue.book.title}</h3>
-                  <span className={`status-badge ${getStatusStyle(issue.status)}`}>
-                    {issue.status.toUpperCase()}
-                  </span>
-                </div>
-                <p className="author-text">by {issue.book.author}</p>
-
-                <div className="date-details">
-                  <div className="detail-item">
-                    <Calendar size={14} />
-                    <span>Issued: {new Date(issue.issueDate).toLocaleDateString()}</span>
-                  </div>
-                  <div className="detail-item">
-                    <Clock size={14} />
-                    <span>Due: {new Date(issue.dueDate).toLocaleDateString()}</span>
-                  </div>
-                  {issue.returnDate && (
-                    <div className="detail-item success">
-                      <CheckCircle size={14} />
-                      <span>Returned: {new Date(issue.returnDate).toLocaleDateString()}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="fine-section">
-                {issue.fine > 0 && (
-                  <div className="fine-amount">
-                    <AlertCircle size={16} />
-                    <span>Fine: ₹{issue.fine}</span>
-                  </div>
-                )}
-                <button className="details-btn">
-                  View Details <ChevronRight size={16} />
-                </button>
-              </div>
+      <main className="mybooks-main">
+        <div className="mybooks-content">
+          <section className="issued-section">
+            <div className="section-header">
+              <h2>
+                Issued
+                <span className="badge-count">{displayedBooks.length}</span>
+              </h2>
+              <button 
+                className="view-all-btn"
+                onClick={() => setShowAll(!showAll)}
+              >
+                {showAll ? 'Show Issued' : 'View All'}
+              </button>
             </div>
-          ))
-        )}
-      </div>
+
+            {displayedBooks.length === 0 ? (
+              <div className="empty-state">
+                <span className="material-symbols-outlined empty-icon">menu_book</span>
+                <h3>No books {showAll ? 'found' : 'issued'}</h3>
+                <p>{showAll ? 'You haven\'t borrowed any books yet.' : 'Browse the catalog to borrow your first book!'}</p>
+              </div>
+            ) : (
+              <div className="books-list">
+                {displayedBooks.map((issue) => {
+                  const isReturned = issue.status === 'returned';
+                  const status = isReturned 
+                    ? { text: 'Returned', className: 'status-returned', icon: 'check_circle' }
+                    : getDueDateStatus(issue.dueDate, issue.isCurrentlyOverdue);
+                  return (
+                    <div key={issue._id} className="book-card">
+                      <div 
+                        className="book-cover"
+                        onClick={() => handleBookClick(issue.book._id)}
+                      >
+                        {issue.book.coverImage ? (
+                          <div 
+                            className="cover-image"
+                            style={{ backgroundImage: `url("${issue.book.coverImage}")` }}
+                          />
+                        ) : (
+                          <div className="cover-placeholder">
+                            <span className="material-symbols-outlined">menu_book</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="book-info">
+                        <div className="book-details">
+                          <h3>{issue.book.title}</h3>
+                          <p className="author">{issue.book.author}</p>
+                          <div className={`status-badge ${status.className}`}>
+                            <span className="material-symbols-outlined">{status.icon}</span>
+                            <span>{status.text}</span>
+                          </div>
+                        </div>
+                        {!isReturned && (
+                          <div className="book-actions">
+                            <button 
+                              className="action-btn secondary"
+                              onClick={() => handleReturn(issue._id)}
+                            >
+                              Return
+                            </button>
+                            <button 
+                              className="action-btn primary"
+                              onClick={() => handleRenew(issue._id)}
+                            >
+                              Renew
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
+
+          <section className="recently-viewed-section">
+            <div className="section-header">
+              <h2>Recently Viewed</h2>
+              <button className="icon-btn-small" aria-label="View more">
+                <span className="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+            <div className="recent-books-scroll">
+              {recentlyViewed.map((book) => (
+                <div 
+                  key={book._id} 
+                  className="recent-book-card"
+                  onClick={() => handleBookClick(book._id)}
+                >
+                  <div className="recent-book-cover">
+                    {book.coverImage ? (
+                      <div 
+                        className="recent-cover-image"
+                        style={{ backgroundImage: `url("${book.coverImage}")` }}
+                      />
+                    ) : (
+                      <div className="recent-cover-placeholder">
+                        <span className="material-symbols-outlined">menu_book</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="recent-book-info">
+                    <h4>{book.title}</h4>
+                    <p>{book.author}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <nav className="bottom-nav mobile-only">
+        <Link to="/Home" className="nav-item">
+          <span className="material-symbols-outlined">home</span>
+          <span className="nav-label">Home</span>
+        </Link>
+        <Link to="/mybooks" className="nav-item active">
+          <span className="material-symbols-outlined">menu_book</span>
+          <span className="nav-label">My Books</span>
+        </Link>
+        <Link to="/Catalog" className="nav-item">
+          <span className="material-symbols-outlined">search</span>
+          <span className="nav-label">Browse</span>
+        </Link>
+        <Link to="/dashboard" className="nav-item">
+          <span className="material-symbols-outlined">settings</span>
+          <span className="nav-label">Settings</span>
+        </Link>
+      </nav>
     </div>
   );
 };

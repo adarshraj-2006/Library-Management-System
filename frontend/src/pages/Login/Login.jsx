@@ -33,7 +33,7 @@ const Login = () => {
                 localStorage.setItem('accessToken', res.data.data.accessToken);
                 localStorage.setItem('user', JSON.stringify(res.data.data.user));
                 toast.success('Welcome back!');
-                navigate('/dashboard');
+                navigate('/Home');
             } else {
                 await API.post('/auth/register', formData);
                 toast.success('Registration successful! Please verify your email.');

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Navbar from './components/Navbar/Navbar'
 import Home from './pages/Home/Home'
@@ -17,13 +18,23 @@ import { Toaster } from 'react-hot-toast';
 
 function Layout({ children }) {
   const location = useLocation();
-  const hideNavAndFooter = ["/Login", "/dashboard"].includes(location.pathname);
+  const hideNavAndFooter = ["/Login"].includes(location.pathname);
+  const [dashboardOpen, setDashboardOpen] = useState(false);
+
+  const openDashboard = () => setDashboardOpen(true);
+  const closeDashboard = () => setDashboardOpen(false);
 
   return (
     <>
-      {!hideNavAndFooter && <Navbar />}
+      {!hideNavAndFooter && <Navbar onDashboardOpen={openDashboard} />}
       {children}
       {!hideNavAndFooter && <Footer />}
+
+      {/* Dashboard Slide-in Panel */}
+      <div className={`dashboard-panel-overlay ${dashboardOpen ? 'open' : ''}`} onClick={closeDashboard} />
+      <div className={`dashboard-panel ${dashboardOpen ? 'open' : ''}`}>
+        <Dashboard isPanel={true} onClose={closeDashboard} />
+      </div>
     </>
   );
 }
@@ -45,7 +56,6 @@ function App() {
               <Route path="/About" element={<About />} />
               <Route path="/borrow" element={<Borrowpage />} />
               <Route path="/Login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>

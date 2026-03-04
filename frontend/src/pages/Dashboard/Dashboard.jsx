@@ -22,17 +22,17 @@ import {
     Award,
     BookMarked,
     Home as HomeIcon,
-    Bookmark
+    Bookmark,
+    X
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import API from '../../services/api';
 import './Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard = ({ isPanel = false, onClose }) => {
     const [user, setUser] = useState(null);
     const [activeTab, setActiveTab] = useState('overview');
-    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     // Real Data State
     const [issuedBooks, setIssuedBooks] = useState([]);
@@ -42,7 +42,7 @@ const Dashboard = () => {
         borrowed: 0,
         pending: 0,
         overdue: 0,
-        readerScore: 4.8 // Base score
+        readerScore: 4.8
     });
 
     const navigate = useNavigate();
@@ -50,13 +50,15 @@ const Dashboard = () => {
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (!storedUser) {
-            toast.error('Please login to access dashboard');
-            navigate('/Login');
+            if (!isPanel) {
+                toast.error('Please login to access dashboard');
+                navigate('/Login');
+            }
             return;
         }
         setUser(JSON.parse(storedUser));
         fetchDashboardData();
-    }, [navigate]);
+    }, [navigate, isPanel]);
 
     const fetchDashboardData = async () => {
         try {
@@ -69,13 +71,9 @@ const Dashboard = () => {
             const issues = issuesRes.data.data.issues || [];
             const books = booksRes.data.data.books || [];
 
-            console.log("Dashboard Stats - Issues:", issues);
-            console.log("Dashboard Stats - Recommended Books:", books);
-
             setIssuedBooks(issues);
             setRecommendedBooks(books);
 
-            // Calculate Stats
             const borrowed = issues.length;
             const pending = issues.filter(i => i.status === 'issued').length;
             const overdue = issues.filter(i => i.status === 'overdue' || i.isCurrentlyOverdue).length;
@@ -89,7 +87,6 @@ const Dashboard = () => {
 
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
-            toast.error("Failed to load dashboard data");
         } finally {
             setLoading(false);
         }
@@ -99,305 +96,218 @@ const Dashboard = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
         toast.success('Logged out successfully');
+        if (onClose) onClose();
         navigate('/Login');
     };
 
-    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
     const switchTab = (tab) => {
         setActiveTab(tab);
-        setSidebarOpen(false);
     };
 
-    if (!user) return <div className="loading-screen">Loading...</div>;
-
-    const memberDate = user.createdAt
-        ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-        : 'Feb 2025';
-
-    const recentActivities = issuedBooks.slice(0, 4);
-
-    return (
-        <div className="dashboard-container">
-            {/* Sidebar Overlay */}
-            {sidebarOpen && <div className="dashboard-overlay" onClick={toggleSidebar}></div>}
-
-            {/* Sidebar */}
-            <aside className={`dashboard-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}>
-                <div className="sidebar-logo">
-                    <div className="logo-box-sidebar">
-                        <BookMarked size={22} />
-                    </div>
-                    <span>Lumina</span>
-                </div>
-                <nav className="sidebar-nav">
+    // Panel mode — render a compact slide-in dashboard
+    if (isPanel) {
+        if (!user) {
+            return (
+                <div style={{ padding: '40px 28px', textAlign: 'center' }}>
+                    <p style={{ color: '#64748b', marginBottom: 16 }}>Please sign in to view your dashboard</p>
                     <button
-                        className={`nav-item ${activeTab === 'overview' ? 'active' : ''}`}
+                        onClick={() => { if (onClose) onClose(); navigate('/Login'); }}
+                        style={{
+                            padding: '12px 32px',
+                            background: '#0f172a',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: 12,
+                            fontWeight: 600,
+                            cursor: 'pointer',
+                            fontSize: 14
+                        }}
+                    >
+                        Sign In
+                    </button>
+                </div>
+            );
+        }
+
+        const memberDate = user.createdAt
+            ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+            : 'Feb 2025';
+
+        const recentActivities = issuedBooks.slice(0, 5);
+
+        return (
+            <div className="dashboard-panel-inner">
+                {/* Panel Header */}
+                <div className="panel-header">
+                    <div className="panel-header-left">
+                        <img
+                            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&bold=true`}
+                            alt="user"
+                            className="panel-header-avatar"
+                        />
+                        <div className="panel-header-info">
+                            <h3>{user.name}</h3>
+                            <span>{user.role}</span>
+                        </div>
+                    </div>
+                    <button className="panel-close-btn" onClick={onClose}>
+                        <X size={18} />
+                    </button>
+                </div>
+
+                {/* Nav Tabs */}
+                <div className="panel-nav">
+                    <button
+                        className={`panel-nav-item ${activeTab === 'overview' ? 'active' : ''}`}
                         onClick={() => switchTab('overview')}
                     >
-                        <LayoutDashboard size={20} />
-                        <span>Overview</span>
+                        <LayoutDashboard size={16} /> Overview
                     </button>
                     <button
-                        className={`nav-item ${activeTab === 'my-books' ? 'active' : ''}`}
-                        onClick={() => { setSidebarOpen(false); navigate('/mybooks'); }}
-                    >
-                        <BookOpen size={20} />
-                        <span>My Books</span>
-                    </button>
-                    <button
-                        className={`nav-item ${activeTab === 'history' ? 'active' : ''}`}
+                        className={`panel-nav-item ${activeTab === 'history' ? 'active' : ''}`}
                         onClick={() => switchTab('history')}
                     >
-                        <History size={20} />
-                        <span>History</span>
+                        <History size={16} /> Activity
                     </button>
                     <button
-                        className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
+                        className={`panel-nav-item ${activeTab === 'profile' ? 'active' : ''}`}
                         onClick={() => switchTab('profile')}
                     >
-                        <User size={20} />
-                        <span>Profile</span>
-                    </button>
-                    <button
-                        className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
-                        onClick={() => switchTab('settings')}
-                    >
-                        <Settings size={20} />
-                        <span>Settings</span>
-                    </button>
-                </nav>
-                <div className="sidebar-footer">
-                    <button className="logout-btn" onClick={handleLogout}>
-                        <LogOut size={20} />
-                        <span>Logout</span>
+                        <User size={16} /> Profile
                     </button>
                 </div>
-            </aside>
 
-            {/* Main Content */}
-            <main className="dashboard-main">
-                {/* Top Header */}
-                <header className="dashboard-header">
-                    <button className="mobile-menu-btn" onClick={toggleSidebar}>
-                        <Menu size={24} />
-                    </button>
-                    <div className="header-search">
-                        <Search size={18} />
-                        <input type="text" placeholder="Search books, authors, genres..." />
-                    </div>
-                    <div className="header-actions">
-                        <button className="icon-btn"><Bell size={20} /></button>
-                        <div className="user-profile-header" onClick={() => setActiveTab('profile')}>
-                            <img
-                                src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&bold=true`}
-                                alt="user"
-                            />
-                            <div className="user-info">
-                                <span className="user-name">{user.name}</span>
-                                <span className="user-role">{user.role}</span>
+                {/* Panel Content */}
+                <div className="panel-content">
+                    {/* Overview Tab */}
+                    {activeTab === 'overview' && (
+                        <div className="animate-fade-in">
+                            <div className="panel-stats-grid">
+                                <div className="panel-stat">
+                                    <span className="panel-stat-value">{stats.borrowed}</span>
+                                    <span className="panel-stat-label">Borrowed</span>
+                                </div>
+                                <div className="panel-stat">
+                                    <span className="panel-stat-value">{stats.pending}</span>
+                                    <span className="panel-stat-label">Active</span>
+                                </div>
+                                <div className="panel-stat">
+                                    <span className="panel-stat-value">{stats.overdue}</span>
+                                    <span className="panel-stat-label">Overdue</span>
+                                </div>
+                            </div>
+
+                            <p className="panel-section-title">Recent Activity</p>
+                            {recentActivities.length > 0 ? (
+                                recentActivities.map((activity, idx) => (
+                                    <div className="panel-activity-item" key={activity._id || idx}>
+                                        <div className={`panel-activity-icon ${activity.status === 'returned' ? 'returned' : (activity.isCurrentlyOverdue ? 'overdue' : 'borrowed')}`}>
+                                            {activity.status === 'returned' ? <History size={18} /> : <BookOpen size={18} />}
+                                        </div>
+                                        <div className="panel-activity-info">
+                                            <h4>{activity.book?.title || 'Unknown'}</h4>
+                                            <span>{new Date(activity.updatedAt || activity.issuedDate).toLocaleDateString()}</span>
+                                        </div>
+                                        <span className={`panel-activity-badge ${activity.status === 'returned' ? 'returned' : 'active'}`}>
+                                            {activity.status === 'returned' ? 'Returned' : 'Active'}
+                                        </span>
+                                    </div>
+                                ))
+                            ) : (
+                                <p style={{ color: '#94a3b8', fontSize: 14, padding: '20px 0' }}>No recent activity</p>
+                            )}
+
+                            <div className="panel-actions-row">
+                                <button className="panel-action-btn" onClick={() => { if (onClose) onClose(); navigate('/Catalog'); }}>
+                                    <BookOpen size={16} /> Browse Books
+                                </button>
+                                <button className="panel-action-btn" onClick={() => { if (onClose) onClose(); navigate('/mybooks'); }}>
+                                    <Bookmark size={16} /> My Books
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </header>
+                    )}
 
-                {/* ─── OVERVIEW TAB ─── */}
-                {activeTab === 'overview' && (
-                    <div className="dashboard-content animate-fade-in">
-                        {/* Mobile Logo Header */}
-                        <div className="mobile-header-only">
-                            <div className="md-logo">
-                                <div className="md-logo-icon">
-                                    <BookMarked size={18} />
+                    {/* History Tab */}
+                    {activeTab === 'history' && (
+                        <div className="animate-fade-in">
+                            <p className="panel-section-title">All Transactions</p>
+                            {issuedBooks.length > 0 ? (
+                                issuedBooks.map((activity, idx) => (
+                                    <div className="panel-activity-item" key={activity._id || idx}>
+                                        <div className={`panel-activity-icon ${activity.status === 'returned' ? 'returned' : (activity.isCurrentlyOverdue ? 'overdue' : 'borrowed')}`}>
+                                            {activity.status === 'returned' ? <History size={18} /> : <BookOpen size={18} />}
+                                        </div>
+                                        <div className="panel-activity-info">
+                                            <h4>{activity.book?.title || 'Unknown'}</h4>
+                                            <span>
+                                                {activity.status === 'returned' ? 'Returned' : 'Due'}: {new Date(activity.status === 'returned' ? (activity.returnDate || activity.updatedAt) : activity.dueDate).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                        <span className={`panel-activity-badge ${activity.status === 'returned' ? 'returned' : 'active'}`}>
+                                            {activity.status === 'returned' ? 'Returned' : 'Active'}
+                                        </span>
+                                    </div>
+                                ))
+                            ) : (
+                                <p style={{ color: '#94a3b8', fontSize: 14, padding: '20px 0' }}>No transactions yet</p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Profile Tab */}
+                    {activeTab === 'profile' && (
+                        <div className="animate-fade-in">
+                            <div className="panel-profile-section">
+                                <img
+                                    src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&bold=true&size=128`}
+                                    alt="Profile"
+                                    className="panel-profile-avatar"
+                                />
+                                <h3 className="panel-profile-name">{user.name}</h3>
+                                <p className="panel-profile-email">{user.email}</p>
+                            </div>
+
+                            <div className="panel-profile-details">
+                                <div className="panel-detail-row">
+                                    <span className="panel-detail-label"><Mail size={15} /> Email</span>
+                                    <span className="panel-detail-value">{user.email}</span>
                                 </div>
-                                <span className="md-logo-text">Lumina</span>
+                                <div className="panel-detail-row">
+                                    <span className="panel-detail-label"><Phone size={15} /> Phone</span>
+                                    <span className="panel-detail-value">{user.phone || 'Not set'}</span>
+                                </div>
+                                <div className="panel-detail-row">
+                                    <span className="panel-detail-label"><ShieldCheck size={15} /> Status</span>
+                                    <span className="panel-detail-value" style={{ color: '#10b981' }}>Active</span>
+                                </div>
+                                <div className="panel-detail-row">
+                                    <span className="panel-detail-label"><CreditCard size={15} /> Member ID</span>
+                                    <span className="panel-detail-value">LMS-{user._id ? user._id.substring(user._id.length - 8).toUpperCase() : '00000000'}</span>
+                                </div>
+                                <div className="panel-detail-row">
+                                    <span className="panel-detail-label"><Calendar size={15} /> Joined</span>
+                                    <span className="panel-detail-value">{memberDate}</span>
+                                </div>
+                            </div>
+
+                            <div className="panel-actions-row">
+                                <button className="panel-action-btn" onClick={() => switchTab('overview')}>
+                                    <Settings size={16} /> Settings
+                                </button>
+                                <button className="panel-action-btn danger" onClick={handleLogout}>
+                                    <LogOut size={16} /> Logout
+                                </button>
                             </div>
                         </div>
-
-                        <div className="welcome-banner desktop-only">
-                            <h1>Welcome back, {user.name.split(' ')[0]}! 👋</h1>
-                            <p>Here's what's happening with your library account today.</p>
-                        </div>
-
-                        <div className="md-greeting mobile-only">
-                            <h2>Hello {user.name.split(' ')[0]}, Ready for a New Adventure?</h2>
-                        </div>
-
-                        <div className="stats-grid">
-                            <div className="stat-card">
-                                <div className="stat-icon purple"><BookOpen size={24} /></div>
-                                <div className="stat-info">
-                                    <h3>{stats.borrowed}</h3>
-                                    <p>Books Borrowed</p>
-                                </div>
-                                {stats.borrowed > 0 && <div className="stat-trend positive"><TrendingUp size={14} /> Active</div>}
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon green"><Clock size={24} /></div>
-                                <div className="stat-info">
-                                    <h3>{stats.pending || '12'}</h3>
-                                    <p>Active</p>
-                                </div>
-                            </div>
-                            <div className="stat-card">
-                                <div className="stat-icon orange"><TrendingUp size={24} /></div>
-                                <div className="stat-info">
-                                    <h3>{stats.overdue || '05'}</h3>
-                                    <p>Waitlist</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Mobile Phone Search Bar */}
-                        <div className="md-search-container mobile-only">
-                            <div className="md-search-bar">
-                                <Search size={18} className="md-search-icon" />
-                                <input type="text" placeholder="Quick find..." readOnly />
-                            </div>
-                        </div>
-
-                        <div className="dashboard-grid">
-                            <div className="recent-activity">
-                                <div className="section-header">
-                                    <h2>Recent Activity</h2>
-                                    <button className="text-btn">View All</button>
-                                </div>
-                                <div className="activity-list">
-                                    {recentActivities.length > 0 ? (
-                                        recentActivities.map((activity, idx) => (
-                                            <div className="activity-item" key={activity._id || idx}>
-                                                <div className={`activity-icon ${activity.status === 'returned' ? 'blue' : (activity.isCurrentlyOverdue ? 'red' : 'green')}`}>
-                                                    {activity.status === 'returned' ? <History size={18} /> : <ShieldCheck size={18} />}
-                                                </div>
-                                                <div className="activity-details">
-                                                    <p>
-                                                        {activity.status === 'returned' ? 'Returned' : 'Borrowed'}
-                                                        <strong> "{activity.book?.title || 'Unknown'}"</strong>
-                                                    </p>
-                                                    <span>{new Date(activity.updatedAt || activity.issuedDate).toLocaleDateString()}</span>
-                                                </div>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p className="no-data">No recent activity found.</p>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="recommended-books">
-                                <div className="section-header md-section-header">
-                                    <h2>Recommended</h2>
-                                    <ArrowRight size={18} className="md-arrow-icon mobile-only" />
-                                </div>
-                                <div className="book-mini-list md-books-grid">
-                                    {recommendedBooks.length > 0 ? (
-                                        recommendedBooks.map((book) => (
-                                            <div className="book-mini-card md-book-card" key={book._id} onClick={() => navigate('/Catalog')}>
-                                                <div className="md-cover-container">
-                                                    <img
-                                                        src={book.coverImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(book.title)}&background=random`}
-                                                        alt={book.title}
-                                                    />
-                                                    <div className="md-rating-badge mobile-only">
-                                                        <Star size={12} fill="#f59e0b" stroke="none" />
-                                                        <span>4.8</span>
-                                                    </div>
-                                                </div>
-                                                <div className="book-mini-info md-book-details">
-                                                    <h4>{book.title}</h4>
-                                                    <p>{book.author || 'Unknown'}</p>
-                                                </div>
-                                                <ChevronRight size={18} className="chevron desktop-only" />
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p className="no-data">Browse our catalog for books.</p>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* ─── PROFILE TAB ─── */}
-                {activeTab === 'profile' && (
-                    <div className="profile-content animate-fade-in">
-                        <div className="profile-card">
-                            <div className="profile-cover"></div>
-                            <div className="profile-header-main">
-                                <div className="profile-img-container">
-                                    <img
-                                        src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&bold=true&size=128`}
-                                        alt="Profile"
-                                    />
-                                    <button className="edit-img-btn"><Calendar size={14} /></button>
-                                </div>
-                                <div className="profile-identity">
-                                    <h2>{user.name}</h2>
-                                    <p>{user.role.charAt(0).toUpperCase() + user.role.slice(1)} • Member since {memberDate}</p>
-                                </div>
-                                <button className="edit-profile-btn">Edit Profile</button>
-                            </div>
-
-                            <div className="profile-info-grid">
-                                <div className="info-group">
-                                    <label><Mail size={16} /> Email Address</label>
-                                    <p>{user.email}</p>
-                                </div>
-                                <div className="info-group">
-                                    <label><Phone size={16} /> Phone Number</label>
-                                    <p>{user.phone || 'Not provided'}</p>
-                                </div>
-                                <div className="info-group">
-                                    <label><ShieldCheck size={16} /> Account Status</label>
-                                    <p><span className="status-badge active">Active</span></p>
-                                </div>
-                                <div className="info-group">
-                                    <label><CreditCard size={16} /> Membership ID</label>
-                                    <p>LMS-{user._id ? user._id.substring(user._id.length - 8).toUpperCase() : '00000000'}</p>
-                                </div>
-                            </div>
-
-                            <div className="profile-stats-tabs">
-                                <div className="profile-stat-box">
-                                    <h4>{stats.borrowed}</h4>
-                                    <span>Books Borrowed</span>
-                                </div>
-                                <div className="profile-stat-box">
-                                    <h4>{stats.pending}</h4>
-                                    <span>Active Loans</span>
-                                </div>
-                                <div className="profile-stat-box">
-                                    <h4>{stats.overdue}</h4>
-                                    <span>Overdue</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </main>
-
-            {/* Bottom Navigation for Mobile */}
-            <div className="mobile-bottom-nav">
-                <div className={`md-nav-item ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => switchTab('overview')}>
-                    <HomeIcon size={24} />
-                    <span>Home</span>
-                </div>
-                <div className="md-nav-item" onClick={() => navigate('/Catalog')}>
-                    <BookOpen size={24} />
-                    <span>Catalog</span>
-                </div>
-                <div className={`md-nav-item ${activeTab === 'my-books' ? 'active' : ''}`} onClick={() => navigate('/mybooks')}>
-                    <Bookmark size={24} />
-                    <span>Bookmarks</span>
-                </div>
-                <div className={`md-nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => switchTab('profile')}>
-                    <User size={24} />
-                    <span>Profile</span>
+                    )}
                 </div>
             </div>
-        </div>
-    );
+        );
+    }
+
+    // Fallback: if not panel mode, redirect to home (since route was removed)
+    return null;
 };
 
 export default Dashboard;

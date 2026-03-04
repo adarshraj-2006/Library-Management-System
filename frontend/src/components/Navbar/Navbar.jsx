@@ -3,7 +3,7 @@ import { Menu, X, BookOpen, User, Moon, LogIn, UserPlus, LayoutDashboard } from 
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 
-export default function Navbar() {
+export default function Navbar({ onDashboardOpen }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -41,6 +41,14 @@ export default function Navbar() {
     { path: '/Contact', label: 'Help' },
   ];
 
+  const handleDashboardClick = (e) => {
+    e.preventDefault();
+    closeMenu();
+    if (onDashboardOpen) {
+      onDashboardOpen();
+    }
+  };
+
   return (
     <>
       {/* ===================== DESKTOP / TABLET NAVBAR ===================== */}
@@ -62,9 +70,9 @@ export default function Navbar() {
               <Moon size={20} color={iconColor} />
             </button>
             {user ? (
-              <Link to='/dashboard' className="user-nav-profile desktop-only">
-                <img src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random`} alt="user" />
-              </Link>
+              <button className="nav-dashboard-btn desktop-only" onClick={handleDashboardClick} aria-label="Dashboard">
+                <LayoutDashboard size={20} color={iconColor} />
+              </button>
             ) : (
               <Link to='/Login' className="desktop-only nav-signin-btn">Sign In</Link>
             )}
@@ -85,12 +93,20 @@ export default function Navbar() {
           </button>
         </div>
         <div className="drawer-auth">
-          <Link to='/Login' className="drawer-login-btn" onClick={closeMenu}>
-            <LogIn size={16} /> Log In
-          </Link>
-          <Link to='/Login' className="drawer-signup-btn" onClick={closeMenu}>
-            <UserPlus size={16} /> Sign Up
-          </Link>
+          {user ? (
+            <button className="drawer-dashboard-btn" onClick={handleDashboardClick}>
+              <LayoutDashboard size={16} /> Dashboard
+            </button>
+          ) : (
+            <>
+              <Link to='/Login' className="drawer-login-btn" onClick={closeMenu}>
+                <LogIn size={16} /> Log In
+              </Link>
+              <Link to='/Login' className="drawer-signup-btn" onClick={closeMenu}>
+                <UserPlus size={16} /> Sign Up
+              </Link>
+            </>
+          )}
         </div>
         <div className="drawer-section">
           <p className="drawer-section-title">Browse</p>
@@ -101,7 +117,7 @@ export default function Navbar() {
         <div className="drawer-section">
           <p className="drawer-section-title">Account</p>
           {user && (
-            <Link to='/dashboard' className={`drawer-link ${location.pathname === '/dashboard' ? 'active' : ''}`} onClick={closeMenu}>Dashboard</Link>
+            <button className="drawer-link" onClick={handleDashboardClick}>Dashboard</button>
           )}
           <Link to='/Contact' className={`drawer-link ${location.pathname === '/Contact' ? 'active' : ''}`} onClick={closeMenu}>Help &amp; Support</Link>
         </div>
@@ -114,22 +130,14 @@ export default function Navbar() {
         <div className="mobile-navbar-row1">
           <Link to="/Home" className="mobile-logo">Lumina</Link>
           <div className="mobile-navbar-icons">
-            {user ? (
-              <Link to='/dashboard' className="mobile-avatar-link">
-                <img
-                  src={user.avatar || `https://ui-avatars.com/api/?name=${user.name}&background=random`}
-                  alt="user"
-                  className="mobile-avatar"
-                />
-              </Link>
-            ) : (
+            {!user && (
               <Link to='/Login' className="mobile-icon-btn" aria-label="Sign in">
                 <User size={22} color="#1a1a1a" />
               </Link>
             )}
-            <Link to='/dashboard' className="mobile-icon-btn" aria-label="Dashboard">
+            <button className="mobile-icon-btn" onClick={handleDashboardClick} aria-label="Dashboard">
               <LayoutDashboard size={22} color="#1a1a1a" />
-            </Link>
+            </button>
           </div>
         </div>
 

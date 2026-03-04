@@ -45,8 +45,8 @@ function Catalog() {
       <div className="catalog-header animate-fade-in">
         <div className="header-content">
           <BookOpen className="header-icon" />
-          <h2 className="catalog-title">Knowledge Nexus</h2>
-          <p className="catalog-subtitle">Discover thousands of books, research papers, and more.</p>
+          <h2 className="catalog-title">"A room without books is like a body without a soul."</h2>
+        
         </div>
 
         <div className="search-container">

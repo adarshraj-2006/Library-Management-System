@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, BookOpen, User, Moon, LogIn, UserPlus, LayoutDashboard } from "lucide-react";
+import { Menu, X, BookOpen, User, LogIn, UserPlus, LayoutDashboard } from "lucide-react";
 import { useState, useEffect } from "react";
 import "./Navbar.css";
 
@@ -66,9 +66,7 @@ export default function Navbar({ onDashboardOpen }) {
           </div>
 
           <div className="nav-actions">
-            <button className="theme-toggle-btn desktop-only">
-              <Moon size={20} color={iconColor} />
-            </button>
+
             {user ? (
               <button className="nav-dashboard-btn desktop-only" onClick={handleDashboardClick} aria-label="Dashboard">
                 <LayoutDashboard size={20} color={iconColor} />

@@ -45,7 +45,10 @@ const Login = () => {
                 toast.success('Registration successful! Please verify your email.');
                 setIsLogin(true);
             }
-            console.error(errorMsg);
+        } catch (error) {
+            const errorMsg = error.response?.data?.message || 'Something went wrong. Please try again.';
+            toast.error(errorMsg);
+            console.error('Auth Error:', error);
         } finally {
             setLoading(false);
         }

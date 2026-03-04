@@ -27,12 +27,12 @@ const Login = () => {
         setLoading(true);
         try {
             if (isForgot) {
-                await API.post('/auth/auth/forgot-password', { email: formData.email });
+                await API.post('/api/auth/forgot-password', { email: formData.email });
                 toast.success('Reset link sent! Please check your email inbox.');
                 setIsForgot(false);
                 setIsLogin(true);
             } else if (isLogin) {
-                const res = await API.post('/auth/auth/login', {
+                const res = await API.post('/api/auth/login', {
                     email: formData.email,
                     password: formData.password
                 });
@@ -41,7 +41,7 @@ const Login = () => {
                 toast.success('Welcome back!');
                 navigate('/Home');
             } else {
-                await API.post('/auth/auth/register', formData);
+                await API.post('/api/auth/register', formData);
                 toast.success('Registration successful! Please verify your email.');
                 setIsLogin(true);
             }

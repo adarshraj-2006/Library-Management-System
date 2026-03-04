@@ -26,7 +26,7 @@ const Mybooks = () => {
       setIssues(issuedRes.data.data.issues || []);
       setAllIssues(allRes.data.data.issues || []);
     } catch (err) {
-      toast.error('Failed to load your books');
+      console.error('Failed to load your books');
     } finally {
       setLoading(false);
     }
@@ -101,7 +101,7 @@ const Mybooks = () => {
       toast.success('Book returned successfully', { id: loadingToast });
       fetchMyBooks(); // Refresh the list
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to return book');
+      console.error(err.response?.data?.message || 'Failed to return book');
     }
   };
 

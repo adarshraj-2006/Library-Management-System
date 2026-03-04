@@ -45,11 +45,7 @@ const Login = () => {
                 toast.success('Registration successful! Please verify your email.');
                 setIsLogin(true);
             }
-        } catch (error) {
-            const errorMsg = error.response?.data?.errors
-                ? error.response.data.errors.join(", ")
-                : (error.response?.data?.message || 'Something went wrong');
-            toast.error(errorMsg);
+            console.error(errorMsg);
         } finally {
             setLoading(false);
         }

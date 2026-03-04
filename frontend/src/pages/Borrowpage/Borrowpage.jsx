@@ -40,7 +40,7 @@ const Borrowpage = () => {
             setSuccess(true);
             toast.success('Book borrowed successfully!');
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to borrow book');
+            console.error(error.response?.data?.message || 'Failed to borrow book');
         } finally {
             setLoading(false);
         }

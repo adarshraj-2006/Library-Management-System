@@ -23,7 +23,7 @@ function Catalog() {
       console.log("Catalog API Response:", res.data);
       setBooks(res.data.data.books);
     } catch (err) {
-      toast.error("Failed to load books");
+      console.error("Failed to load books");
     } finally {
       setLoading(false);
     }
@@ -46,7 +46,7 @@ function Catalog() {
         <div className="header-content">
           <BookOpen className="header-icon" />
           <h2 className="catalog-title">"A room without books is like a body without a soul."</h2>
-        
+
         </div>
 
         <div className="search-container">

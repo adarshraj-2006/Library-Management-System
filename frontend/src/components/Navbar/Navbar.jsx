@@ -67,10 +67,12 @@ export default function Navbar({ onDashboardOpen }) {
 
           <div className="nav-actions">
 
-            {user && (
+            {user ? (
               <button className="nav-dashboard-btn desktop-only" onClick={handleDashboardClick} aria-label="Dashboard">
                 <LayoutDashboard size={20} color={iconColor} />
               </button>
+            ) : (
+              <Link to='/Login' className="desktop-only nav-signin-btn">Sign In</Link>
             )}
             {/* Hamburger — tablet range only (769–900px) */}
             <button className="menu-toggle tablet-only" onClick={toggleMenu} aria-label="Toggle menu">
@@ -89,10 +91,14 @@ export default function Navbar({ onDashboardOpen }) {
           </button>
         </div>
         <div className="drawer-auth">
-          {user && (
+          {user ? (
             <button className="drawer-dashboard-btn" onClick={handleDashboardClick}>
               <LayoutDashboard size={16} /> Dashboard
             </button>
+          ) : (
+            <Link to='/Login' className="drawer-login-btn" onClick={closeMenu}>
+              <LogIn size={16} /> Sign In
+            </Link>
           )}
         </div>
         <div className="drawer-section">
@@ -118,6 +124,11 @@ export default function Navbar({ onDashboardOpen }) {
           <Link to="/Home" className="mobile-logo">Lumina</Link>
           <div className="mobile-navbar-icons">
 
+            {!user && (
+              <Link to='/Login' className="mobile-icon-btn" aria-label="Sign in">
+                <User size={22} color="#1a1a1a" />
+              </Link>
+            )}
             <button className="mobile-icon-btn" onClick={handleDashboardClick} aria-label="Dashboard">
               <LayoutDashboard size={22} color="#1a1a1a" />
             </button>

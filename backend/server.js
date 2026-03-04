@@ -21,25 +21,12 @@ app.use(helmet());               // Secure HTTP headers
 app.use(cookieParser());         // Parse httpOnly cookies
 
 // CORS
-const allowedOrigins = process.env.CLIENT_URL 
-    ? process.env.CLIENT_URL.split(',').map(url => url.trim())
-    : ["http://localhost:5173", "https://frontend-one-murex-54.vercel.app"];
-
 app.use(
     cors({
-        origin: (origin, callback) => {
-            // Allow requests with no origin (like mobile apps or curl requests)
-            if (!origin) return callback(null, true);
-            
-            if (allowedOrigins.indexOf(origin) !== -1) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
+        origin: true, // Allow all origins
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     })
 );
 
@@ -50,8 +37,8 @@ const globalLimiter = rateLimit({
     max: isDevelopment ? 1000 : 100, // 1000 requests in dev, 100 in production
     standardHeaders: true,
     legacyHeaders: false,
-    message: { 
-        success: false, 
+    message: {
+        success: false,
         message: "Too many requests. Please try again later.",
         retryAfter: Math.ceil(15 * 60) // seconds until retry
     },
@@ -66,8 +53,8 @@ const authLimiter = rateLimit({
     max: isDevelopment ? 100 : 20, // More lenient in dev
     standardHeaders: true,
     legacyHeaders: false,
-    message: { 
-        success: false, 
+    message: {
+        success: false,
         message: "Too many authentication attempts. Please wait 15 minutes.",
         retryAfter: Math.ceil(15 * 60)
     },
@@ -110,13 +97,7 @@ app.use((req, res) => {
 app.use((err, req, res, next) => {
     console.error("❌ Unhandled Error:", err.stack);
 
-    // CORS error
-    if (err.message === 'Not allowed by CORS') {
-        return res.status(403).json({ 
-            success: false, 
-            message: "CORS: Request origin not allowed." 
-        });
-    }
+
 
     // Rate limit error (handled by express-rate-limit middleware, but just in case)
     if (err.status === 429) {

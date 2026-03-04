@@ -6,7 +6,7 @@ export const register = async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
 
-        // Basic email validation
+    // Basic email validation                   
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({ message: "Please provide a valid email address" });

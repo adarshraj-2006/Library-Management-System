@@ -10,6 +10,8 @@ import About from "./pages/About/About";
 import NotFound from "./pages/NotFound/NotFound";
 import Borrowpage from "./pages/Borrowpage/Borrowpage";
 import Login from "./pages/Login/Login";
+import ResetPassword from "./pages/Login/ResetPassword";
+import VerifyEmail from "./pages/Login/VerifyEmail";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary";
 import Footer from "./components/Footer/Footer";
@@ -56,6 +58,8 @@ function App() {
               <Route path="/About" element={<About />} />
               <Route path="/borrow" element={<Borrowpage />} />
               <Route path="/Login" element={<Login />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route path="/verify-email/:token" element={<VerifyEmail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>

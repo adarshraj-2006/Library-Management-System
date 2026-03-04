@@ -95,10 +95,37 @@
     margin-top: -8px;
 }
 
-.forgot-link a {
+.forgot-link a,
+.text-link {
     font-size: 13px;
     font-weight: 600;
     color: #4b5563;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+
+.text-link:hover {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.back-to-login {
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: color 0.2s;
+}
+
+.back-to-login:hover {
+    color: #1f2937;
+    text-decoration: underline;
 }
 
 .submit-btn {

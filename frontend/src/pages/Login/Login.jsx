@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const [isForgot, setIsForgot] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -25,7 +26,12 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            if (isLogin) {
+            if (isForgot) {
+                await API.post('/auth/forgot-password', { email: formData.email });
+                toast.success('Reset link sent! Please check your email inbox.');
+                setIsForgot(false);
+                setIsLogin(true);
+            } else if (isLogin) {
                 const res = await API.post('/auth/login', {
                     email: formData.email,
                     password: formData.password
@@ -49,6 +55,16 @@ const Login = () => {
         }
     };
 
+    const getTitle = () => {
+        if (isForgot) return 'Reset password';
+        return isLogin ? 'Sign in with email' : 'Create an account';
+    };
+
+    const getSubtitle = () => {
+        if (isForgot) return 'Enter your email to receive a password reset link';
+        return isLogin ? 'Enter your details to access your account' : 'Fill in the information to get started';
+    };
+
     return (
         <div className="login-container">
             <div className="login-box animate-fade-in">
@@ -56,12 +72,12 @@ const Login = () => {
                     <div className="login-logo-box">
                         <BookMarked size={28} />
                     </div>
-                    <h1>{isLogin ? 'Sign in with email' : 'Create an account'}</h1>
-                    <p>{isLogin ? 'Enter your details to access your account' : 'Fill in the information to get started'}</p>
+                    <h1>{getTitle()}</h1>
+                    <p>{getSubtitle()}</p>
                 </div>
 
                 <form className="login-auth-form" onSubmit={handleSubmit}>
-                    {!isLogin && (
+                    {!isLogin && !isForgot && (
                         <div className="input-field">
                             <User size={18} className="field-icon" />
                             <input
@@ -87,7 +103,7 @@ const Login = () => {
                         />
                     </div>
 
-                    {!isLogin && (
+                    {!isLogin && !isForgot && (
                         <div className="input-field">
                             <Phone size={18} className="field-icon" />
                             <input
@@ -101,27 +117,39 @@ const Login = () => {
                         </div>
                     )}
 
-                    <div className="input-field">
-                        <Lock size={18} className="field-icon" />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    {!isForgot && (
+                        <div className="input-field">
+                            <Lock size={18} className="field-icon" />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    )}
 
-                    {isLogin && (
+                    {isLogin && !isForgot && (
                         <div className="forgot-link">
-                            <a href="#">Forgot password?</a>
+                            <button type="button" className="text-link" onClick={() => setIsForgot(true)}>
+                                Forgot password?
+                            </button>
                         </div>
                     )}
 
                     <button type="submit" className="submit-btn" disabled={loading}>
-                        {loading ? <Loader2 className="animate-spin" /> : (isLogin ? 'Get Started' : 'Sign Up')}
+                        {loading ? <Loader2 className="animate-spin" /> : (
+                            isForgot ? 'Send Reset Link' : (isLogin ? 'Get Started' : 'Sign Up')
+                        )}
                     </button>
+
+                    {isForgot && (
+                        <button type="button" className="back-to-login" onClick={() => setIsForgot(false)}>
+                            Back to Login
+                        </button>
+                    )}
                 </form>
 
                 <div className="social-divider">
@@ -136,9 +164,9 @@ const Login = () => {
 
                 <div className="toggle-auth">
                     {isLogin ? (
-                        <p>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></p>
+                        <p>Don't have an account? <span onClick={() => { setIsLogin(false); setIsForgot(false); }}>Sign up</span></p>
                     ) : (
-                        <p>Already have an account? <span onClick={() => setIsLogin(true)}>Sign in</span></p>
+                        <p>Already have an account? <span onClick={() => { setIsLogin(true); setIsForgot(false); }}>Sign in</span></p>
                     )}
                 </div>
             </div>

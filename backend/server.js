@@ -1,13 +1,15 @@
 dotenv.config();
 import dotenv from "dotenv";
 
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
 
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./src/routes/auth.routes.js";
 import fs from "fs";
+import bookRoutes from "./src/routes/book.routes.js";
+
 
 const app = express();
 
@@ -29,6 +31,7 @@ app.use(express.json());
 
 // 4. Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/books",bookRoutes);
 
 // 5. DB Connect
 mongoose.connect(process.env.MONGO_URI)

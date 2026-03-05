@@ -1,11 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./src/routes/auth.routes.js";
 import fs from "fs";
-
-dotenv.config();
 
 const app = express();
 

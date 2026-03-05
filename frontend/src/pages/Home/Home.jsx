@@ -112,6 +112,21 @@ function Home() {
         </div>
       </div>
 
+      {/* Split Promo Section */}
+      <div className="home-promo-section animate-fade-in">
+        <div className="promo-split-container">
+          <div className="promo-content-left">
+            <span className="promo-tag">New Arrivals</span>
+            <h2>Discover the Classics</h2>
+            <p>Limited edition digital collectibles now available in our premium archival section. Explore history's most renowned authors.</p>
+            <button className="promo-cta" onClick={() => navigate('/Catalog')}>Explore Collection</button>
+          </div>
+          <div className="promo-image-right">
+            <img src="/assets/heropage/3.png" alt="Library Promotion" className="promo-split-img" />
+          </div>
+        </div>
+      </div>
+
       {/* Book Collections Section */}
       <div className="collections-container animate-fade-in">
         {/* Section 1: Your Reading List */}

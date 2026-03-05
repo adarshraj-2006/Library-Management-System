@@ -100,6 +100,19 @@
   -webkit-text-fill-color: transparent;
 }
 
+.logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.2));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover .logo-img {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.4));
+}
+
 /* ============================================================
    DESKTOP NAV LINKS
    ============================================================ */
@@ -283,6 +296,17 @@
   align-items: center;
   padding: 20px 24px 16px;
   border-bottom: 1px solid #f0f0f0;
+}
+
+.drawer-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.drawer-logo-img {
+  height: 38px;
+  width: auto;
 }
 
 .drawer-title {
@@ -509,6 +533,9 @@
   }
 
   .mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 22px;
     font-weight: 800;
     font-family: 'Outfit', sans-serif;
@@ -518,6 +545,11 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.4px;
+  }
+
+  .mobile-logo-img {
+    height: 36px;
+    width: auto;
   }
 
   .mobile-navbar-icons {

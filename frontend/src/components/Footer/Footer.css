@@ -16,12 +16,25 @@
     gap: 60px;
 }
 
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.footer-logo-img {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+}
+
 .footer-logo h2 {
     font-family: 'Outfit', sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
     color: #111;
-    margin-bottom: 24px;
+    margin-bottom: 0;
 }
 
 .footer-desc {
@@ -148,5 +161,9 @@
         flex-direction: column;
         gap: 20px;
         text-align: center;
+    }
+
+    .footer-logo-img {
+        height: 45px;
     }
 }

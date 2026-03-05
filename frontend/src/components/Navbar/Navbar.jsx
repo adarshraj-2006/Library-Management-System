@@ -55,6 +55,7 @@ export default function Navbar({ onDashboardOpen }) {
       <nav className={`navbar ${isTransparent && !scrolled ? 'transparent' : ''} ${scrolled ? 'scrolled' : ''}`}>
         <div className="container">
           <Link to="/Home" className="logo">
+            <img src="/assets/heropage/4.png" alt="Lumina Logo" className="logo-img" />
             <span>Lumina</span>
           </Link>
 
@@ -85,7 +86,10 @@ export default function Navbar({ onDashboardOpen }) {
       {/* === Tablet Slide-In Drawer === */}
       <div className={`mobile-drawer ${isOpen ? 'open' : ''}`}>
         <div className="drawer-header">
-          <span className="drawer-title">Lumina</span>
+          <div className="drawer-logo-wrapper">
+            <img src="/assets/heropage/4.png" alt="Lumina Logo" className="drawer-logo-img" />
+            <span className="drawer-title">Lumina</span>
+          </div>
           <button className="drawer-close" onClick={closeMenu} aria-label="Close menu">
             <X size={24} color="#1a1a1a" />
           </button>
@@ -121,7 +125,10 @@ export default function Navbar({ onDashboardOpen }) {
       <div className="mobile-navbar">
         {/* Row 1: Brand + Profile */}
         <div className="mobile-navbar-row1">
-          <Link to="/Home" className="mobile-logo">Lumina</Link>
+          <Link to="/Home" className="mobile-logo">
+            <img src="/assets/heropage/4.png" alt="Lumina Logo" className="mobile-logo-img" />
+            <span>Lumina</span>
+          </Link>
           <div className="mobile-navbar-icons">
 
             {!user && (

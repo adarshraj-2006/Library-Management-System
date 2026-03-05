@@ -42,12 +42,17 @@ function Catalog() {
 
   return (
     <div className="catalog">
-      <div className="catalog-header animate-fade-in">
-        <div className="header-content">
-          <BookOpen className="header-icon" />
-          <h2 className="catalog-title">"A room without books is like a body without a soul."</h2>
-
+      <div className="catalog-banner">
+        <img src="/assets/heropage/2.png" alt="Library Catalog" className="catalog-banner-img" />
+        <div className="banner-overlay">
+          <div className="banner-text">
+            <h1>Our Collection</h1>
+            <p>Explore thousands of digital books at your fingertips.</p>
+          </div>
         </div>
+      </div>
+      <div className="catalog-header animate-fade-in">
+
 
         <div className="search-container">
           <div className="search-bar">

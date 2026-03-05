@@ -12,6 +12,7 @@ const Footer = () => {
                 {/* Brand Column */}
                 <div className="footer-col brand-col">
                     <div className="footer-logo">
+                        <img src="/assets/heropage/4.png" alt="Lumina Logo" className="footer-logo-img" />
                         <h2>Lumina</h2>
                     </div>
                     <p className="footer-desc">

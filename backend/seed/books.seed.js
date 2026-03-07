@@ -1,27 +1,27 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import Book from "../models/Book.js";
+import Book from "../src/models/book.model.js";
 import books from "./booksData.js";
 
 dotenv.config();
 
 const seedBooks = async () => {
-try {
+    try {
 
-await mongoose.connect(process.env.MONGO_URI);
+        await mongoose.connect(process.env.MONGO_URI);
 
-await Book.deleteMany(); // clear existing books
+        await Book.deleteMany(); // clear existing books
 
-await Book.insertMany(books);
+        await Book.insertMany(books);
 
-console.log("Books Seeded Successfully");
+        console.log("Books Seeded Successfully");
 
-process.exit();
+        process.exit();
 
-} catch (error) {
-console.log(error);
-process.exit(1);
-}
+    } catch (error) {
+        console.log(error);
+        process.exit(1);
+    }
 };
 
 seedBooks();

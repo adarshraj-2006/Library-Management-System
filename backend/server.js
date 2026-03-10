@@ -13,9 +13,19 @@ import bookRoutes from "./src/routes/book.routes.js";
 
 const app = express();
 
-// 1. CORS Configuration (Handles Preflight automatically)
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 }));
@@ -31,7 +41,7 @@ app.use(express.json());
 
 // 4. Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/books",bookRoutes);
+app.use("/api/books", bookRoutes);
 
 // 5. DB Connect
 mongoose.connect(process.env.MONGO_URI)

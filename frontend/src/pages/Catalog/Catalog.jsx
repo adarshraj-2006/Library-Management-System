@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Catalog.css";
 import BookCard from "../../components/Bookcard/Bookcard";
-import { Search, Loader2, BookOpen } from "lucide-react";
+import { Search, Loader2 } from "lucide-react";
 import NotFound from "../NotFound/NotFound";
 import BookDetails from "../../components/Bookdetails/Bookdetails";
 import API from "../../services/api";
@@ -20,21 +20,27 @@ function Catalog() {
   const fetchBooks = async () => {
     try {
       const res = await API.get("/books");
-      console.log("Catalog API Response:", res.data);
-      setBooks(res.data.data.books);
+
+      // Works for both API formats
+      const booksData = res.data?.data?.books || res.data;
+
+      setBooks(booksData);
     } catch (err) {
-      console.error("Failed to load books");
+      toast.error("Failed to load books");
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleSearch = async (e) => {
-    setSearchTerm(e.target.value);
-    // Real-time search if needed
+    const value = e.target.value;
+    setSearchTerm(value);
+
     try {
-      const res = await API.get(`/books?search=${e.target.value}`);
-      setBooks(res.data.data.books);
+      const res = await API.get(`/books?search=${value}`);
+      const booksData = res.data?.data?.books || res.data;
+      setBooks(booksData);
     } catch (err) {
       console.error(err);
     }
@@ -42,17 +48,7 @@ function Catalog() {
 
   return (
     <div className="catalog">
-      <div className="catalog-banner">
-        <img src="/assets/heropage/2.png" alt="Library Catalog" className="catalog-banner-img" />
-        <div className="banner-overlay">
-          <div className="banner-text">
-            <h1>Our Collection</h1>
-            <p>Explore thousands of digital books at your fingertips.</p>
-          </div>
-        </div>
-      </div>
-      <div className="catalog-header animate-fade-in">
-
+      <div className="catalog-header">
 
         <div className="search-container">
           <div className="search-bar">
@@ -64,6 +60,7 @@ function Catalog() {
               onChange={handleSearch}
             />
           </div>
+
           <div className="results-count">
             {loading ? "..." : books.length} books found
           </div>
@@ -84,15 +81,19 @@ function Catalog() {
                 className="book-card-wrapper"
                 onClick={() => setSelectedBook(book)}
               >
-                <BookCard
-                  {...book}
-                />
+                <BookCard {...book} />
               </div>
             ))
           ) : (
             <div className="no-results">
               <NotFound />
-              <button className="clear-search" onClick={() => { setSearchTerm(""); fetchBooks(); }}>
+              <button
+                className="clear-search"
+                onClick={() => {
+                  setSearchTerm("");
+                  fetchBooks();
+                }}
+              >
                 View All Books
               </button>
             </div>

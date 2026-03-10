@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Book from "../src/models/book.model.js";
-import books from "./booksData.js";
+import books from "./bookData.js";
 
 dotenv.config();
 

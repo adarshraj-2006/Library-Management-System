@@ -63,8 +63,7 @@
 .catalog-header {
   position: relative;
   background: linear-gradient(180deg, #f0f7ff 0%, #e8f0fe 50%, #f8fafc 100%);
-  padding: 60px 40px 80px;
-  /* Reduced padding since we have a banner */
+  padding: 100px 40px 80px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -360,7 +359,7 @@
   }
 
   .catalog-header {
-    padding: 40px 24px 60px;
+    padding: 80px 24px 60px;
   }
 
   .catalog-header::before {

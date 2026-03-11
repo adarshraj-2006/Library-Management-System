@@ -21,8 +21,8 @@ function Catalog() {
     try {
       const res = await API.get("/books");
 
-      // Works for both API formats
-      const booksData = res.data?.data?.books || res.data;
+      // Backend returns { success: true, books: [...] }
+      const booksData = res.data?.books || [];
 
       setBooks(booksData);
     } catch (err) {
@@ -39,7 +39,7 @@ function Catalog() {
 
     try {
       const res = await API.get(`/books?search=${value}`);
-      const booksData = res.data?.data?.books || res.data;
+      const booksData = res.data?.books || [];
       setBooks(booksData);
     } catch (err) {
       console.error(err);

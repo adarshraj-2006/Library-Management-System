@@ -10,7 +10,7 @@ const books = [
         availableCopies: 10,
         ratings: 4.7,
         isbn: "978-0132350884",
-        coverImage: "http://localhost:5000/assets/books/book1.jpg"
+        coverImage: "/assets/books/book1.jpg"
     },
     {
         title: "Atomic Habits",
@@ -23,7 +23,7 @@ const books = [
         availableCopies: 8,
         ratings: 4.8,
         isbn: "978-0735211292",
-        coverImage: "http://localhost:5000/assets/books/book2.jpg"
+        coverImage: "/assets/books/book2.jpg"
     },
     {
         title: "The Pragmatic Programmer",
@@ -36,7 +36,7 @@ const books = [
         availableCopies: 5,
         ratings: 4.6,
         isbn: "978-0135957059",
-        coverImage: "http://localhost:5000/assets/books/book3.jpg"
+        coverImage: "/assets/books/book3.jpg"
     },
     {
         title: "The Great Gatsby",
@@ -49,7 +49,7 @@ const books = [
         availableCopies: 7,
         ratings: 4.3,
         isbn: "978-0743273565",
-        coverImage: "http://localhost:5000/assets/books/book4.jpg"
+        coverImage: "/assets/books/book4.jpg"
     },
     {
         title: "To Kill a Mockingbird",
@@ -62,7 +62,7 @@ const books = [
         availableCopies: 6,
         ratings: 4.8,
         isbn: "978-0061935466",
-        coverImage: "http://localhost:5000/assets/books/book5.jpg"
+        coverImage: "/assets/books/book5.jpg"
     },
     {
         title: "1984",
@@ -75,8 +75,8 @@ const books = [
         availableCopies: 9,
         ratings: 4.7,
         isbn: "978-0451524935",
-        coverImage: "http://localhost:5000/assets/books/book6.jpg"
-    },
+        coverImage: "/assets/books/book6.jpg"
+    },  
     {
         title: "Harry Potter and the Sorcerer's Stone",
         author: "J.K. Rowling",
@@ -88,7 +88,7 @@ const books = [
         availableCopies: 12,
         ratings: 4.9,
         isbn: "978-0590353427",
-        coverImage: "http://localhost:5000/assets/books/book7.jpg"
+        coverImage: "/assets/books/book7.jpg"
     },
     {
         title: "The Alchemist",
@@ -101,8 +101,8 @@ const books = [
         availableCopies: 8,
         ratings: 4.6,
         isbn: "978-0062315007",
-        coverImage: "http://localhost:5000/assets/books/book8.jpg"
-    },
+        coverImage: "/assets/books/book8.jpg"
+    },  
     {
         title: "Sapiens: A Brief History of Humankind",
         author: "Yuval Noah Harari",
@@ -114,8 +114,8 @@ const books = [
         availableCopies: 7,
         ratings: 4.7,
         isbn: "978-0062316097",
-        coverImage: "http://localhost:5000/assets/books/book9.jpg"
-    },
+        coverImage: "/assets/books/book9.jpg"
+    },      
     {
         title: "The Design of Everyday Things",
         author: "Don Norman",
@@ -127,8 +127,8 @@ const books = [
         availableCopies: 5,
         ratings: 4.5,
         isbn: "978-0465050659",
-        coverImage: "http://localhost:5000/assets/books/book10.jpg"
-    },
+        coverImage: "/assets/books/book10.jpg"
+    },  
     {
         title: "Deep Work",
         author: "Cal Newport",
@@ -140,8 +140,8 @@ const books = [
         availableCopies: 6,
         ratings: 4.6,
         isbn: "978-1455586691",
-        coverImage: "http://localhost:5000/assets/books/book11.jpg"
-    },
+        coverImage: "/assets/books/book11.jpg"
+    },      
     {
         title: "Dune",
         author: "Frank Herbert",
@@ -153,8 +153,8 @@ const books = [
         availableCopies: 6,
         ratings: 4.7,
         isbn: "978-0441013593",
-        coverImage: "http://localhost:5000/assets/books/book12.jpg"
-    },
+        coverImage: "/assets/books/book12.jpg"
+    },  
     {
         title: "The 7 Habits of Highly Effective People",
         author: "Stephen R. Covey",
@@ -166,7 +166,7 @@ const books = [
         availableCopies: 7,
         ratings: 4.5,
         isbn: "978-1982137274",
-        coverImage: "http://localhost:5000/assets/books/book13.jpg"
+        coverImage: "/assets/books/book13.jpg"
     },
     {
         title: "Think and Grow Rich",
@@ -179,7 +179,7 @@ const books = [
         availableCopies: 5,
         ratings: 4.4,
         isbn: "978-1585424331",
-        coverImage: "http://localhost:5000/assets/books/book14.jpg"
+        coverImage: "/assets/books/book14.jpg"
     },
     {
         title: "The Hitchhiker's Guide to the Galaxy",
@@ -192,7 +192,7 @@ const books = [
         availableCopies: 6,
         ratings: 4.7,
         isbn: "978-0345391803",
-        coverImage: "http://localhost:5000/assets/books/book15.jpg"
+        coverImage: "/assets/books/book15.jpg"
     },
     {
         title: "You Don't Know JS",
@@ -205,7 +205,7 @@ const books = [
         availableCopies: 5,
         ratings: 4.8,
         isbn: "978-1491924464",
-        coverImage: "http://localhost:5000/assets/books/book16.jpg"
+        coverImage: "/assets/books/book16.jpg"
     },
     {
         title: "The Lean Startup",
@@ -218,7 +218,7 @@ const books = [
         availableCopies: 7,
         ratings: 4.5,
         isbn: "978-0307887894",
-        coverImage: "http://localhost:5000/assets/books/book17.jpg"
+        coverImage: "/assets/books/book17.jpg"
     },
     {
         title: "Brave New World",
@@ -231,7 +231,7 @@ const books = [
         availableCopies: 5,
         ratings: 4.4,
         isbn: "978-0060850524",
-        coverImage: "http://localhost:5000/assets/books/book18.jpg"
+        coverImage: "/assets/books/book18.jpg"
     },
     {
         title: "The Lord of the Rings",
@@ -244,7 +244,7 @@ const books = [
         availableCopies: 8,
         ratings: 4.9,
         isbn: "978-0544003415",
-        coverImage: "http://localhost:5000/assets/books/book19.jpg"
+        coverImage: "/assets/books/book19.jpg"
     },
     {
         title: "Zero to One",
@@ -257,7 +257,7 @@ const books = [
         availableCopies: 6,
         ratings: 4.5,
         isbn: "978-0804139021",
-        coverImage: "http://localhost:5000/assets/books/book20.jpg"
+        coverImage: "/assets/books/book20.jpg"
     },
     {
         title: "The Power of Now",
@@ -269,8 +269,8 @@ const books = [
         totalCopies: 5,
         availableCopies: 5,
         ratings: 4.4,
-        isbn: "978-1577314806",
-        coverImage: "http://localhost:5000/assets/books/book21.jpg"
+        isbn: "978-1577314806", 
+        coverImage: "/assets/books/book21.jpg"
     },
     {
         title: "Introduction to Algorithms",
@@ -283,7 +283,7 @@ const books = [
         availableCopies: 4,
         ratings: 4.6,
         isbn: "978-0262033848",
-        coverImage: "http://localhost:5000/assets/books/book22.jpg"
+        coverImage: "/assets/books/book22.jpg"
     },
     {
         title: "Rich Dad Poor Dad",
@@ -296,7 +296,7 @@ const books = [
         availableCopies: 8,
         ratings: 4.4,
         isbn: "978-1612680194",
-        coverImage: "http://localhost:5000/assets/books/book23.jpg"
+        coverImage: "/assets/books/book23.jpg"
     },
     {
         title: "The Catcher in the Rye",
@@ -309,7 +309,7 @@ const books = [
         availableCopies: 6,
         ratings: 4.2,
         isbn: "978-0316769174",
-        coverImage: "http://localhost:5000/assets/books/book24.jpg"
+        coverImage: "/assets/books/book24.jpg"
     },
     {
         title: "Don't Make Me Think",
@@ -322,7 +322,7 @@ const books = [
         availableCopies: 5,
         ratings: 4.5,
         isbn: "978-0321965516",
-        coverImage: "http://localhost:5000/assets/books/book25.jpg"
+        coverImage: "/assets/books/book25.jpg"
     },
     {
         title: "Thinking, Fast and Slow",
@@ -335,7 +335,7 @@ const books = [
         availableCopies: 6,
         ratings: 4.6,
         isbn: "978-0374533557",
-        coverImage: "http://localhost:5000/assets/books/book26.jpg"
+        coverImage: "/assets/books/book26.jpg"
     },
     {
         title: "The Subtle Art of Not Giving a F*ck",
@@ -348,7 +348,7 @@ const books = [
         availableCopies: 7,
         ratings: 4.3,
         isbn: "978-0062457714",
-        coverImage: "http://localhost:5000/assets/books/book27.jpg"
+        coverImage: "/assets/books/book27.jpg"
     },
     {
         title: "Good to Great",
@@ -361,7 +361,7 @@ const books = [
         availableCopies: 5,
         ratings: 4.5,
         isbn: "978-0066620992",
-        coverImage: "http://localhost:5000/assets/books/book28.jpg"
+        coverImage: "/assets/books/book28.jpg"
     },
     {
         title: "The Art of War",
@@ -374,7 +374,7 @@ const books = [
         availableCopies: 9,
         ratings: 4.5,
         isbn: "978-1599869773",
-        coverImage: "http://localhost:5000/assets/books/book29.jpg"
+        coverImage: "/assets/books/book29.jpg"
     },
     {
         title: "Cracking the Coding Interview",
@@ -387,7 +387,7 @@ const books = [
         availableCopies: 6,
         ratings: 4.7,
         isbn: "978-0984782857",
-        coverImage: "http://localhost:5000/assets/books/book30.jpg"
+        coverImage: "/assets/books/book30.jpg"
     },
     {
         title: "Meditations",
@@ -400,7 +400,7 @@ const books = [
         availableCopies: 7,
         ratings: 4.8,
         isbn: "978-0140449334",
-        coverImage: "http://localhost:5000/assets/books/book31.jpg"
+        coverImage: "/assets/books/book31.jpg"
     }
 ];
 

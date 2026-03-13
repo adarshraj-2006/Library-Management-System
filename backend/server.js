@@ -10,6 +10,7 @@ import cors from "cors";
 import authRoutes from "./src/routes/auth.routes.js";
 import fs from "fs";
 import bookRoutes from "./src/routes/book.routes.js";
+import issueRoutes from "./src/routes/issue.routes.js";
 
 
 const app = express();
@@ -43,6 +44,7 @@ app.use(express.json());
 // 4. Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/issues", issueRoutes);
 
 // 5. DB Connect
 mongoose.connect(process.env.MONGO_URI)

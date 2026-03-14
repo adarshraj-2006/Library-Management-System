@@ -3,7 +3,9 @@ import toast from "react-hot-toast";
 
 let API_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
 
-// Sanitize URL: Remove trailing slash first, then ensure it ends with /api
+// Sanitize URL: Remove any existing /api suffix and trailing slashes, then append exactly one /api
+API_URL = API_URL.trim().replace(/\/+$/, "").replace(/\/api$/, "");
+API_URL = `${API_URL}/api`;
 
 
 const API = axios.create({

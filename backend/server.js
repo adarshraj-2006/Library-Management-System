@@ -42,6 +42,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // 4. Routes
+app.get("/", (req, res) => {
+  res.json({ message: "Library Management System API is running", status: "OK" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/issues", issueRoutes);

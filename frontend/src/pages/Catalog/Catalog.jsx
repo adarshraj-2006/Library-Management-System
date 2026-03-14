@@ -22,7 +22,7 @@ function Catalog() {
       const res = await API.get("/books");
 
       // Backend returns { success: true, books: [...] }
-      const booksData = res.data?.books || res.data?.data?.books || [];
+      const booksData = res.data?.books || res.data?.books;
 
       setBooks(booksData);
     } catch (err) {

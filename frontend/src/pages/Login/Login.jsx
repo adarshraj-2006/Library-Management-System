@@ -72,7 +72,7 @@ const Login = () => {
                         <BookMarked size={28} />
                     </div>
                     <h1>{getTitle()}</h1>
-                    <p>{getSubtitle()}</p>
+                    <p>{getSubtitle()} (v1.1)</p>
                 </div>
 
                 <form className="login-auth-form" onSubmit={handleSubmit}>

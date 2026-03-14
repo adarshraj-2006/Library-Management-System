@@ -68,15 +68,17 @@ const Dashboard = ({ isPanel = false, onClose }) => {
                 API.get('/books?limit=5')
             ]);
 
-            const issues = issuesRes.data.data.issues || [];
-            const books = booksRes.data.data?.books || [];
+            console.log("Dashboard Data Debug:", { issuesRes, booksRes });
 
-            setIssuedBooks(issues);
-            setRecommendedBooks(books);
+            const issues = issuesRes?.data?.data?.issues || issuesRes?.data?.issues || [];
+            const books = booksRes?.data?.books || booksRes?.data?.data?.books || [];
+
+            setIssuedBooks(Array.isArray(issues) ? issues : []);
+            setRecommendedBooks(Array.isArray(books) ? books : []);
 
             const borrowed = issues.length;
-            const pending = issues.filter(i => i.status === 'issued').length;
-            const overdue = issues.filter(i => i.status === 'overdue' || i.isCurrentlyOverdue).length;
+            const pending = Array.isArray(issues) ? issues.filter(i => i?.status === 'issued').length : 0;
+            const overdue = Array.isArray(issues) ? issues.filter(i => i?.status === 'overdue' || i?.isCurrentlyOverdue).length : 0;
 
             setStats(prev => ({
                 ...prev,

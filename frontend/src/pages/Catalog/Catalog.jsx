@@ -22,7 +22,7 @@ function Catalog() {
       const res = await API.get("/books");
 
       // Backend returns { success: true, books: [...] }
-      const booksData = res.data?.books || [];
+      const booksData = res.data?.books || res.data?.data?.books || [];
 
       setBooks(booksData);
     } catch (err) {
@@ -38,8 +38,8 @@ function Catalog() {
     setSearchTerm(value);
 
     try {
-      const res = await API.get(`/api/books?search=${value}`);
-      const booksData = res.data?.books || [];
+      const res = await API.get(`/books?search=${value}`);
+      const booksData = res.data?.books || res.data?.data?.books || [];
       setBooks(booksData);
     } catch (err) {
       console.error(err);

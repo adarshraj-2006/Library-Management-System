@@ -23,8 +23,8 @@ const Mybooks = () => {
         API.get('/issues/my?status=issued'),
         API.get('/issues/my')
       ]);
-      setIssues(issuedRes.data.data.issues || []);
-      setAllIssues(allRes.data.data.issues || []);
+      setIssues(issuedRes.data?.data?.issues || issuedRes.data?.issues || []);
+      setAllIssues(allRes.data?.data?.issues || allRes.data?.issues || []);
     } catch (err) {
       console.error('Failed to load your books');
     } finally {
@@ -36,7 +36,7 @@ const Mybooks = () => {
     try {
       // Fetch recently returned books or recent books from catalog
       const res = await API.get('/books?limit=6');
-      setRecentlyViewed(res.data.data.books || []);
+      setRecentlyViewed(res.data?.books || res.data?.data?.books || []);
     } catch (err) {
       console.error('Failed to load recently viewed books');
     }

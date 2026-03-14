@@ -69,7 +69,7 @@ const Dashboard = ({ isPanel = false, onClose }) => {
             ]);
 
             const issues = issuesRes.data.data.issues || [];
-            const books = booksRes.data.data.books || [];
+            const books = booksRes.data.data?.books || [];
 
             setIssuedBooks(issues);
             setRecommendedBooks(books);

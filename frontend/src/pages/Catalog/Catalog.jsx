@@ -38,7 +38,7 @@ function Catalog() {
     setSearchTerm(value);
 
     try {
-      const res = await API.get(`/books?search=${value}`);
+      const res = await API.get(`/api/books?search=${value}`);
       const booksData = res.data?.books || [];
       setBooks(booksData);
     } catch (err) {

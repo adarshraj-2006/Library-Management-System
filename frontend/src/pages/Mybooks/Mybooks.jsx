@@ -20,8 +20,8 @@ const Mybooks = () => {
   const fetchMyBooks = async () => {
     try {
       const [issuedRes, allRes] = await Promise.all([
-        API.get('/issues/my?status=issued'),
-        API.get('/issues/my')
+        API.get('issues/my?status=issued'),
+        API.get('issues/my')
       ]);
       setIssues(issuedRes.data?.data?.issues || issuedRes.data?.issues || []);
       setAllIssues(allRes.data?.data?.issues || allRes.data?.issues || []);
@@ -35,7 +35,7 @@ const Mybooks = () => {
   const fetchRecentlyViewed = async () => {
     try {
       // Fetch recently returned books or recent books from catalog
-      const res = await API.get('/books?limit=6');
+      const res = await API.get('books?limit=6');
       setRecentlyViewed(res.data?.books || res.data?.data?.books || []);
     } catch (err) {
       console.error('Failed to load recently viewed books');
@@ -97,7 +97,7 @@ const Mybooks = () => {
   const handleReturn = async (issueId) => {
     try {
       const loadingToast = toast.loading('Returning book...');
-      await API.post('/issues/return', { issueId });
+      await API.post('issues/return', { issueId });
       toast.success('Book returned successfully', { id: loadingToast });
       fetchMyBooks(); // Refresh the list
     } catch (err) {

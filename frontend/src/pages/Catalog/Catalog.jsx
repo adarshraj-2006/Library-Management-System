@@ -19,7 +19,7 @@ function Catalog() {
 
   const fetchBooks = async () => {
     try {
-      const res = await API.get("/books");
+      const res = await API.get("books");
 
       // Backend returns { success: true, books: [...] }
       const booksData = res.data?.books || res.data?.books;
@@ -38,7 +38,7 @@ function Catalog() {
     setSearchTerm(value);
 
     try {
-      const res = await API.get(`/books?search=${value}`);
+      const res = await API.get(`books?search=${value}`);
       const booksData = res.data?.books || res.data?.data?.books || [];
       setBooks(booksData);
     } catch (err) {

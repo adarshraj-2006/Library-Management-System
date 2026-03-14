@@ -64,8 +64,8 @@ const Dashboard = ({ isPanel = false, onClose }) => {
         try {
             setLoading(true);
             const [issuesRes, booksRes] = await Promise.all([
-                API.get('/issues/my'),
-                API.get('/books?limit=5')
+                API.get('issues/my'),
+                API.get('books?limit=5')
             ]);
 
             console.log("Dashboard Data Debug:", { issuesRes, booksRes });

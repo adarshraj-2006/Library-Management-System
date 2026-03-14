@@ -51,7 +51,7 @@ const Contact = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await API.post('/contacts', formData);
+            await API.post('contacts', formData);
             setIsSubmitted(true);
             toast.success('Message sent! Our team will reach out soon.');
             setFormData({ name: '', email: '', subject: '', message: '' });

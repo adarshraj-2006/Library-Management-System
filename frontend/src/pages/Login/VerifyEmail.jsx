@@ -12,7 +12,7 @@ const VerifyEmail = () => {
     useEffect(() => {
         const verify = async () => {
             try {
-                await API.get(`/auth/verify-email/${token}`);
+                await API.get(`auth/verify-email/${token}`);
                 setStatus('success');
                 setTimeout(() => navigate('/Login'), 3000);
             } catch (error) {

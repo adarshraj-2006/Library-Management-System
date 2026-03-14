@@ -32,7 +32,7 @@ const Borrowpage = () => {
         setLoading(true);
         try {
             const user = JSON.parse(localStorage.getItem('user'));
-            const res = await API.post('/issues/issue', {
+            const res = await API.post('issues/issue', {
                 bookId: book._id,
                 memberId: user._id
             });

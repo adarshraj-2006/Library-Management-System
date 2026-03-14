@@ -27,12 +27,12 @@ const Login = () => {
         setLoading(true);
         try {
             if (isForgot) {
-                await API.post('/api/auth/forgot-password', { email: formData.email });
+                await API.post('/auth/forgot-password', { email: formData.email });
                 toast.success('Reset link sent! Please check your email inbox.');
                 setIsForgot(false);
                 setIsLogin(true);
             } else if (isLogin) {
-                const res = await API.post('/api/auth/login', {
+                const res = await API.post('/auth/login', {
                     email: formData.email,
                     password: formData.password
                 });

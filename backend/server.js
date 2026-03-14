@@ -46,9 +46,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Library Management System API is running", status: "OK" });
 });
 
-app.use("/auth", authRoutes);
-app.use("/books", bookRoutes);
-app.use("/issues", issueRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/issues", issueRoutes);
 
 // 5. DB Connect
 mongoose.connect(process.env.MONGO_URI)

@@ -3,8 +3,8 @@ import toast from "react-hot-toast";
 
 let API_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
 
-// Sanitize URL: Remove any existing /api suffix and trailing slashes, then append exactly one /api
-API_URL = API_URL.trim().replace(/\/+$/, "").replace(/\/api$/, "");
+// Sanitize URL: Remove any trailing slashes and any number of /api suffixes, then append exactly one /api
+API_URL = API_URL.trim().replace(/\/+$/, "").replace(/(\/api)+$/, "");
 API_URL = `${API_URL}/api`;
 
 

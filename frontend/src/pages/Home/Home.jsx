@@ -30,7 +30,7 @@ function Home() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const res = await API.get("/books");
+        const res = await API.get("/api/books");
         if (res.data?.data?.books) {
           setBooks(res.data.data.books);
         }

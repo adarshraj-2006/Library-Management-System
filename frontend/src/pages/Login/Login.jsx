@@ -41,7 +41,7 @@ const Login = () => {
                 toast.success('Welcome back!');
                 navigate('/Home');
             } else {
-                await API.post('/api/auth/register', formData);
+                await API.post('/auth/register', formData);
                 toast.success('Registration successful! Please verify your email.');
                 setIsLogin(true);
             }

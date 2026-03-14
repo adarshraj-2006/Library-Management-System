@@ -42,9 +42,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // 4. Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/books", bookRoutes);
-app.use("/api/issues", issueRoutes);
+app.use("/auth", authRoutes);
+app.use("/books", bookRoutes);
+app.use("/issues", issueRoutes);
 
 // 5. DB Connect
 mongoose.connect(process.env.MONGO_URI)

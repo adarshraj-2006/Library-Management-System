@@ -1,6 +1,6 @@
 async function testLogin() {
     try {
-        const response = await fetch('https://library-management-system-v9gy.onrender.com/api/auth/login', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

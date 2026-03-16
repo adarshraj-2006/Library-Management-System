@@ -1,13 +1,13 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 
-let BASE_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
+let API_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
 
+// Ensure the URL ends with exactly one / and respect the /api in the env var
+API_URL = API_URL.trim().replace(/\/+$/, "") + "/";
 
+console.log("Current API Base URL:", API_URL);
 
-const API_URL = BASE_URL + "/";
-
-console.log("Final API Base URL:", API_URL);
 
 const API = axios.create({
   baseURL: API_URL,

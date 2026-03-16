@@ -5,7 +5,7 @@ let API_URL = import.meta.env.VITE_API_URL || "https://library-management-system
 
 // Sanitize URL: Remove all trailing slashes and /api parts, then append exactly one /api/
 API_URL = API_URL.trim().replace(/\/+$/, "").replace(/(\/api)+$/, "");
-API_URL = `${API_URL}/api/`; 
+API_URL = `${API_URL}`; 
 
 
 const API = axios.create({

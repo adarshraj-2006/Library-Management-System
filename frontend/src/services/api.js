@@ -3,13 +3,7 @@ import toast from "react-hot-toast";
 
 let BASE_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
 
-// Clean up the URL: remove trailing slashes and multiple /api if they exist
-BASE_URL = BASE_URL.trim().replace(/\/+$/, "");
 
-// Ensure we have exactly one /api at the end
-if (!BASE_URL.endsWith("/api")) {
-  BASE_URL += "/api";
-}
 
 const API_URL = BASE_URL + "/";
 

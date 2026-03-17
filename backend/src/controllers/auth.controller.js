@@ -39,10 +39,13 @@ export const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: "1d" }
         );
+        const userResponse = foundUser.toObject();
+        delete userResponse.password;
+
         res.json({
             data: {
                 accessToken: token,
-                user: foundUser
+                user: userResponse
             }
         });
     } catch (error) {

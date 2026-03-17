@@ -4,9 +4,8 @@ import toast from "react-hot-toast";
 
 let BASE_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
 
-
 const API = axios.create({
-  baseURL: API_URL,
+  baseURL: BASE_URL,
   withCredentials: true,
 });
 

@@ -43,7 +43,7 @@ const Login = () => {
             } else {
                 await API.post('auth/register', formData);
                 toast.success('Registration successful! Please verify your email.');
-                setIsLogin(true);
+                setIsLogin(true);   
             }
         } catch (error) {
             const errorMsg = error.response?.data?.message || 'Something went wrong. Please try again.';

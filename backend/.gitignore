@@ -2,7 +2,7 @@
 # Dependencies
 # ----------------------
 node_modules/
-package-lock.json
+# package-lock.json (DO NOT IGNORE THIS)
 yarn.lock
 pnpm-lock.yaml
 

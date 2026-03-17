@@ -4,18 +4,6 @@ import toast from "react-hot-toast";
 
 let BASE_URL = import.meta.env.VITE_API_URL || "https://library-management-system-v9gy.onrender.com/api";
 
-// 1. Trim spaces and remove all trailing slashes
-BASE_URL = BASE_URL.trim().replace(/\/+$/, "");
-
-// 2. Remove one or more "/api" from the end if they exist (case-insensitive)
-// This prevents double "/api/api" if the environment variable is misconfigured
-BASE_URL = BASE_URL.replace(/(\/api)+$/i, "");
-
-// 3. Now add exactly one "/api/"
-const API_URL = `${BASE_URL}`;
-
-console.log("Environment API URL:", import.meta.env.VITE_API_URL);
-console.log("Resolved API Base URL:", API_URL);
 
 const API = axios.create({
   baseURL: API_URL,

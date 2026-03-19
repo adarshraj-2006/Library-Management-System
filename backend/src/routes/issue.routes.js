@@ -1,4 +1,5 @@
 import express from "express";
+import { createIssue, returnBook } from "../controllers/issue.controller.js";
 
 const router = express.Router();
 
@@ -12,5 +13,8 @@ router.get("/my", (req, res) => {
     }
   });
 });
+
+router.post("/", createIssue);
+router.post("/return", returnBook);
 
 export default router;

@@ -1,6 +1,6 @@
-import monggose from "mongoose";
+import mongoose from "mongoose";
 
-const userSchema= new mongoose.Schema({
+const issueSchema = new mongoose.Schema({
     bookId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Book"
@@ -26,3 +26,5 @@ const userSchema= new mongoose.Schema({
         default:"issued"
     }
 })
+
+export default mongoose.model("Issue", issueSchema);

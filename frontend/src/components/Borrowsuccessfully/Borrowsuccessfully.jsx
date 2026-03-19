@@ -4,8 +4,12 @@ import { CheckCircle, Book, Calendar, ArrowRight, Home } from 'lucide-react';
 import './Borrowsuccessfully.css';
 
 
-const Borrowsuccessfully = () => {
+const Borrowsuccessfully = ({ book, issueDetails, onClose }) => {  
   const navigate = useNavigate();
+
+  const dueDate = issueDetails?.dueDate 
+    ? new Date(issueDetails.dueDate).toLocaleDateString() 
+    : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString();
 
   return (
     <div className="success-overlay">
@@ -18,7 +22,7 @@ const Borrowsuccessfully = () => {
         <div className="success-text-content">
           <h2 className="success-title">Borrowing Successful!</h2>
           <p className="success-description">
-            Your request has been processed. The book is now reserved for you.
+            Your request has been processed. {book ? `"${book.title}"` : 'The book'} is now reserved for you.
             Please collect it from your designated locker within 24 hours.
           </p>
         </div>
@@ -26,7 +30,7 @@ const Borrowsuccessfully = () => {
         <div className="success-details-mini">
           <div className="detail-item">
             <Calendar size={16} />
-            <span>Due Date: {new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toLocaleDateString()}</span>
+            <span>Due Date: {dueDate}</span>
           </div>
           <div className="detail-item">
             <Book size={16} />
@@ -47,7 +51,10 @@ const Borrowsuccessfully = () => {
 
         <button
           className="success-close-btn"
-          onClick={() => navigate('/Catalog')}
+          onClick={() => {
+            if (onClose) onClose();
+            else navigate('/Catalog');
+          }}
           aria-label="Close"
         >
           ×

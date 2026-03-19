@@ -4,6 +4,7 @@ import './Borrowpage.css';
 import { ShieldCheck, Calendar, ArrowLeft, Loader2, BookOpen, CheckCircle2 } from 'lucide-react';
 import API from '../../services/api';
 import toast from 'react-hot-toast';
+import Borrowsuccessfully from '../../components/Borrowsuccessfully/Borrowsuccessfully';
 
 const Borrowpage = () => {
     const location = useLocation();
@@ -32,7 +33,7 @@ const Borrowpage = () => {
         setLoading(true);
         try {
             const user = JSON.parse(localStorage.getItem('user'));
-            const res = await API.post('issues/issue', {
+            const res = await API.post('/issue', {
                 bookId: book._id,
                 memberId: user._id
             });
@@ -45,40 +46,6 @@ const Borrowpage = () => {
             setLoading(false);
         }
     };
-
-    if (success) {
-        return (
-            <div className="borrow-container success-mode animate-fade-in">
-                <div className="success-card">
-                    <div className="success-icon-wrapper">
-                        <CheckCircle2 size={60} color="#22c55e" />
-                    </div>
-                    <h1>Borrow Confirmed!</h1>
-                    <p>Happy reading! "{book.title}" is now on your shelf.</p>
-
-                    <div className="issue-summary">
-                        <div className="summary-row">
-                            <span>Due Date:</span>
-                            <strong>{new Date(issueDetails.dueDate).toLocaleDateString()}</strong>
-                        </div>
-                        <div className="summary-row">
-                            <span>Policy:</span>
-                            <strong>14 Days Free Loan</strong>
-                        </div>
-                    </div>
-
-                    <div className="success-actions">
-                        <button onClick={() => navigate('/mybooks')} className="primary-btn">
-                            Go to My Books
-                        </button>
-                        <button onClick={() => navigate('/Catalog')} className="secondary-btn">
-                            Browse More
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     if (!book) return null;
 
@@ -134,6 +101,14 @@ const Borrowpage = () => {
                     By confirming, you agree to our library lending terms.
                 </p>
             </div>
+            
+            {success && (
+                <Borrowsuccessfully 
+                    book={book} 
+                    issueDetails={issueDetails} 
+                    onClose={() => navigate('/Catalog')} 
+                />
+            )}
         </div>
     );
 };
